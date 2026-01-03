@@ -25,7 +25,7 @@
             overflow-x: hidden;
         }
 
-        /* --- Loading --- */
+        /* --- Loading Animation --- */
         #loader {
             position: fixed; width: 100%; height: 100%; background: var(--sumiiro);
             z-index: 9999; display: flex; justify-content: center; align-items: center;
@@ -51,15 +51,14 @@
         nav:not(.scrolled) .nav-links a { color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
         .nav-links a:hover { color: var(--shuiro); }
 
-        /* --- Hero --- */
+        /* --- Hero Section --- */
         .hero {
             height: 100vh; display: flex; align-items: center; justify-content: center;
             position: relative; overflow: hidden; background: #000;
         }
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 120%;
-            /* 背景画像：参道や鳥居 */
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://drive.google.com/uc?export=view&id=[参道・鳥居のファイルID]');
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://i.imgur.com/Pk1dgut.jpeg');
             background-size: cover; background-position: center; z-index: 1;
         }
         .hero-content { position: relative; z-index: 2; text-align: center; color: #fff; }
@@ -68,53 +67,68 @@
             background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             filter: drop-shadow(2px 2px 10px rgba(0,0,0,0.5));
         }
+        .hero-content p { font-size: 1.2rem; letter-spacing: 0.5rem; }
 
-        /* --- Sections --- */
+        /* --- Common Section Styling --- */
         section { padding: 120px 10%; position: relative; }
         .section-header { text-align: center; margin-bottom: 80px; }
         .section-header span { color: var(--kin); font-weight: 700; letter-spacing: 0.3rem; display: block; margin-bottom: 10px; }
-        .section-header h2 { font-size: 2.8rem; color: var(--shuiro); }
-
-        /* --- Gallery --- */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .gallery-item { position: relative; height: 300px; overflow: hidden; cursor: pointer; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
-        .gallery-item:hover img { transform: scale(1.1); }
-        .gallery-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(165, 42, 42, 0.7); display: flex; align-items: center; justify-content: center;
-            color: #fff; opacity: 0; transition: 0.5s;
-        }
-        .gallery-item:hover .gallery-overlay { opacity: 1; }
-
-        /* --- Cards --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { background: #fff; padding: 40px; border: 1px solid rgba(176,154,91,0.2); transition: 0.5s; }
-        .card:hover { transform: translateY(-15px); box-shadow: 0 20px 40px rgba(176,154,91,0.2); }
-        .card-img { width: 100%; height: 200px; background-size: cover; background-position: center; margin-bottom: 20px; }
-
-        /* --- Timeline --- */
-        .history-timeline { border-left: 2px solid var(--kin); padding-left: 30px; margin: 50px 0; }
+        .section-header h2 { font-size: 2.8rem; color: var(--shuiro); position: relative; }
+        
+        /* --- History Timeline --- */
+        .history-container { display: flex; flex-wrap: wrap; gap: 50px; }
+        .history-text { flex: 1.5; }
+        .history-timeline { flex: 1; border-left: 2px solid var(--kin); padding-left: 30px; }
         .timeline-item { position: relative; margin-bottom: 40px; }
         .timeline-item::before { 
             content: ""; position: absolute; left: -41px; top: 5px; 
             width: 20px; height: 20px; background: var(--shuiro); border-radius: 50%;
+            box-shadow: 0 0 10px var(--kin);
         }
+        .timeline-year { font-weight: 900; color: var(--shuiro); font-size: 1.3rem; display: block; }
 
-        /* --- Footer & SNS --- */
-        footer { background: var(--sumiiro); color: var(--washiiro); padding: 80px 10% 40px; text-align: center; }
-        .sns-link { display: inline-block; margin: 20px; color: var(--kin); text-decoration: none; font-weight: bold; font-size: 1.2rem; }
-        .sns-link:hover { text-decoration: underline; }
+        /* --- Cards & Grid --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { 
+            background: #fff; padding: 40px; border: 1px solid rgba(176,154,91,0.2);
+            transition: 0.5s; position: relative; overflow: hidden;
+        }
+        .card:hover { 
+            transform: translateY(-15px) rotateX(5deg); 
+            box-shadow: 0 20px 40px rgba(176,154,91,0.2);
+            border-color: var(--kin);
+        }
+        .card h3 { color: var(--shuiro); margin-bottom: 20px; border-bottom: 1px solid var(--kin); padding-bottom: 10px; }
 
-        .reveal { opacity: 0; transform: translateY(50px); transition: 1.2s; }
+        /* --- Event Table --- */
+        .event-table { width: 100%; border-collapse: collapse; background: #fff; }
+        .event-table th, .event-table td { padding: 25px; border-bottom: 1px solid #eee; text-align: left; }
+        .event-table th { color: var(--shuiro); width: 25%; font-size: 1.1rem; }
+
+        /* --- FAQ Accordion --- */
+        .faq-item { background: #fff; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .faq-question { padding: 20px; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .faq-answer { padding: 0 20px 20px; display: none; color: #555; border-top: 1px solid #eee; padding-top: 20px; }
+
+        /* --- Access Info --- */
+        .access-container { display: flex; flex-wrap: wrap; gap: 40px; background: #fff; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .access-info { flex: 1; min-width: 300px; }
+        .access-map { flex: 1.5; min-width: 300px; height: 450px; border: 4px solid var(--kin); }
+
+        /* --- Footer --- */
+        footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 50px; text-align: center; }
+        .footer-logo { font-size: 2.5rem; color: var(--kin); margin-bottom: 20px; letter-spacing: 0.5rem; }
+
+        /* --- Reveal Animations --- */
+        .reveal { opacity: 0; transform: translateY(50px); transition: 1.2s cubic-bezier(0.17, 0.67, 0.83, 0.67); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .faq-item { background: #fff; border: 1px solid #ddd; margin-bottom: 10px; cursor: pointer; padding: 20px; }
-        .faq-answer { display: none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px; }
-
-        /* --- Access --- */
-        .access-container { display: flex; flex-wrap: wrap; gap: 40px; background: #fff; padding: 40px; }
-        .access-map { flex: 1.5; min-width: 300px; height: 400px; }
+        @media (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            .nav-links { display: none; }
+            section { padding: 80px 5%; }
+            .hero-content h1 { font-size: 3rem; }
+        }
     </style>
 </head>
 <body>
@@ -127,7 +141,8 @@
             <li><a href="#history">由緒</a></li>
             <li><a href="#deity">祭神</a></li>
             <li><a href="#precincts">境内</a></li>
-            <li><a href="#gallery">祭事</a></li>
+            <li><a href="#events">行事</a></li>
+            <li><a href="#shinto">参拝</a></li>
             <li><a href="#access">交通</a></li>
         </ul>
     </nav>
@@ -144,134 +159,228 @@
     <section id="history">
         <div class="section-header reveal">
             <span>HISTORY</span>
-            <h2>御由緒</h2>
+            <h2>御由緒と歩み</h2>
         </div>
-        <div style="max-width: 800px; margin: 0 auto;">
-            <p>創建は遥か古に遡り、伝承によれば、この地に少彦名命が降臨し、人々に農耕の術と病を治す知恵を授けたことが始まりです。中世には武将や地元有力者から篤い崇敬を受け、戦乱でも社火が絶えなかったと伝えられます。江戸時代には「医薬の神」として名声が広まり、疫病時に神為を行いました。</p>
+        <div class="history-container">
+            <div class="history-text reveal">
+                <p>創建は遥か古に遡ります。伝承によれば、この國坂の地に少彦名命が降臨し、人々に農耕の術と病を治す知恵を授けたことが始まりとされています。</p>
+                <p style="margin-top: 20px;">中世では武将や地元有力者から篤い崇敬を受け、幾多の戦乱の中でも絶えることなく社火が守り継がれました。江戸時代には「医薬の神」としての名声が中国地方一帯に広まり、疫病が流行した際には多くの人々がその神威を頼り、病気平癒を祈願したと伝えられています。明治・昭和の激動期を経ても、その伝統と格式は今もなお地域の人々によって守り継がれています。</p>
+            </div>
             <div class="history-timeline reveal">
-                <div class="timeline-item"><strong>837年：</strong>『続日本後紀』従五位下</div>
-                <div class="timeline-item"><strong>867年：</strong>『日本三代実録』正五位上</div>
-                <div class="timeline-item"><strong>927年：</strong>『延喜式』神名帳 記載</div>
-                <div class="timeline-item"><strong>1524年：</strong>戦火を免れ社殿維持</div>
+                <div class="timeline-item">
+                    <span class="timeline-year">837年（承和4年）</span>
+                    <p>『続日本後紀』に記録。従五位下を授かる。</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">867年（貞観9年）</span>
+                    <p>『日本三代実録』に記録。正五位上に昇叙。</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">927年（延長5年）</span>
+                    <p>『延喜式』神名帳に記載、式内社に列せられる。</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-year">1524年（大永4年）頃</span>
+                    <p>戦火を免れ、社殿が維持された記録が残る。</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="precincts" style="background: white;">
+    <section id="deity" style="background: #fff;">
         <div class="section-header reveal">
-            <span>PRECINCTS</span>
-            <h2>境内案内</h2>
+            <span>DEITY</span>
+            <h2>御祭神</h2>
         </div>
-        <div class="grid">
-            <div class="card reveal">
-                <div class="card-img" style="background-image: url('https://drive.google.com/uc?export=view&id=[本殿のファイルID]');"></div>
-                <h3>本殿・拝殿</h3>
-                <p>伝統的な大社造りの様式。荘厳な装飾と、木材の経年変化が歴史の深さを物語ります。</p>
-            </div>
-            <div class="card reveal">
-                <div class="card-img" style="background-image: url('https://drive.google.com/uc?export=view&id=[拝殿または境内のファイルID]');"></div>
-                <h3>社叢（鎮守の杜）</h3>
-                <p>幾世紀もの時を重ねた巨木が立ち並ぶ神域。四季折々の自然の美しさが息づいています。</p>
+        <div class="reveal" style="max-width: 1000px; margin: 0 auto; text-align: center;">
+            <h3 style="color: var(--shuiro); font-size: 2rem; margin-bottom: 30px;">少彦名神 <small>(すくなひこなのかみ)</small></h3>
+            <p>日本神話において大国主神と共に「国造り」を成し遂げた神。ガガイモの船に乗り、蛾の皮の着物を着た小さな神様ですが、その智慧と神力は絶大です。医薬・温泉・まじないの法を定め、人々の病を治し、鳥獣や昆虫の災いを除く術を教え広めました。また「酒造りの神」としての側面も持ち、万民の生命を育む神として崇められています。</p>
+            
+            <div class="grid" style="margin-top: 60px;">
+                <div class="card">
+                    <h3>病気平癒・身体健康</h3>
+                    <p>医療従事者の守護神として名高く、難病平癒や手術の成功を祈る参拝者が絶えません。</p>
+                </div>
+                <div class="card">
+                    <h3>産業開発・商売繁盛</h3>
+                    <p>新たな事業の興隆や商いの繁栄を願う人々に、少彦名神の豊かな知恵を授けます。</p>
+                </div>
+                <div class="card">
+                    <h3>厄除け・災難除け</h3>
+                    <p>生活の基本である「食」の安全や、予期せぬ厄災から家庭を堅固に守護します。</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="gallery">
+    <section id="precincts">
+    <div class="section-header reveal">
+        <span>PRECINCTS</span>
+        <h2>境内案内</h2>
+    </div>
+    <div class="grid">
+        <div class="card reveal">
+            <div style="height: 200px; background: url('https://i.imgur.com/QXZ9xph.jpeg') center/cover; margin-bottom: 20px;"></div>
+            <h3>拝殿・本殿</h3>
+            <p>伝統的な大社造りの様式を伝え、荘厳な装飾が随所に施されています。木材の経年変化が、積み重ねられた歴史の深さを無言で物語ります。</p>
+        </div>
+        <div class="card reveal">
+            <div style="height: 200px; background: url('https://i.imgur.com/tYQqR7R.jpeg') center/cover; margin-bottom: 20px;"></div>
+            <h3>社叢（神社の森）</h3>
+            <p>幾世紀もの時を重ねた巨木が立ち並ぶ鎮守の杜。一歩足を踏み入れれば、神域特有の静寂と瑞々しい生命力に包まれます。</p>
+        </div>
+        <div class="card reveal">
+            <div style="height: 200px; background: url('https://i.imgur.com/Nibrebq.jpeg') center/cover; margin-bottom: 20px;"></div>
+            <h3>四季の彩り</h3>
+            <p>春の桜、夏の深緑、秋の紅葉、そして冬の雪景色。四季折々の豊かな表情は、参拝者の心を常に癒し続けています。</p>
+        </div>
+    </div>
+</section>
+
+
+    <section id="events" style="background: #fff;">
         <div class="section-header reveal">
-            <span>GALLERY</span>
-            <h2>祭事と情景</h2>
+            <span>EVENTS</span>
+            <h2>年中行事</h2>
         </div>
-        <div class="gallery-grid reveal">
-            <div class="gallery-item">
-                <img src="https://drive.google.com/uc?export=view&id=[祭事写真1のID]" alt="祭事">
-                <div class="gallery-overlay">例大祭 神楽</div>
+        <div class="reveal" style="max-width: 900px; margin: 0 auto;">
+            <table class="event-table">
+                <tr><th>1月1日</th><td><strong>歳旦祭（さいたんさい）</strong><br>新年の幕開けを祝い、国家の安泰と崇敬者の幸福を祈願します。</td></tr>
+                <tr><th>2月</th><td><strong>祈年祭（きねんさい）</strong><br>「としごいのまつり」として、その年の五穀豊穣を祈ります。</td></tr>
+                <tr><th>10月15日</th><td><strong>例大祭（れいたいさい）</strong><br>当神社で最も重要な祭典。伝統的な祭礼が行われ、感謝を捧げます。</td></tr>
+                <tr><th>11月23日</th><td><strong>新嘗祭（にいなめさい）</strong><br>秋の収穫に感謝し、新穀を神前に供えて共に喜びます。</td></tr>
+                <tr><th>伝承</th><td><strong>薬草祭（やくそうさい）</strong><br>医薬の神に因んだ薬草奉納。現在はその精神を例祭に含んでいます。</td></tr>
+            </table>
+        </div>
+    </section>
+
+    <section id="shinto" style="background: var(--sumiiro); color: #fff;">
+        <div class="section-header reveal">
+            <span style="color: var(--kin);">KNOWLEDGE</span>
+            <h2 style="color: var(--kin);">神道と式内社</h2>
+        </div>
+        <div class="grid reveal">
+            <div>
+                <h4 style="color: var(--kin); margin-bottom: 15px;">式内社とは</h4>
+                <p>927年編纂の『延喜式』神名帳に記載された神社。平安時代当時、すでに国から重要視されていた由緒正しい古社である証です。</p>
             </div>
-            <div class="gallery-item">
-                <img src="https://drive.google.com/uc?export=view&id=[祭事写真2のID]" alt="祭事">
-                <div class="gallery-overlay">伝統の儀式</div>
+            <div>
+                <h4 style="color: var(--kin); margin-bottom: 15px;">八百万の神</h4>
+                <p>自然万物に神が宿ると考える信仰。國坂神社は、この豊かな北栄の大地と歴史そのものを神聖視しています。</p>
             </div>
-            <div class="gallery-item">
-                <img src="https://drive.google.com/uc?export=view&id=[写真3のID]" alt="情景">
-                <div class="gallery-overlay">境内の四季</div>
+            <div>
+                <h4 style="color: var(--kin); margin-bottom: 15px;">参拝の作法（二礼二拍手一礼）</h4>
+                <ol style="padding-left: 20px; font-size: 0.9rem;">
+                    <li>鳥居前で一礼し、手水舎で清める</li>
+                    <li>神前で姿勢を正し、深く二回お辞儀</li>
+                    <li>胸の高さで二回拍手を打つ</li>
+                    <li>手を合わせ、感謝と祈りを捧げる</li>
+                    <li>最後にもう一度、深く一回お辞儀</li>
+                </ol>
             </div>
         </div>
     </section>
 
-    <section id="faq" style="background: white;">
+    <section id="faq">
         <div class="section-header reveal">
             <span>FAQ</span>
             <h2>よくあるご質問</h2>
         </div>
-        <div style="max-width: 800px; margin: 0 auto;">
+        <div class="reveal" style="max-width: 800px; margin: 0 auto;">
             <div class="faq-item">
-                <strong>Q. 公式SNSはありますか？</strong>
-                <div class="faq-answer">
-                    はい。Instagramにて境内の様子や行事の情報を発信しております。<br>
-                    <a href="https://www.instagram.com/kuni_shrine/" target="_blank">@kuni_shrine</a>
-                </div>
+                <div class="faq-question">御朱印はいただけますか？ <span>▼</span></div>
+                <div class="faq-answer">はい。社務所にて承っております。神職が不在の場合もございますので、事前にお電話での確認をお勧めいたします。</div>
             </div>
             <div class="faq-item">
-                <strong>Q. 御朱印はいただけますか？</strong>
-                <div class="faq-answer">はい。社務所にて承っております。不在の場合もございますので事前にお電話での確認をお勧めします。</div>
+                <div class="faq-question">駐車場はありますか？ <span>▼</span></div>
+                <div class="faq-answer">境内に参拝者専用の駐車場がございますので、お車での参拝もご安心ください。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">公式SNSはありますか？ <span>▼</span></div>
+                <div class="faq-answer" style="display: none;">
+  <p>Instagram: <a href="https://www.instagram.com/kuni_shrine/" target="_blank" style="color: #c9302c; text-decoration: none;">@kuni_shrine</a> にて境内の様子や行事情報を発信しています。ぜひフォローしてください。</p>
+</div>
+
             </div>
         </div>
     </section>
 
-    <section id="sns" style="text-align: center; background: var(--washiiro);">
-        <div class="section-header">
-            <span>SOCIAL</span>
-            <h2>公式Instagram</h2>
-        </div>
-        <p>國坂神社の日常や祭事の記録をお届けしています。</p>
-        <a href="https://www.instagram.com/kuni_shrine/" class="sns-link" target="_blank">Instagram: @kuni_shrine</a>
-    </section>
-
-    <section id="access" style="background: white;">
+    <section id="access" style="background: #fff;">
         <div class="section-header reveal">
             <span>ACCESS</span>
             <h2>交通案内</h2>
         </div>
         <div class="access-container reveal">
-            <div style="flex: 1;">
-                <p><strong>所在地：</strong>〒689-2102 鳥取県東伯郡北栄町国坂1500</p>
-                <p><strong>電話：</strong>0858-36-2167</p>
-                <p style="margin-top: 20px;">・JR山陰本線「下北条駅」徒歩約22分<br>・バス「国坂」停 徒歩10分<br>・山陰道「大栄IC」車で10分</p>
+            <div class="access-info">
+                <dl>
+                    <dt style="font-weight: 900; color: var(--shuiro); margin-top: 10px;">所在地</dt>
+                    <dd>〒689-2102 鳥取県東伯郡北栄町国坂1500</dd>
+                    <dt style="font-weight: 900; color: var(--shuiro); margin-top: 20px;">電話番号</dt>
+                    <dd>0858-36-2167</dd>
+                    <dt style="font-weight: 900; color: var(--shuiro); margin-top: 20px;">公共交通機関</dt>
+                    <dd>JR山陰本線「下北条駅」徒歩約22分<br>日本交通バス「国坂」バス停より徒歩約10分</dd>
+                    <dt style="font-weight: 900; color: var(--shuiro); margin-top: 20px;">お車でのアクセス</dt>
+                    <dd>山陰自動車道「大栄IC」より車で約10分</dd>
+                </dl>
             </div>
             <div class="access-map">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3248.81577789391!2d133.82408332572215!3d35.490076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35543666245906d5%3A0x6b80153c306d15a!2z5ZyL5Z2C56We56S-!5e0!3m2!1sja!2sjp!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3248.831519782433!2d133.82408337577938!3d35.49007597264879!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35543666d6a5d15b%3A0xc6829285038c7f3b!2z5ZyL5Z2C56We56S-!5e0!3m2!1sja!2sjp!4v1715000000000!5m2!1sja!2sjp" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 
     <footer>
         <div class="footer-logo">國坂神社</div>
-        <p>© Kunisaka Shrine. All Rights Reserved.</p>
+        <p style="margin-bottom: 20px; opacity: 0.8;">〒689-2102 鳥取県東伯郡北栄町国坂1500</p>
+        <p style="font-size: 0.8rem; opacity: 0.5;">&copy; Kunisaka Shrine. All Rights Reserved.</p>
     </footer>
 
     <script>
+        // Loading screen
         window.addEventListener('load', () => {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
             setTimeout(() => loader.style.display = 'none', 1000);
         });
 
+        // Parallax & Navbar
         window.addEventListener('scroll', () => {
             const scroll = window.scrollY;
             const heroBg = document.getElementById('heroBg');
             const nav = document.getElementById('navbar');
+
             heroBg.style.transform = `translateY(${scroll * 0.4}px)`;
+            
             if (scroll > 100) nav.classList.add('scrolled');
             else nav.classList.remove('scrolled');
 
+            // Scroll Reveal
             document.querySelectorAll('.reveal').forEach(el => {
-                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('active');
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) el.classList.add('active');
             });
         });
 
-        document.querySelectorAll('.faq-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const ans = item.querySelector('.faq-answer');
-                ans.style.display = (ans.style.display === 'block') ? 'none' : 'block';
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const answer = q.nextElementSibling;
+                const isOpen = answer.style.display === 'block';
+                document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
+                answer.style.display = isOpen ? 'none' : 'block';
+            });
+        });
+
+        // 3D Card Hover Effect
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                card.style.transform = `translateY(-15px) rotateX(${y * -10}deg) rotateY(${x * 10}deg)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `translateY(0) rotateX(0) rotateY(0)`;
             });
         });
     </script>
