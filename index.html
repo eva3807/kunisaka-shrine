@@ -3,61 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>國坂神社 公式サイト | 鳥取県北栄町延喜式内社</title>
+    <title>國坂神社 公式サイト | 鳥取県北栄町 延喜式内社</title>
         <meta name="description" content="鳥取県北栄町に鎮座する延喜式内社・國坂神社の公式サイト。少彦名神を祀り、医薬・病気平癒・産業振興の御神徳があります。式内社として千年以上の歴史を持つ伯耆国四宮です。">
     <meta name="keywords" content="國坂神社,国坂神社,くにさかじんじゃ,鳥取,北栄町,延喜式内社,式内社,少彦名神,神社,伯耆国,四宮,病気平癒,医薬,御朱印">
     <link rel="canonical" href="https://eva3807.github.io/kunisaka-shrine/">
     <meta name="google-site-verification" content="sFEv2Qx1y1N9sSZpBDVJxPcOf2Mx9Yv5W7dPXW-e8EU" />
         <meta name="msvalidate.01" content="7CF5AF82AC7357022D843F7EAB82D9FF" />
-        <!-- OGP メタタグ -->
+        <!-- OGP Meta Tags -->
     <meta property="og:title" content="國坂神社 公式サイト | 鳥取県北栄町 延喜式内社">
     <meta property="og:description" content="鳥取県北栄町に鎮座する延喜式内社・國坂神社の公式サイト。少彦名神を祀り、医薬・病気平癒・産業振興の御神徳があります。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://eva3807.github.io/kunisaka-shrine/">
     <meta property="og:site_name" content="國坂神社">
     <meta property="og:locale" content="ja_JP">
-    <!-- Twitterカード -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="國坂神社 公式サイト">
-    <meta name="twitter:description" content="鳥取県北映町延喜式内社少彦名神を祀る神社">
-        <link rel="icon" type="image/svg+xml" href="favicon.svg" /> <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&display=swap" rel="stylesheet">
+    <meta name="twitter:description" content="鳥取県北映町 延喜式内社 少彦名神を祀る神社">
+        <link rel="icon" type="image/svg+xml" href="favicon.svg" />    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        ：根 {
-            --シュイロ: #a52a2a; /* 朱色 */
-            --キン: #b09a5b; /* 金色 */
-            --washiiro: #f9f7f0; /* 和紙色 */
-            --隅色: #1c1c1c; /* 墨色 */
+        :root {
+            --shuiro: #a52a2a;      /* 朱色 */
+            --kin: #b09a5b;        /* 金色 */
+            --washiiro: #f9f7f0;    /* 和紙色 */
+            --sumiiro: #1c1c1c;     /* 墨色 */
             --gold-grad: linear-gradient(135deg, #b09a5b 0%, #f7ef8a 50%, #b09a5b 100%);
             --glass: rgba(249, 247, 240, 0.9);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        体 {
+        body {
             font-family: 'Noto Serif JP', serif;
             background-color: var(--washiiro);
-            色: var(--sumiiro);
-            行の高さ: 1.8;
-            overflow-x: 非表示;
+            color: var(--sumiiro);
+            line-height: 1.8;
+            overflow-x: hidden;
         }
 
-        /* --- ローディングアニメーション --- */
+        /* --- Loading Animation --- */
         #loader {
-            位置: 固定;幅: 100%;高さ: 100%;背景: var(--隅色);
+            position: fixed; width: 100%; height: 100%; background: var(--sumiiro);
             z-index: 9999; display: flex; justify-content: center; align-items: center;
-            移行: 1秒のイーズ;
+            transition: 1s ease;
         }
         .loader-logo { color: var(--kin); font-size: 2rem; letter-spacing: 1rem; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 
-        /* --- ナビゲーション --- */
-        ナビゲーション {
+        /* --- Navigation --- */
+        nav {
             position: fixed; top: 0; width: 100%; padding: 25px 50px;
             display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; トランジション: 0.5秒;
+            z-index: 1000; transition: 0.5s;
         }
         nav.scrolled {
-            背景: var(--glass); パディング: 15px 50px;
+            background: var(--glass); padding: 15px 50px;
             box-shadow: 0 2px 20px rgba(0,0,0,0.1); border-bottom: 2px solid var(--kin);
         }
         .logo { font-size: 1.8rem; font-weight: 900; color: var(--shuiro); text-decoration: none; letter-spacing: 0.3rem; }
@@ -67,8 +67,8 @@
         nav:not(.scrolled) .nav-links a { color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
         .nav-links a:hover { color: var(--shuiro); }
 
-        /* --- ヒーローセクション --- */
-        。ヒーロー {
+        /* --- Hero Section --- */
+        .hero {
             height: 100vh; display: flex; align-items: center; justify-content: center;
             position: relative; overflow: hidden; background: #000;
         }
@@ -78,80 +78,85 @@
             background-size: cover; background-position: center; z-index: 1;
         }
         .hero-content { position: relative; z-index: 2; text-align: center; color: #fff; }
-        .hero-content h1 {
-            フォントサイズ: clamp(3rem, 10vw, 6rem); 文字間隔: 1.5rem; 下余白: 20px;
+        .hero-content h1 { 
+            font-size: clamp(3rem, 10vw, 6rem); letter-spacing: 1.5rem; margin-bottom: 20px;
             background: var(--gold-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            フィルター: ドロップシャドウ(2px 2px 10px rgba(0,0,0,0.5));
+            filter: drop-shadow(2px 2px 10px rgba(0,0,0,0.5));
         }
         .hero-content p { font-size: 1.2rem; letter-spacing: 0.5rem; }
 
-        /* --- 共通セクションのスタイル設定 --- */
+        /* --- Common Section Styling --- */
         section { padding: 120px 10%; position: relative; }
         .section-header { text-align: center; margin-bottom: 80px; }
         .section-header span { color: var(--kin); font-weight: 700; letter-spacing: 0.3rem; display: block; margin-bottom: 10px; }
         .section-header h2 { font-size: 2.8rem; color: var(--shuiro); position: relative; }
         
-        /* --- 歴史年表 --- */
+        /* --- History Timeline --- */
         .history-container { display: flex; flex-wrap: wrap; gap: 50px; }
         .history-text { flex: 1.5; }
         .history-timeline { flex: 1; border-left: 2px solid var(--kin); padding-left: 30px; }
         .timeline-item { position: relative; margin-bottom: 40px; }
-        .timeline-item::before {
-            コンテンツ: ""; 位置: absolute; 左: -41px; 上: 5px;
-            幅: 20px; 高さ: 20px; 背景: var(--shuiro); 角丸: 50%;
+        .timeline-item::before { 
+            content: ""; position: absolute; left: -41px; top: 5px; 
+            width: 20px; height: 20px; background: var(--shuiro); border-radius: 50%;
             box-shadow: 0 0 10px var(--kin);
         }
         .timeline-year { font-weight: 900; color: var(--shuiro); font-size: 1.3rem; display: block; }
 
-        /* --- カードとグリッド --- */
+        /* --- Cards & Grid --- */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card {
-            背景: #fff; パディング: 40px; 境界線: 1px solid rgba(176,154,91,0.2);
-            トランジション: 0.5秒; 位置: 相対; オーバーフロー: 非表示;
+        .card { 
+            background: #fff; padding: 40px; border: 1px solid rgba(176,154,91,0.2);
+            transition: 0.5s; position: relative; overflow: hidden;
         }
-        .card:hover {
-            transform: translateY(-15px) rotateX(5deg);
+        .card:hover { 
+            transform: translateY(-15px) rotateX(5deg); 
             box-shadow: 0 20px 40px rgba(176,154,91,0.2);
             border-color: var(--kin);
         }
         .card h3 { color: var(--shuiro); margin-bottom: 20px; border-bottom: 1px solid var(--kin); padding-bottom: 10px; }
 
-        /* --- イベントテーブル --- */
+        /* --- Event Table --- */
         .event-table { width: 100%; border-collapse: collapse; background: #fff; }
         .event-table th, .event-table td { padding: 25px; border-bottom: 1px solid #eee; text-align: left; }
         .event-table th { color: var(--shuiro); width: 25%; font-size: 1.1rem; }
 
-        /* --- FAQ アコーディオン --- */
+        /* --- FAQ Accordion --- */
         .faq-item { background: #fff; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; }
         .faq-question { padding: 20px; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
         .faq-answer { padding: 0 20px 20px; display: none; color: #555; border-top: 1px solid #eee; padding-top: 20px; }
 
-        /* --- アクセス情報 --- */
+        /* --- Access Info --- */
         .access-container { display: flex; flex-wrap: wrap; gap: 40px; background: #fff; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         .access-info { flex: 1; min-width: 300px; }
         .access-map { flex: 1.5; min-width: 300px; height: 450px; border: 4px solid var(--kin); }
 
-        /* --- フッター --- */
+        /* --- Footer --- */
         
-          /* --- メディアセクション --- */
-  .media-grid { display: flex; flex-wrap: wrap; gap: 40px; }
-  .media-card { flex: 1 1 400px; }
+          /* --- Media Section --- */
+  .media-grid { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; }
+.media-card { flex: 1 1 400px; max-width: 100%; text-align: center; margin: 0 auto; }
   .media-card img { width: 100%; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
 
-フッター { 背景: var(--sumiiro); 色: var(--washiiro); パディング: 100px 10% 50px; テキスト配置: 中央; }
+footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 50px; text-align: center; }
         .footer-logo { font-size: 2.5rem; color: var(--kin); margin-bottom: 20px; letter-spacing: 0.5rem; }
 
-        /* --- 表示アニメーション --- */
+        /* --- Reveal Animations --- */
         .reveal { opacity: 0; transform: translateY(50px); transition: 1.2s cubic-bezier(0.17, 0.67, 0.83, 0.67); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 768px) {
             nav { padding: 15px 20px; }
             .nav-links { display: none; }
-            セクション { パディング: 80px 5%; }
+            section { padding: 80px 5%; }
             .hero-content h1 { font-size: 3rem; }
+                    .media-card > div { height: 300px; }
+                        .media-card img { max-width: 100%; height: auto; }
         }
-    </style>
+            @media (min-width: 769px) {
+        .media-card > div { height: 400px; }
+    }
+
 </head>
 <body>
 
@@ -163,8 +168,8 @@
             <li><a href="#history">由緒</a></li>
             <li><a href="#deity">祭神</a></li>
             <li><a href="#precincts">境内</a></li>
-            <li><a href="#events">イベント</a></li>
-            <li><a href="#shinto"> 参拝</a></li>
+            <li><a href="#events">行事</a></li>
+            <li><a href="#shinto">参拝</a></li>
             <li><a href="#access">交通</a></li>
                       <li><a href="#media">作品</a></li>
         </ul>
@@ -175,19 +180,19 @@
         <div class="hero-content">
             <p>鳥取県北栄町・延喜式内社</p>
             <h1>國坂神社</h1>
-            <p>少彦名神降臨の地 ― 千二百年の祈り</p>
+            <p>少彦名神 降臨の地 ― 千二百年の祈り</p>
         </div>
     </div>
 
 <section id="history">
   <div class="section-header reveal">
-    <span>歴史</span>
+    <span>HISTORY</span>
     <h2>御由緒と歩み</h2>
   </div>
   <div class="history-container">
     <div class="history-text reveal">
-      <p>創建は遥か古に遡ります。伝承によれば、この國坂の地に少彦名命が降臨し、人々に農耕の術と病を解決する知恵を授けたことがステップとされています。</p>
-      <p style="margin-top: 20px;">中世では武将や地元の猛者から猛崇拝を受け、何度も戦乱の中でも絶えず社火が守り継がれた。 江戸時代には「医薬の神」としての名声が中国地方一帯に広まり、疫病が流行した際には多くの人々がその神威を頼り、病気平癒を祈願したと伝えられています。 明治・昭和の激動期を経ても、その伝統と格式は今も地域の人々によって守り継がれています。
+      <p>創建は遥か古に遡ります。伝承によれば、この國坂の地に少彦名命が降臨し、人々に農耕の術と病を治す知恵を授けたことが始まりとされています。</p>
+      <p style="margin-top: 20px;">中世では武将や地元有力者から督い崇敬を受け、幾多の戦乱の中でも絶えることなく社火が守り継がれました。江戸時代には「医薬の神」としての名声が中国地方一帯に広まり、疫病が流行した際には多くの人々がその神威を頼り、病気平癒を祈願したと伝えられています。明治・昭和の激動期を経ても、その伝統と格式は今もなお地域の人々によって守り継がれています。</p>
     </div>
     <div class="history-timeline reveal">
       <div class="timeline-item">
@@ -195,7 +200,7 @@
         <p>『続日本後紀』に記録。従五位下を授かる。</p>
       </div>
       <div class="timeline-item">
-        <span class="timeline-year">867 年（貞観 9 年）</span>
+        <span class="timeline-year">867年（貞観9年）</span>
         <p>『日本三代実録』に記録。正五位上に昇叙。</p>
       </div>
       <div class="timeline-item">
@@ -203,7 +208,7 @@
         <p>『延喜式』神名帳に記載、式内社に列せられる。</p>
       </div>
       <div class="timeline-item">
-        <span class="timeline-year">1524 年（大永 4 年）頃</span>
+        <span class="timeline-year">1524年（大永4年）頃</span>
         <p>戦火を免れ、社殿が維持された記録が残る。</p>
       </div>
     </div>
@@ -211,17 +216,17 @@
 </section>
     <section id="deity" style="background: #fff;">
         <div class="section-header reveal">
-            <span>神</span>
+            <span>DEITY</span>
             <h2>御祭神</h2>
         </div>
         <div class="reveal" style="max-width: 1000px; margin: 0 auto; text-align: center;">
             <h3 style="color: var(--shuiro); font-size: 2rem; margin-bottom: 30px;">少彦名神 <small>(すくなひこなのかみ)</small></h3>
-            <p>日本神話に関しては大国主神と共に「国造り」を始めた神。ガガイモの船に乗り、蛾の皮の着物を着た小さな神様ですが、その智慧と神力は絶大です。医薬・温泉・まじないの法を定め、人々の病を治し、鳥獣や昆虫の災いを除く術を広めました。また「酒造りの神」としての側面も持ち、万民の生命を育む神として崇められています。
+            <p>日本神話において大国主神と共に「国造り」を成し遂げた神。ガガイモの船に乗り、蛾の皮の着物を着た小さな神様ですが、その智慧と神力は絶大です。医薬・温泉・まじないの法を定め、人々の病を治し、鳥獣や昆虫の災いを除く術を教え広めました。また「酒造りの神」としての側面も持ち、万民の生命を育む神として崇められています。</p>
             
             <div class="grid" style="margin-top: 60px;">
                 <div class="card">
-                    <h3>病気平癒・身体の健康</h3>
-                    <p>医療従事者の守護神として名高く、難病平癒や手術の成功を祈る参拝者は絶えません。</p>
+                    <h3>病気平癒・身体健康</h3>
+                    <p>医療従事者の守護神として名高く、難病平癒や手術の成功を祈る参拝者が絶えません。</p>
                 </div>
                 <div class="card">
                     <h3>産業開発・商売繁盛</h3>
@@ -229,7 +234,7 @@
                 </div>
                 <div class="card">
                     <h3>厄除け・災難除け</h3>
-                    <p>生活の基本である「食」の安全や、予期せぬ厄災から家庭を堅く守ります。</p>
+                    <p>生活の基本である「食」の安全や、予期せぬ厄災から家庭を堅固に守護します。</p>
                 </div>
             </div>
         </div>
@@ -237,21 +242,21 @@
 
     <section id="precincts">
     <div class="section-header reveal">
-        <span>選挙区</span>
+        <span>PRECINCTS</span>
         <h2>境内案内</h2>
     </div>
     <div class="grid">
-        <div class="カード公開">
+        <div class="card reveal">
             <div style="height: 200px; background: url('https://i.imgur.com/QXZ9xph.jpeg') center/cover; margin-bottom: 20px;"></div>
             <h3>拝殿・本殿</h3>
-            <p>伝統的な大社の様式を伝え、荘厳な装飾が随所に施されています。木材の経年変化が、積み重ねられた歴史の深さを無言で物語ります。</p>
+            <p>伝統的な大社造りの様式を伝え、荘厳な装飾が随所に施されています。木材の経年変化が、積み重ねられた歴史の深さを無言で物語ります。</p>
         </div>
-        <div class="カード公開">
+        <div class="card reveal">
             <div style="height: 200px; background: url('https://i.imgur.com/tYQqR7R.jpeg') center/cover; margin-bottom: 20px;"></div>
             <h3>社叢（神社の森）</h3>
-            <p>幾世紀もの時を重ねた巨木が立つ鎮守の杜。一歩足を踏み入れれば、神域特有の静寂と瑞々しい生命力に包まれます。</p>
+            <p>幾世紀もの時を重ねた巨木が立ち並ぶ鎮守の杜。一歩足を踏み入れれば、神域特有の静寂と瑞々しい生命力に包まれます。</p>
         </div>
-        <div class="カード公開">
+        <div class="card reveal">
             <div style="height: 200px; background: url('https://i.imgur.com/Nibrebq.jpeg') center/cover; margin-bottom: 20px;"></div>
             <h3>四季の彩り</h3>
             <p>春の桜、夏の深緑、秋の紅葉、そして冬の雪景色。四季折々の豊かな表情は、参拝者の心を常に癒し続けています。</p>
@@ -262,42 +267,42 @@
 
     <section id="events" style="background: #fff;">
         <div class="section-header reveal">
-            <span>イベント</span>
+            <span>EVENTS</span>
             <h2>年中行事</h2>
         </div>
         <div class="reveal" style="max-width: 900px; margin: 0 auto;">
             <table class="event-table">
-                <tr><th>1 月 1 日</th><td><strong>歳旦祭（さいたんさい）</strong><br>新年の幕開けを祝い、国家の安泰と崇敬者の幸福を祈ります。</td></tr>
-                <tr><th>2 月</th><td><strong>祈年祭（きねんさい）</strong><br>「としごいのまつり」として、その年の五穀豊穣を祈ります。</td></tr>
-                <tr><th>10 月 15 日</th><td><strong>例大祭（れいたいさい）</strong><br>当神社で最も重要な祭典。伝統的な祭礼が行われ、感謝を捧げます。</td></tr>
-                <tr><th>11 月 23 日</th><td><strong>新嘗祭（にいなめさい）</strong><br>秋の収穫に感謝し、新穀を神前にお供えさせていただきます。</td></tr>
-                <tr><th> 伝承</th><td><strong>薬草祭（やくそうさい）</strong><br>医薬の神に因んだ薬草奉納。現在はその精神を例祭に含みます。</td></tr>
+                <tr><th>1月1日</th><td><strong>歳旦祭（さいたんさい）</strong><br>新年の幕開けを祝い、国家の安泰と崇敬者の幸福を祈願します。</td></tr>
+                <tr><th>2月</th><td><strong>祈年祭（きねんさい）</strong><br>「としごいのまつり」として、その年の五穀豊穣を祈ります。</td></tr>
+                <tr><th>10月15日</th><td><strong>例大祭（れいたいさい）</strong><br>当神社で最も重要な祭典。伝統的な祭礼が行われ、感謝を捧げます。</td></tr>
+                <tr><th>11月23日</th><td><strong>新嘗祭（にいなめさい）</strong><br>秋の収穫に感謝し、新穀を神前に供えて共に喜びます。</td></tr>
+                <tr><th>伝承</th><td><strong>薬草祭（やくそうさい）</strong><br>医薬の神に因んだ薬草奉納。現在はその精神を例祭に含んでいます。</td></tr>
             </table>
         </div>
     </section>
 
     <section id="shinto" style="background: var(--sumiiro); color: #fff;">
         <div class="section-header reveal">
-            <span style="color: var(--kin);">知識</span>
+            <span style="color: var(--kin);">KNOWLEDGE</span>
             <h2 style="color: var(--kin);">神道と式内社</h2>
         </div>
         <div class="grid reveal">
             <div>
                 <h4 style="color: var(--kin); margin-bottom: 15px;">式内社とは</h4>
-                <p>927 年編纂の『延喜式』神名帳に記載された神社。平安時代、すでに国から重要視されていた由緒正しい古社である証です。
+                <p>927年編纂の『延喜式』神名帳に記載された神社。平安時代当時、すでに国から重要視されていた由緒正しい古社である証です。</p>
             </div>
             <div>
                 <h4 style="color: var(--kin); margin-bottom: 15px;">八百万の神</h4>
-                <p>自然万物に神が宿ると考えます。國坂神社は、この豊かな北栄の大地と歴史の素晴らしさを神聖視しています。</p>
+                <p>自然万物に神が宿ると考える信仰。國坂神社は、この豊かな北栄の大地と歴史そのものを神聖視しています。</p>
             </div>
             <div>
-                <h4 style="color: var(--kin); margin-bottom: 15px;">参拝の作法（二礼二賞一礼）</h4>
+                <h4 style="color: var(--kin); margin-bottom: 15px;">参拝の作法（二礼二拍手一礼）</h4>
                 <ol style="padding-left: 20px; font-size: 0.9rem;">
                     <li>鳥居前で一礼し、手水舎で清める</li>
-                    <li>神前で姿勢を正し、深二回お辞儀</li>
-                    <li>胸の高さで二回勝利を殴る</li>
+                    <li>神前で姿勢を正し、深く二回お辞儀</li>
+                    <li>胸の高さで二回拍手を打つ</li>
                     <li>手を合わせ、感謝と祈りを捧げる</li>
-                    <li>最後にもう一度、深くもう一度お辞儀</li>
+                    <li>最後にもう一度、深く一回お辞儀</li>
                 </ol>
             </div>
         </div>
@@ -305,47 +310,47 @@
 
     <section id="faq">
         <div class="section-header reveal">
-            <span>よくある質問</span>
+            <span>FAQ</span>
             <h2>よくあるご質問</h2>
         </div>
         <div class="reveal" style="max-width: 800px; margin: 0 auto;">
             <div class="faq-item">
                 <div class="faq-question">御朱印はいただけますか？ <span>▼</span></div>
-                <div class="faq-answer">はい。社務所にて承っております。神職が無い場合もございますので、事前にお電話での確認をお勧めいたします。</div>
+                <div class="faq-answer">はい。社務所にて承っております。神職が不在の場合もございますので、事前にお電話での確認をお勧めいたします。</div>
             </div>
             <div class="faq-item">
                 <div class="faq-question">駐車場はありますか？ <span>▼</span></div>
-                <div class="faq-answer">境内に訪問者専用の駐車場がございますので、お車でのご訪問もございますのでご安心ください。</div>
+                <div class="faq-answer">境内に参拝者専用の駐車場がございますので、お車での参拝もご安心ください。</div>
             </div>
             <div class="faq-item">
                 <div class="faq-question">公式SNSはありますか？ <span>▼</span></div>
                 <div class="faq-answer" style="display: none;">
-  <p>Instagram: <a href="https://www.instagram.com/kuni_shrine/" target="_blank" style="color: #c9302c; text-decoration: none;">@uni_shrine</a> にて境内の様子や行事情報を発信しています。 ぜひフォローしてください。</p>
+  <p>Instagram: <a href="https://www.instagram.com/kuni_shrine/" target="_blank" style="color: #c9302c; text-decoration: none;">@kuni_shrine</a> にて境内の様子や行事情報を発信しています。ぜひフォローしてください。</p>
 </div>
 
             </div>
         </div>
     </section>
 
-      <!-- メディアセクション -->
+      <!-- Media Section -->
   <section id="media">
     <div class="section-header reveal">
-      <span>メディア</span>
+      <span>MEDIA</span>
       <h2>当神社がモデルとなった作品のご紹介</h2>
     </div>
     <div class="grid reveal">
       <div class="card">
         <div style="height: 450px; background: url('https://i.imgur.com/WQ45OJE.jpeg') center/cover; margin-bottom: 20px; border-radius: 4px; position: relative;">
-          <div style="position:Absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.7);color:#fff;padding:5px 10px;font-size:0.8rem;border-radius:3px;">第四巻の表紙</div>
+          <div style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: #fff; padding: 5px 10px; font-size: 0.8rem; border-radius: 3px;">第四巻の表紙</div>
         </div>
-        <h3>「神さまの学校の落ちこぼれ」</h3>
-        <p>白泉社「花とゆめ」にて連載赤瓦戻っむ先生の作品『神さま学校の落ちこぼれ』第3巻にて、当神社の神門や境内がモデルとして描かれています。
+        <h3>&#x300c;神さま学校の落ちこぼれ&#x300d;</h3>
+        <p>白泉社&#x300c;花とゆめ&#x300d;にて連載中の赤瓦もどむ先生の作品『神さま学校の落ちこぼれ』第3巻にて、当神社の神門や境内がモデルとして描かれています。</p>
         <p style="margin-top: 15px;">また、第4巻の表紙には、当神社の神門をモチーフにした大変美しいイラストが掲載されております。ぜひ作品をお手に取って、物語の世界と当神社の風景をあわせてお楽しみください。</p>
         <p style="margin-top: 15px; font-size: 0.9rem; color: var(--kin);">
-          <strong>中</strong> | 原作：日向夏 × まんが：赤瓦もどむ ｜ 白泉社「花とゆめ」
-          <br><a href="https://magazine.hanayume.com/sakuhin/?id=35" target="_blank" rel="noopener" style="color: var(--shuiro); text-decoration: underline;">作品公式ページへ</a>
+          <strong>連載中</strong> | &#x539f;&#x4f5c;&#xff1a;&#x65e5;&#x5411;&#x590f; &#x00d7; &#x307e;&#x3093;&#x304c;&#xff1a;&#x8d64;&#x74e6;&#x3082;&#x3069;&#x3080; &#xff5c; &#x767d;&#x6cc9;&#x793e;&#x300c;&#x82b1;&#x3068;&#x3086;&#x3081;&#x300d;
+          <br><a href="https://magazine.hanayume.com/sakuhin/?id=35" target="_blank" rel="noopener" style="color: var(--shuiro); text-decoration: underline;">&#x4f5c;&#x54c1;&#x516c;&#x5f0f;&#x30da;&#x30fc;&#x30b8;&#x3078;</a>
         </p>
-                  <p style="margin-top: 15px; font-size: 0.85rem; color: #777;">※白泉社様より書影の使用許可をいただいて投稿お待ちしております</p>
+                  <p style="margin-top: 15px; font-size: 0.85rem; color: #777;">※白泉社様より書影の使用許可をいただいて投稿しております</p>
       </div>
     </div>
   </section>
@@ -353,7 +358,7 @@
     
     <section id="access" style="background: #fff;">
         <div class="section-header reveal">
-            <span>アクセス</span>
+            <span>ACCESS</span>
             <h2>交通案内</h2>
         </div>
         <div class="access-container reveal">
@@ -370,26 +375,26 @@
                 </dl>
             </div>
             <div class="access-map">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3248.831519782433!2d133.82408337577938!3d35.49007597264879!2m3!1f0!2f0!3f0!3m2 !1i1024!2i768!4f13.1!3m3!1m2!1s0x35543666d6a5d15b%3A0xc6829285038c7f3b!2z5ZyL5Z2C56We56S-!5e0!3m2!1sja!2sjp!4v1715000000000!5m2!1sja!2sjp" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3248.831519782433!2d133.82408337577938!3d35.49007597264879!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35543666d6a5d15b%3A0xc6829285038c7f3b!2z5ZyL5Z2C56We56S-!5e0!3m2!1sja!2sjp!4v1715000000000!5m2!1sja!2sjp" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 
-    <フッター>
+    <footer>
         <div class="footer-logo">國坂神社</div>
         <p style="margin-bottom: 20px; opacity: 0.8;">〒689-2102 鳥取県東伯郡北栄町国坂1500</p>
-        <p style="font-size: 0.8rem; opacity: 0.5;">© 国坂神社。All Rights Reserved.</p>
+        <p style="font-size: 0.8rem; opacity: 0.5;">&copy; Kunisaka Shrine. All Rights Reserved.</p>
     </footer>
 
     <script>
-        // 画面の読み込み
-        window.addEventListener('load', () => {
+        // Loading screen
+                window.addEventListener('DOMContentLoaded', () => {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
             setTimeout(() => loader.style.display = 'none', 1000);
         });
 
-        // パララックスとナビゲーションバー
+        // Parallax & Navbar
         window.addEventListener('scroll', () => {
             const scroll = window.scrollY;
             const heroBg = document.getElementById('heroBg');
@@ -398,16 +403,22 @@
             heroBg.style.transform = `translateY(${scroll * 0.4}px)`;
             
             if (scroll > 100) nav.classList.add('scrolled');
-            それ以外の場合は、nav.classList.remove('scrolled')を実行します。
+            else nav.classList.remove('scrolled');
 
-            // スクロール表示
+            // Scroll Reveal
             document.querySelectorAll('.reveal').forEach(el => {
                 const rect = el.getBoundingClientRect();
                 if (rect.top < window.innerHeight - 100) el.classList.add('active');
             });
         });
 
-        // よくある質問（FAQ）アコーディオン
+                            setTimeout(() => {
+        document.querySelectorAll('.reveal').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 100) el.classList.add('active');
+                }, 100);
+
+        // FAQ Accordion
         document.querySelectorAll('.faq-question').forEach(q => {
             q.addEventListener('click', () => {
                 const answer = q.nextElementSibling;
@@ -417,7 +428,7 @@
             });
         });
 
-        // 3Dカードホバーエフェクト
+        // 3D Card Hover Effect
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
@@ -425,7 +436,7 @@
                 const y = (e.clientY - rect.top) / rect.height - 0.5;
                 card.style.transform = `translateY(-15px) rotateX(${y * -10}deg) rotateY(${x * 10}deg)`;
             });
-            Card.addEventListener('mouseleave', () => {
+            card.addEventListener('mouseleave', () => {
                 card.style.transform = `translateY(0) rotateX(0) rotateY(0)`;
             });
         });
