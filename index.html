@@ -134,8 +134,8 @@
         /* --- Footer --- */
         
           /* --- Media Section --- */
-  .media-grid { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; }
-.media-card { flex: 1 1 400px; max-width: 100%; text-align: center; margin: 0 auto; }
+  .media-grid { display: flex; flex-wrap: wrap; gap: 40px; }
+  .media-card { flex: 1 1 400px; }
   .media-card img { width: 100%; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
 
 footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 50px; text-align: center; }
@@ -150,13 +150,8 @@ footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 
             .nav-links { display: none; }
             section { padding: 80px 5%; }
             .hero-content h1 { font-size: 3rem; }
-                    .media-card > div { height: 300px; }
-                        .media-card img { max-width: 100%; height: auto; }
         }
-            @media (min-width: 769px) {
-        .media-card > div { height: 400px; }
-    }
-
+    </style>
 </head>
 <body>
 
@@ -388,20 +383,12 @@ footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 
 
     <script>
         // Loading screen
-                window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('load', () => {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
             setTimeout(() => loader.style.display = 'none', 1000);
         });
-        // 初期表示: ページロード時に画面内の.reveal要素を即時表示
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.querySelectorAll('.reveal').forEach(el => {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top < window.innerHeight - 100) el.classList.add('active');
-                });
-            }, 100);
-        });
+
         // Parallax & Navbar
         window.addEventListener('scroll', () => {
             const scroll = window.scrollY;
@@ -419,12 +406,6 @@ footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 
                 if (rect.top < window.innerHeight - 100) el.classList.add('active');
             });
         });
-
-                            setTimeout(() => {
-        document.querySelectorAll('.reveal').forEach(el => {
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight - 100) el.classList.add('active');
-                }, 100);
 
         // FAQ Accordion
         document.querySelectorAll('.faq-question').forEach(q => {
