@@ -132,7 +132,13 @@
         .access-map { flex: 1.5; min-width: 300px; height: 450px; border: 4px solid var(--kin); }
 
         /* --- Footer --- */
-        footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 50px; text-align: center; }
+        
+          /* --- Media Section --- */
+  .media-grid { display: flex; flex-wrap: wrap; gap: 40px; }
+  .media-card { flex: 1 1 400px; }
+  .media-card img { width: 100%; border-radius: 4px; box-shadow: 0 5px 15px rgba(0,0,0,0.15); }
+
+footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 50px; text-align: center; }
         .footer-logo { font-size: 2.5rem; color: var(--kin); margin-bottom: 20px; letter-spacing: 0.5rem; }
 
         /* --- Reveal Animations --- */
@@ -160,6 +166,7 @@
             <li><a href="#events">行事</a></li>
             <li><a href="#shinto">参拝</a></li>
             <li><a href="#access">交通</a></li>
+                      <li><a href="#media">作品</a></li>
         </ul>
     </nav>
 
@@ -319,6 +326,31 @@
             </div>
         </div>
     </section>
+
+      <!-- Media Section -->
+  <section id="media">
+    <div class="section-header reveal">
+      <span>MEDIA</span>
+      <h2>当神社がモデルとなった作品のご紹介</h2>
+    </div>
+    <div class="grid reveal">
+      <div class="card">
+        <div style="height: 300px; background: url('https://i.imgur.com/I9JUyTb.jpg') center/cover; margin-bottom: 20px; border-radius: 4px; position: relative;">
+          <div style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: #fff; padding: 5px 10px; font-size: 0.8rem; border-radius: 3px;">神门をモチーフにしたイラスト</div>
+        </div>
+        <h3>&#x300c;神さま学校の落ちこぼれ&#x300d;</h3>
+        <p>白泉社&#x300c;花とゆめ&#x300d;にて連載中の赤瓦もどむ先生の作品&#x300e;神さま学校の落ちこぼれ&#x300f;にて、当神社の神门や境内がモデルとして描かれています。</p>
+        <p style="margin-top: 15px;">第4巻の表纸には、当神社の神门をモチーフにした大変美しいイラストが掲载されております。ぜひ作品をお手に取って、物语の世界と当神社の风景をあわせてお楽しみください。</p>
+        <p style="margin-top: 15px; font-size: 0.9rem; color: var(--kin);">
+          <strong>连载中</strong> | &#x539f;&#x4f5c;&#xff1a;&#x65e5;&#x5411;&#x590f; &#x00d7; &#x307e;&#x3093;&#x304c;&#xff1a;&#x8d64;&#x74e6;&#x3082;&#x3069;&#x3080; &#xff5c; &#x767d;&#x6cc9;&#x793e;&#x300c;&#x82b1;&#x3068;&#x3086;&#x3081;&#x300d;
+          <br><a href="https://magazine.hanayume.com/sakuhin/?id=35" target="_blank" rel="noopener" style="color: var(--shuiro); text-decoration: underline;">&#x4f5c;&#x54c1;&#x516c;&#x5f0f;&#x30da;&#x30fc;&#x30b8;&#x3078;</a>
+        </p>
+        <p style="margin-top: 15px;">
+          <em style="font-size: 0.85rem; color: #777;">&#x7b2c;4&#x5dfb;&#x306e;&#x8868;&#x7d19;&#x30a4;&#x30e9;&#x30b9;&#x30c8;&#xff1a;&#x767a;&#x8848;&#x5143;&#xff1a;&#x767d;&#x6cc9;&#x793e;&#x307b;&#x308b;&#x3002;&#x7d20;&#x6575;&#x306a;&#x63cf;&#x5199;&#x306f;&#x5b9f;&#x969b;&#x306b;&#x5f53;&#x795e;&#x793e;&#x3092;&#x8a2a;&#x308c;&#x3066;&#x304a;&#x78ba;&#x304b;&#x3081;&#x304f;&#x3060;&#x3055;&#x3044;&#x3002;</em>
+        </p>
+      </div>
+    </div>
+  </section>
 
     <section id="access" style="background: #fff;">
         <div class="section-header reveal">
