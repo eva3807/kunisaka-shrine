@@ -412,6 +412,12 @@ footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 
             });
         });
 
+                    // Initial reveal on page load
+        document.querySelectorAll('.reveal').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 100) el.classList.add('active');
+        });
+
         // FAQ Accordion
         document.querySelectorAll('.faq-question').forEach(q => {
             q.addEventListener('click', () => {
