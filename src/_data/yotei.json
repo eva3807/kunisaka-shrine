@@ -4,11 +4,10 @@
     {
       "date": "2026-09-13",
       "time": "8:00〜10:00",
-      "title": "境内清掃",
-      "category": "清掃奉仕",
-      "place": "境内",
-      "body": "（入力例）実際の日付・時間・内容に書き換えてから「公開する」をオンにしてください。",
-      "published": false
+      "title": "テスト",
+      "category": "お知らせ",
+      "body": "テストです",
+      "published": true
     }
   ]
 }
