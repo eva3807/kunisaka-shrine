@@ -26,6 +26,9 @@ jobs:
       - run: npm ci
       - run: npm run build
       - uses: actions/configure-pages@v5
+        with:
+          # Pages の配信元を「GitHub Actions」に自動で切り替える
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
