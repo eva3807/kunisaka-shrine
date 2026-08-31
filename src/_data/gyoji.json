@@ -8,17 +8,16 @@
       "reading": "さいたんさい",
       "body": "新年の幕開けを祝い、国家の安泰と崇敬者の幸福を祈願します。",
       "order": 1,
-      "published": true
+      "published": false
     },
     {
       "when": "2月",
       "month": 2,
-      "day": null,
       "name": "祈年祭",
       "reading": "きねんさい",
       "body": "「としごいのまつり」として、その年の五穀豊穣を祈ります。",
       "order": 2,
-      "published": true
+      "published": false
     },
     {
       "when": "10月15日",
@@ -28,7 +27,7 @@
       "reading": "れいたいさい",
       "body": "当神社で最も重要な祭典。伝統的な祭礼が行われ、感謝を捧げます。",
       "order": 3,
-      "published": true
+      "published": false
     },
     {
       "when": "11月23日",
@@ -38,15 +37,13 @@
       "reading": "にいなめさい",
       "body": "秋の収穫に感謝し、新穀を神前に供えて共に喜びます。",
       "order": 4,
-      "published": true
+      "published": false
     },
     {
       "when": "伝承",
-      "month": null,
-      "day": null,
       "name": "薬草祭",
       "reading": "やくそうさい",
-      "body": "医薬の神に因んだ薬草奉納。現在はその精神を例祭に含んでいます。",
+      "body": "医薬の神に因んだ薬草奉納。現在は行われていませんが、その精神を例祭に含んでいます。",
       "order": 5,
       "published": true
     }
