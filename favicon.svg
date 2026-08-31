@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4af37;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a07828;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- 上部横木 -->
+  <rect x="4" y="8" width="24" height="2.5" rx="0.5" fill="url(#goldGradient)"/>
+  <!-- 柱 左 -->
+  <rect x="8" y="10" width="2.5" height="18" rx="0.5" fill="url(#goldGradient)"/>
+  <!-- 柱 右 -->
+  <rect x="21.5" y="10" width="2.5" height="18" rx="0.5" fill="url(#goldGradient)"/>
+  <!-- 笠木（上部の反った部分）-->
+  <path d="M 2 6 Q 16 4 30 6 L 29 7.5 Q 16 5.5 3 7.5 Z" fill="url(#goldGradient)"/>
+  <!-- 下部横木 -->
+  <rect x="6" y="16" width="20" height="2" rx="0.5" fill="url(#goldGradient)"/>
+</svg>
