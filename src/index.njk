@@ -170,6 +170,52 @@ footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 
         .goshuin-box dt { font-weight: 900; color: var(--shuiro); }
         .empty-note { text-align: center; color: #999; }
 
+        /* --- 行事カレンダー --- */
+        .cal-layout { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; }
+        .cal-panel { flex: 1.4 1 420px; background: #fff; border: 1px solid rgba(176,154,91,0.35); padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .cal-title { font-size: 1.5rem; font-weight: 900; color: var(--shuiro); letter-spacing: 0.1rem; }
+        .cal-nav { background: none; border: 1px solid var(--kin); color: var(--kin); font-family: inherit;
+                   font-size: 1.1rem; width: 44px; height: 44px; cursor: pointer; transition: 0.3s; border-radius: 2px; }
+        .cal-nav:hover { background: var(--kin); color: #fff; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .cal-dow { text-align: center; font-size: 0.8rem; font-weight: 700; padding: 8px 0; color: #666; }
+        .cal-dow.sun { color: var(--shuiro); }
+        .cal-dow.sat { color: #3a6ea5; }
+        .cal-cell { min-height: 74px; border: 1px solid #f0ede2; padding: 6px; font-size: 0.85rem; background: #fdfcf7; }
+        .cal-cell.empty { background: transparent; border-color: transparent; }
+        .cal-cell.today { border: 2px solid var(--kin); background: #fffdf2; }
+        .cal-cell.has-event { cursor: pointer; }
+        .cal-cell.has-event:hover { background: #f6f1e0; }
+        .cal-cell.selected { background: #f3ead0; border-color: var(--kin); }
+        .cal-num { font-weight: 700; color: #444; }
+        .cal-cell.sun .cal-num { color: var(--shuiro); }
+        .cal-cell.sat .cal-num { color: #3a6ea5; }
+        .cal-tag { display: block; margin-top: 3px; font-size: 0.65rem; line-height: 1.35; color: #fff;
+                   background: var(--shuiro); padding: 1px 4px; border-radius: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .cal-tag.notice { background: var(--kin); }
+        .cal-detail { margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; min-height: 60px; }
+        .cal-detail h4 { color: var(--shuiro); margin-bottom: 6px; }
+        .cal-detail .meta { font-size: 0.85rem; color: #777; margin-bottom: 8px; }
+        .cal-detail .hint { color: #999; font-size: 0.9rem; }
+
+        /* --- 次の行事 --- */
+        .upcoming { flex: 1 1 300px; }
+        .upcoming h3 { color: var(--shuiro); font-size: 1.3rem; border-bottom: 1px solid var(--kin); padding-bottom: 10px; margin-bottom: 20px; }
+        .up-item { background: #fff; border: 1px solid rgba(176,154,91,0.3); padding: 18px 20px; margin-bottom: 12px; display: flex; gap: 16px; align-items: flex-start; }
+        .up-date { flex: 0 0 62px; text-align: center; border-right: 1px solid #eee; padding-right: 12px; }
+        .up-date .m { display: block; font-size: 0.75rem; color: var(--kin); font-weight: 700; }
+        .up-date .d { display: block; font-size: 1.6rem; font-weight: 900; color: var(--shuiro); line-height: 1.2; }
+        .up-body .name { font-weight: 700; color: var(--sumiiro); }
+        .up-body .sub { font-size: 0.8rem; color: #777; margin-top: 3px; }
+        .up-cat { display: inline-block; font-size: 0.68rem; padding: 1px 8px; border-radius: 2px; background: var(--kin); color: #fff; margin-left: 8px; vertical-align: middle; }
+
+        @media (max-width: 768px) {
+            .cal-panel { padding: 16px; }
+            .cal-cell { min-height: 56px; padding: 3px; }
+            .cal-tag { font-size: 0.55rem; }
+        }
+
         @media (max-width: 768px) {
             nav { padding: 15px 20px; }
             .nav-links { display: none; }
@@ -191,6 +237,7 @@ footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 
             <li><a href="#deity">祭神</a></li>
             <li><a href="#precincts">境内</a></li>
             <li><a href="#events">行事</a></li>
+            <li><a href="#calendar">暦</a></li>
             <li><a href="#jyoyohin">授与品</a></li>
             <li><a href="#goshuin">御朱印</a></li>
             <li><a href="#access">交通</a></li>
@@ -319,6 +366,38 @@ footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 
                 {% endfor %}
             </table>
         </div>
+    </section>
+
+    <section id="calendar">
+        <div class="section-header reveal">
+            <span>CALENDAR</span>
+            <h2>行事カレンダー</h2>
+        </div>
+        <div class="cal-layout reveal">
+            <div class="cal-panel">
+                <div class="cal-head">
+                    <button class="cal-nav" id="calPrev" type="button" aria-label="前の月">◀</button>
+                    <div class="cal-title" id="calTitle">―</div>
+                    <button class="cal-nav" id="calNext" type="button" aria-label="次の月">▶</button>
+                </div>
+                <div class="cal-grid" id="calGrid"></div>
+                <div class="cal-detail" id="calDetail">
+                    <p class="hint">印のついた日をお選びください。</p>
+                </div>
+            </div>
+
+            <div class="upcoming">
+                <h3>次の行事・お知らせ</h3>
+                <div id="upcomingList">
+                    <p class="empty-note">読み込み中…</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- カレンダー用データ（年中行事＋予定を結合したもの） -->
+        <script>
+            const SHRINE_EVENTS = {{ calendar | dump | safe }};
+        </script>
     </section>
 
     <section id="jyoyohin">
@@ -516,6 +595,215 @@ footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 
                 answer.style.display = isOpen ? 'none' : 'block';
             });
         });
+
+        // ============================================================
+        //  行事カレンダー
+        //  SHRINE_EVENTS（ビルド時に埋め込み）から月表示と「次の行事」を作る
+        // ============================================================
+        (function () {
+            const events = (typeof SHRINE_EVENTS !== 'undefined') ? SHRINE_EVENTS : [];
+            const grid = document.getElementById('calGrid');
+            const titleEl = document.getElementById('calTitle');
+            const detailEl = document.getElementById('calDetail');
+            const upcomingEl = document.getElementById('upcomingList');
+            if (!grid) return;
+
+            const DOW = ['日', '月', '火', '水', '木', '金', '土'];
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            let viewYear = today.getFullYear();
+            let viewMonth = today.getMonth() + 1; // 1〜12
+            let selectedKey = null;
+
+            // 同じ日に同名の行事が「年中行事」と「今年の予定」の両方にある場合は、
+            // 時刻・場所まで入っている「今年の予定」の方を残す
+            function dedupe(list) {
+                const onceNames = new Set(
+                    list.filter(function (e) { return e.kind === 'once'; })
+                        .map(function (e) { return e.name; })
+                );
+                return list.filter(function (e) {
+                    return e.kind === 'once' || !onceNames.has(e.name);
+                });
+            }
+
+            // 指定の年月日に該当する行事を集める
+            function eventsOn(y, m, d) {
+                return dedupe(events.filter(function (e) {
+                    if (e.kind === 'once') return e.year === y && e.month === m && e.day === d;
+                    // 毎年の行事は日付まで決まっているものだけ日付に紐づける
+                    return e.day && e.month === m && e.day === d;
+                }));
+            }
+
+            // 日付が決まっていない「○月のみ」の年中行事
+            function monthOnlyEvents(m) {
+                return events.filter(function (e) {
+                    return e.kind === 'annual' && e.month === m && !e.day;
+                });
+            }
+
+            function renderCalendar() {
+                titleEl.textContent = viewYear + '年 ' + viewMonth + '月';
+                grid.innerHTML = '';
+
+                DOW.forEach(function (name, i) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cal-dow' + (i === 0 ? ' sun' : i === 6 ? ' sat' : '');
+                    cell.textContent = name;
+                    grid.appendChild(cell);
+                });
+
+                const first = new Date(viewYear, viewMonth - 1, 1);
+                const daysInMonth = new Date(viewYear, viewMonth, 0).getDate();
+
+                // 月初までの空きマス
+                for (let i = 0; i < first.getDay(); i++) {
+                    const blank = document.createElement('div');
+                    blank.className = 'cal-cell empty';
+                    grid.appendChild(blank);
+                }
+
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const dow = new Date(viewYear, viewMonth - 1, d).getDay();
+                    const dayEvents = eventsOn(viewYear, viewMonth, d);
+                    const key = viewYear + '-' + viewMonth + '-' + d;
+
+                    const cell = document.createElement('div');
+                    cell.className = 'cal-cell' + (dow === 0 ? ' sun' : dow === 6 ? ' sat' : '');
+                    if (viewYear === today.getFullYear() && viewMonth === today.getMonth() + 1 && d === today.getDate()) {
+                        cell.classList.add('today');
+                    }
+                    if (selectedKey === key) cell.classList.add('selected');
+
+                    const num = document.createElement('span');
+                    num.className = 'cal-num';
+                    num.textContent = d;
+                    cell.appendChild(num);
+
+                    dayEvents.forEach(function (e) {
+                        const tag = document.createElement('span');
+                        tag.className = 'cal-tag' + (e.category !== '祭典' ? ' notice' : '');
+                        tag.textContent = e.name;
+                        tag.title = e.name;
+                        cell.appendChild(tag);
+                    });
+
+                    if (dayEvents.length > 0) {
+                        cell.classList.add('has-event');
+                        cell.setAttribute('role', 'button');
+                        cell.setAttribute('tabindex', '0');
+                        const show = function () {
+                            selectedKey = key;
+                            renderCalendar();
+                            showDetail(viewYear, viewMonth, d, dayEvents);
+                        };
+                        cell.addEventListener('click', show);
+                        cell.addEventListener('keydown', function (ev) {
+                            if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); show(); }
+                        });
+                    }
+
+                    grid.appendChild(cell);
+                }
+            }
+
+            function showDetail(y, m, d, list) {
+                let html = '<p class="meta">' + y + '年' + m + '月' + d + '日</p>';
+                list.forEach(function (e) {
+                    html += '<h4>' + escapeHtml(e.name);
+                    if (e.reading) html += ' <small>（' + escapeHtml(e.reading) + '）</small>';
+                    html += '</h4>';
+                    const meta = [];
+                    if (e.time) meta.push(e.time);
+                    if (e.place) meta.push(e.place);
+                    if (meta.length) html += '<p class="meta">' + escapeHtml(meta.join('　／　')) + '</p>';
+                    if (e.body) html += '<p>' + escapeHtml(e.body) + '</p>';
+                });
+                detailEl.innerHTML = html;
+            }
+
+            // 今日以降の予定を近い順に取り出す
+            function buildUpcoming(limit) {
+                const list = [];
+
+                events.forEach(function (e) {
+                    if (e.kind === 'once') {
+                        const dt = new Date(e.year, e.month - 1, e.day);
+                        if (dt >= today) list.push({ date: dt, event: e, approx: false });
+                        return;
+                    }
+                    // 毎年の行事は「次に来る回」を計算する
+                    const day = e.day || 1;
+                    let dt = new Date(today.getFullYear(), e.month - 1, day);
+                    if (dt < today) dt = new Date(today.getFullYear() + 1, e.month - 1, day);
+                    list.push({ date: dt, event: e, approx: !e.day });
+                });
+
+                // 日付順。同じ日なら、時刻・場所まで入っている「今年の予定」を先に置く
+                list.sort(function (a, b) {
+                    if (a.date - b.date !== 0) return a.date - b.date;
+                    return (a.event.kind === 'once' ? 0 : 1) - (b.event.kind === 'once' ? 0 : 1);
+                });
+
+                // 同名の行事は1件だけ残す（年中行事と今年の予定の重複を防ぐ）
+                const seen = new Set();
+                return list.filter(function (it) {
+                    if (seen.has(it.event.name)) return false;
+                    seen.add(it.event.name);
+                    return true;
+                }).slice(0, limit);
+            }
+
+            function renderUpcoming() {
+                const items = buildUpcoming(4);
+                if (items.length === 0) {
+                    upcomingEl.innerHTML = '<p class="empty-note">予定はありません。</p>';
+                    return;
+                }
+                upcomingEl.innerHTML = items.map(function (it) {
+                    const e = it.event;
+                    const sub = [];
+                    if (it.approx) sub.push('日程は月内で調整');
+                    if (e.time) sub.push(e.time);
+                    if (e.place) sub.push(e.place);
+                    const cat = (e.category && e.category !== '祭典')
+                        ? '<span class="up-cat">' + escapeHtml(e.category) + '</span>' : '';
+                    // 年をまたぐ予定は「2027年 1月」のように年も示す
+                    const yearLabel = it.date.getFullYear() !== today.getFullYear()
+                        ? it.date.getFullYear() + '年 ' : '';
+                    return '' +
+                        '<div class="up-item">' +
+                          '<div class="up-date">' +
+                            '<span class="m">' + yearLabel + (it.date.getMonth() + 1) + '月</span>' +
+                            '<span class="d">' + (it.approx ? '―' : it.date.getDate()) + '</span>' +
+                          '</div>' +
+                          '<div class="up-body">' +
+                            '<span class="name">' + escapeHtml(e.name) + '</span>' + cat +
+                            (sub.length ? '<div class="sub">' + escapeHtml(sub.join('　／　')) + '</div>' : '') +
+                          '</div>' +
+                        '</div>';
+                }).join('');
+            }
+
+            function escapeHtml(s) {
+                return String(s).replace(/[&<>"']/g, function (c) {
+                    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+                });
+            }
+
+            document.getElementById('calPrev').addEventListener('click', function () {
+                viewMonth--; if (viewMonth < 1) { viewMonth = 12; viewYear--; }
+                selectedKey = null; renderCalendar();
+            });
+            document.getElementById('calNext').addEventListener('click', function () {
+                viewMonth++; if (viewMonth > 12) { viewMonth = 1; viewYear++; }
+                selectedKey = null; renderCalendar();
+            });
+
+            renderCalendar();
+            renderUpcoming();
+        })();
 
         // 3D Card Hover Effect
         document.querySelectorAll('.card').forEach(card => {

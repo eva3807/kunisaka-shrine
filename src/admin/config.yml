@@ -107,6 +107,34 @@ collections:
               - { name: published, label: "公開する", widget: boolean, default: false }
 
   # ---------------------------------------------------------
+  - name: yotei
+    label: "予定・連絡"
+    icon: notifications
+    files:
+      - name: list
+        label: "予定・連絡一覧"
+        file: "src/_data/yotei.json"
+        description: "日付が決まっている単発の予定（境内清掃・会合など）。カレンダーと「次の行事」に表示されます。"
+        fields:
+          - { name: note, label: "内部メモ（サイトには表示されません）", widget: string, required: false }
+          - name: items
+            label: "予定"
+            label_singular: "予定"
+            widget: list
+            summary: "{{fields.date}} {{fields.title}}"
+            fields:
+              - { name: date, label: "日付", widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
+              - { name: time, label: "時間（例：8:00〜10:00）", widget: string, required: false }
+              - { name: title, label: "件名（例：境内清掃）", widget: string }
+              - name: category
+                label: "種別"
+                widget: select
+                options: ["清掃奉仕", "祭典", "会合", "お知らせ", "その他"]
+                default: "お知らせ"
+              - { name: place, label: "場所", widget: string, required: false }
+              - { name: body, label: "内容", widget: text, required: false }
+              - { name: published, label: "公開する", widget: boolean, default: true }
+
   - name: gyoji
     label: "年中行事"
     icon: event
@@ -114,6 +142,7 @@ collections:
       - name: list
         label: "年中行事一覧"
         file: "src/_data/gyoji.json"
+        description: "毎年決まって行われる祭典。単発の予定は「予定・連絡」に登録してください。"
         fields:
           - name: items
             label: "行事"
@@ -122,6 +151,8 @@ collections:
             summary: "{{fields.when}} {{fields.name}}"
             fields:
               - { name: when, label: "日付表記（例：10月15日／2月／伝承）", widget: string }
+              - { name: month, label: "月（カレンダー用・1〜12。決まっていなければ空欄）", widget: number, value_type: int, required: false }
+              - { name: day, label: "日（カレンダー用・1〜31。決まっていなければ空欄）", widget: number, value_type: int, required: false }
               - { name: name, label: "行事名", widget: string }
               - { name: reading, label: "よみがな", widget: string, required: false }
               - { name: body, label: "説明", widget: text }

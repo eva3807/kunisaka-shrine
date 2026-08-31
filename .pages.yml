@@ -72,6 +72,25 @@ content:
           - { name: image, label: 見本画像, type: image, required: false }
           - { name: published, label: 公開する, type: boolean, default: false }
 
+  - name: yotei
+    label: 予定・連絡
+    type: file
+    path: src/_data/yotei.json
+    fields:
+      - { name: note, label: 内部メモ（非表示）, type: string, required: false }
+      - name: items
+        label: 予定
+        type: object
+        list: true
+        fields:
+          - { name: date, label: 日付, type: date }
+          - { name: time, label: 時間（例：8:00〜10:00）, type: string, required: false }
+          - { name: title, label: 件名（例：境内清掃）, type: string }
+          - { name: category, label: 種別, type: select, options: { values: [清掃奉仕, 祭典, 会合, お知らせ, その他] }, default: お知らせ }
+          - { name: place, label: 場所, type: string, required: false }
+          - { name: body, label: 内容, type: text, required: false }
+          - { name: published, label: 公開する, type: boolean, default: true }
+
   - name: gyoji
     label: 年中行事
     type: file
@@ -83,6 +102,8 @@ content:
         list: true
         fields:
           - { name: when, label: 日付表記（例：10月15日／2月／伝承）, type: string }
+          - { name: month, label: 月（カレンダー用・1〜12。決まっていなければ空欄）, type: number, required: false }
+          - { name: day, label: 日（カレンダー用・1〜31。決まっていなければ空欄）, type: number, required: false }
           - { name: name, label: 行事名, type: string }
           - { name: reading, label: よみがな, type: string, required: false }
           - { name: body, label: 説明, type: text }
