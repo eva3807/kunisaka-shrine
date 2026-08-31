@@ -8,7 +8,7 @@
       "reading": "さいたんさい",
       "body": "新年の幕開けを祝い、国家の安泰と崇敬者の幸福を祈願します。",
       "order": 1,
-      "published": false
+      "published": true
     },
     {
       "when": "2月",
@@ -17,7 +17,7 @@
       "reading": "きねんさい",
       "body": "「としごいのまつり」として、その年の五穀豊穣を祈ります。",
       "order": 2,
-      "published": false
+      "published": true
     },
     {
       "when": "10月15日",
@@ -27,7 +27,7 @@
       "reading": "れいたいさい",
       "body": "当神社で最も重要な祭典。伝統的な祭礼が行われ、感謝を捧げます。",
       "order": 3,
-      "published": false
+      "published": true
     },
     {
       "when": "11月23日",
@@ -37,7 +37,7 @@
       "reading": "にいなめさい",
       "body": "秋の収穫に感謝し、新穀を神前に供えて共に喜びます。",
       "order": 4,
-      "published": false
+      "published": true
     },
     {
       "when": "伝承",
