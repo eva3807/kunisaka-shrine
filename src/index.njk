@@ -12,6 +12,7 @@
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#a52a2a">
     <title>國坂神社 公式サイト | 鳥取県北栄町 延喜式内社</title>
         <meta name="description" content="鳥取県北栄町に鎮座する延喜式内社・國坂神社の公式サイト。少彦名神を祀り、医薬・病気平癒・産業振興の御神徳があります。式内社として千年以上の歴史を持つ伯耆国四宮です。">
     <meta name="keywords" content="國坂神社,国坂神社,くにさかじんじゃ,鳥取,北栄町,延喜式内社,式内社,少彦名神,神社,伯耆国,四宮,病気平癒,医薬,御朱印">
@@ -210,18 +211,125 @@ footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 
         .up-body .sub { font-size: 0.8rem; color: #777; margin-top: 3px; }
         .up-cat { display: inline-block; font-size: 0.68rem; padding: 1px 8px; border-radius: 2px; background: var(--kin); color: #fff; margin-left: 8px; vertical-align: middle; }
 
-        @media (max-width: 768px) {
-            .cal-panel { padding: 16px; }
-            .cal-cell { min-height: 56px; padding: 3px; }
-            .cal-tag { font-size: 0.55rem; }
+        /* --- スマホ用メニュー（三本線ボタンと全画面メニュー） --- */
+        .nav-toggle {
+            display: none; background: none; border: none; cursor: pointer;
+            width: 48px; height: 48px; padding: 12px; z-index: 1200;
+        }
+        .nav-toggle span {
+            display: block; height: 2px; width: 100%; background: #fff; margin: 5px 0;
+            transition: 0.3s; border-radius: 1px; box-shadow: 0 0 3px rgba(0,0,0,0.4);
+        }
+        nav.scrolled .nav-toggle span { background: var(--shuiro); box-shadow: none; }
+        body.menu-open .nav-toggle span { background: var(--kin); box-shadow: none; }
+        body.menu-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        body.menu-open .nav-toggle span:nth-child(2) { opacity: 0; }
+        body.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .nav-overlay {
+            position: fixed; inset: 0; background: var(--sumiiro); z-index: 1100;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: flex-start; padding: 74px 0 28px;
+            opacity: 0; visibility: hidden; transition: 0.4s ease;
+            overflow-y: auto; -webkit-overflow-scrolling: touch;
+        }
+        body.menu-open .nav-overlay { opacity: 1; visibility: visible; }
+        body.menu-open { overflow: hidden; }
+        /* メニューを開いている間は、閉じるボタンをメニューより前面に出す */
+        body.menu-open #navbar { z-index: 1200; background: transparent; box-shadow: none; border-bottom: none; }
+        body.menu-open .logo { color: var(--kin); }
+        .nav-overlay ul { list-style: none; text-align: center; }
+        .nav-overlay li { margin: 2px 0; }
+        .nav-overlay a {
+            display: block; color: var(--kin); text-decoration: none; font-size: 1.05rem;
+            font-weight: 700; letter-spacing: 0.25rem; line-height: 1.4;
+            padding: 9px 40px; transition: 0.3s;
+        }
+        .nav-overlay a:active, .nav-overlay a:hover { color: #fff; }
+
+        /* 見出しへ移動したとき、固定メニューの下に隠れないようにする */
+        section { scroll-margin-top: 80px; }
+
+        /* 指で触る端末では、マウス前提の立体ホバーを無効にする */
+        @media (hover: none) {
+            .card:hover { transform: none; box-shadow: none; border-color: rgba(176,154,91,0.2); }
+            .cal-cell.has-event:hover { background: #fdfcf7; }
         }
 
+        /* ===== タブレット以下 ===== */
+        @media (max-width: 900px) {
+            section { padding: 90px 6%; }
+            .section-header { margin-bottom: 50px; }
+            .section-header h2 { font-size: 2.1rem; }
+            .cal-layout { gap: 30px; }
+        }
+
+        /* ===== スマートフォン ===== */
         @media (max-width: 768px) {
-            nav { padding: 15px 20px; }
+            nav { padding: 10px 16px; }
             .nav-links { display: none; }
-            section { padding: 80px 5%; }
-            .hero-content h1 { font-size: 3rem; }
-            .goshuin-box dl { grid-template-columns: 1fr; }
+            .nav-toggle { display: block; }
+            .logo { font-size: 1.4rem; letter-spacing: 0.2rem; }
+
+            section { padding: 64px 5%; scroll-margin-top: 64px; }
+            .section-header { margin-bottom: 40px; }
+            .section-header h2 { font-size: 1.75rem; }
+            .section-header span { font-size: 0.75rem; }
+
+            .hero-content h1 { font-size: 2.6rem; letter-spacing: 0.5rem; margin-bottom: 14px; }
+            .hero-content p { font-size: 0.95rem; letter-spacing: 0.15rem; padding: 0 6%; }
+
+            .card { padding: 24px; }
+            .grid { gap: 20px; }
+
+            /* 年中行事の表を縦積みにする */
+            .event-table, .event-table tbody, .event-table tr, .event-table th, .event-table td {
+                display: block; width: 100%;
+            }
+            .event-table tr { border-bottom: 1px solid #eee; }
+            .event-table th { padding: 18px 18px 0; border-bottom: none; font-size: 1rem; }
+            .event-table td { padding: 4px 18px 18px; border-bottom: none; }
+
+            /* カレンダー */
+            .cal-panel { padding: 14px; }
+            .cal-grid { gap: 2px; }
+            .cal-cell { min-height: 50px; padding: 3px; }
+            .cal-num { font-size: 0.8rem; }
+            /* 行事名は入りきらないため印（点）で示し、日を押すと下に詳細を出す */
+            .cal-tag {
+                display: inline-block; width: 7px; height: 7px; padding: 0;
+                margin: 4px 2px 0 0; border-radius: 50%; font-size: 0; line-height: 0; overflow: hidden;
+            }
+            .cal-nav { width: 40px; height: 40px; }
+            .cal-title { font-size: 1.2rem; }
+
+            /* お知らせ・次の行事 */
+            .news-item { padding: 18px 20px; }
+            .up-item { padding: 14px 16px; }
+
+            /* 御朱印・交通 */
+            .goshuin-box { padding: 24px; }
+            .goshuin-box dl { grid-template-columns: 1fr; gap: 4px; }
+            .goshuin-box dt { margin-top: 12px; }
+            .access-container { padding: 20px; gap: 24px; }
+            .access-map { height: 280px; min-width: 0; border-width: 3px; }
+
+            /* 由緒の年表 */
+            .history-timeline { padding-left: 22px; }
+            .timeline-item::before { left: -32px; width: 16px; height: 16px; }
+
+            footer { padding: 60px 6% 40px; }
+            .footer-logo { font-size: 1.8rem; }
+        }
+
+        /* ===== 小さめのスマートフォン ===== */
+        @media (max-width: 400px) {
+            .hero-content h1 { font-size: 2.1rem; letter-spacing: 0.3rem; }
+            .section-header h2 { font-size: 1.55rem; }
+            .cal-panel { padding: 10px; }
+            .cal-cell { min-height: 44px; }
+            .cal-dow { font-size: 0.7rem; padding: 5px 0; }
+            .card { padding: 20px; }
         }
     </style>
 </head>
@@ -243,7 +351,28 @@ footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 
             <li><a href="#access">交通</a></li>
             <li><a href="#media">作品</a></li>
         </ul>
+
+        <!-- スマホ用：三本線ボタン -->
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="navOverlay">
+            <span></span><span></span><span></span>
+        </button>
     </nav>
+
+    <!-- スマホ用：全画面メニュー -->
+    <div class="nav-overlay" id="navOverlay">
+        <ul>
+            <li><a href="#news">お知らせ</a></li>
+            <li><a href="#history">由緒</a></li>
+            <li><a href="#deity">祭神</a></li>
+            <li><a href="#precincts">境内</a></li>
+            <li><a href="#events">年中行事</a></li>
+            <li><a href="#calendar">行事カレンダー</a></li>
+            <li><a href="#jyoyohin">授与品</a></li>
+            <li><a href="#goshuin">御朱印</a></li>
+            <li><a href="#media">作品</a></li>
+            <li><a href="#access">交通案内</a></li>
+        </ul>
+    </div>
 
     <div class="hero">
         <div class="hero-bg" id="heroBg" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('{{ settings.hero.image | asset }}');"></div>
@@ -568,13 +697,44 @@ footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 
             setTimeout(() => loader.style.display = 'none', 1000);
         });
 
+        // スマホ用メニューの開閉
+        (function () {
+            const toggle = document.getElementById('navToggle');
+            const overlay = document.getElementById('navOverlay');
+            if (!toggle || !overlay) return;
+
+            function setOpen(open) {
+                document.body.classList.toggle('menu-open', open);
+                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                toggle.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+            }
+
+            toggle.addEventListener('click', function () {
+                setOpen(!document.body.classList.contains('menu-open'));
+            });
+            // 項目を選んだら閉じる
+            overlay.querySelectorAll('a').forEach(function (a) {
+                a.addEventListener('click', function () { setOpen(false); });
+            });
+            // Escキーでも閉じる
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') setOpen(false);
+            });
+            // 画面を横向きにするなどで広くなったら閉じる
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768) setOpen(false);
+            });
+        })();
+
         // Parallax & Navbar
         window.addEventListener('scroll', () => {
             const scroll = window.scrollY;
             const heroBg = document.getElementById('heroBg');
             const nav = document.getElementById('navbar');
 
-            heroBg.style.transform = `translateY(${scroll * 0.4}px)`;
+            // スマホでは視差効果を弱めて動きの重さを抑える
+            const parallaxRate = window.innerWidth <= 768 ? 0.15 : 0.4;
+            heroBg.style.transform = `translateY(${scroll * parallaxRate}px)`;
 
             if (scroll > 100) nav.classList.add('scrolled');
             else nav.classList.remove('scrolled');
@@ -805,18 +965,21 @@ footer { background: var(--sumiiro); color: var(--washiiro); padding: 100px 10% 
             renderUpcoming();
         })();
 
-        // 3D Card Hover Effect
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = (e.clientX - rect.left) / rect.width - 0.5;
-                const y = (e.clientY - rect.top) / rect.height - 0.5;
-                card.style.transform = `translateY(-15px) rotateX(${y * -10}deg) rotateY(${x * 10}deg)`;
+        // 3D Card Hover Effect（マウスのある端末のみ。スマホでは傾きが残るため無効化）
+        const hasHover = window.matchMedia('(hover: hover)').matches;
+        if (hasHover) {
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width - 0.5;
+                    const y = (e.clientY - rect.top) / rect.height - 0.5;
+                    card.style.transform = `translateY(-15px) rotateX(${y * -10}deg) rotateY(${x * 10}deg)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `translateY(0) rotateX(0) rotateY(0)`;
+                });
             });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `translateY(0) rotateX(0) rotateY(0)`;
-            });
-        });
+        }
     </script>
 </body>
 </html>
