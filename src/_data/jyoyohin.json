@@ -1,37 +1,37 @@
 {
-  "note": "※価格・授与期間は仮の値です。実際の内容に必ず修正してください。",
+  "note": "※以下は入力例です。内容を実際のものに直してから「公開する」をオンにしてください。",
   "items": [
     {
       "name": "破魔矢",
       "category": "正月限定",
-      "price": "1000円",
-      "period_from": "2026-01-01",
-      "period_to": "2026-01-31",
-      "description": "新年の邪気を祓い、一年の平安を願う縁起物です。（※内容要確認）",
+      "price": "",
+      "period_from": "",
+      "period_to": "",
+      "description": "（入力例）内容を書き換えてから公開してください。",
       "image": "",
-      "published": true,
+      "published": false,
       "order": 1
     },
     {
       "name": "御神札（神宮大麻）",
       "category": "正月限定",
-      "price": "1000円",
-      "period_from": "2026-01-01",
-      "period_to": "2026-01-31",
-      "description": "神棚におまつりするお神札です。（※内容要確認）",
+      "price": "",
+      "period_from": "",
+      "period_to": "",
+      "description": "（入力例）内容を書き換えてから公開してください。",
       "image": "",
-      "published": true,
+      "published": false,
       "order": 2
     },
     {
       "name": "健康御守",
       "category": "常時",
-      "price": "800円",
+      "price": "",
       "period_from": "",
       "period_to": "",
-      "description": "少彦名神の御神徳、病気平癒・身体健康を願うお守りです。（※内容要確認）",
+      "description": "（入力例）内容を書き換えてから公開してください。",
       "image": "",
-      "published": true,
+      "published": false,
       "order": 3
     }
   ]
