@@ -1,0 +1,173 @@
+# ============================================================
+#  Pages CMS 設定（https://pagescms.org/）
+#  中継サーバー不要の管理画面。app.pagescms.org でGitHubログインし、
+#  このリポジトリを選ぶだけで src/_data/*.json を編集できます。
+#  ※ src/admin/ の Sveltia CMS と同じデータを編集します。どちらか片方を使えばOK。
+# ============================================================
+
+media:
+  - name: uploads
+    label: 画像
+    input: src/images/uploads
+    output: images/uploads
+    extensions: [jpg, jpeg, png, gif, webp, svg]
+
+content:
+  - name: oshirase
+    label: お知らせ
+    type: file
+    path: src/_data/oshirase.json
+    fields:
+      - name: items
+        label: お知らせ
+        type: object
+        list: true
+        fields:
+          - { name: date, label: 日付, type: date }
+          - { name: title, label: 見出し, type: string }
+          - { name: body, label: 本文, type: text }
+          - { name: important, label: 重要（赤帯＋「重要」マーク）, type: boolean, default: false }
+          - { name: published, label: 公開する, type: boolean, default: true }
+
+  - name: jyoyohin
+    label: 授与品
+    type: file
+    path: src/_data/jyoyohin.json
+    fields:
+      - { name: note, label: 内部メモ（非表示）, type: string, required: false }
+      - name: items
+        label: 授与品
+        type: object
+        list: true
+        fields:
+          - { name: name, label: 名称, type: string }
+          - { name: category, label: 区分, type: select, options: { values: [常時, 正月限定, 期間限定] }, default: 常時 }
+          - { name: price, label: 初穂料（例：1000円）, type: string, required: false }
+          - { name: period_from, label: 授与開始日（限定品のみ）, type: date, required: false }
+          - { name: period_to, label: 授与終了日（限定品のみ）, type: date, required: false }
+          - { name: description, label: 説明, type: text, required: false }
+          - { name: image, label: 写真, type: image, required: false }
+          - { name: order, label: 並び順（小さいほど先）, type: number, default: 100 }
+          - { name: published, label: 公開する, type: boolean, default: true }
+
+  - name: goshuin
+    label: 御朱印
+    type: file
+    path: src/_data/goshuin.json
+    fields:
+      - { name: hatsuho, label: 初穂料, type: string }
+      - { name: hours, label: 受付時間, type: string }
+      - { name: place, label: 受付場所, type: string }
+      - { name: notes, label: ご注意（任意）, type: text, required: false }
+      - name: limited
+        label: 限定御朱印
+        type: object
+        list: true
+        required: false
+        fields:
+          - { name: name, label: 名称, type: string }
+          - { name: period, label: 頒布期間（例：10月中）, type: string, required: false }
+          - { name: hatsuho, label: 初穂料, type: string, required: false }
+          - { name: description, label: 説明, type: text, required: false }
+          - { name: image, label: 見本画像, type: image, required: false }
+          - { name: published, label: 公開する, type: boolean, default: false }
+
+  - name: gyoji
+    label: 年中行事
+    type: file
+    path: src/_data/gyoji.json
+    fields:
+      - name: items
+        label: 行事
+        type: object
+        list: true
+        fields:
+          - { name: when, label: 日付表記（例：10月15日／2月／伝承）, type: string }
+          - { name: name, label: 行事名, type: string }
+          - { name: reading, label: よみがな, type: string, required: false }
+          - { name: body, label: 説明, type: text }
+          - { name: order, label: 並び順（小さいほど先）, type: number, default: 100 }
+          - { name: published, label: 公開する, type: boolean, default: true }
+
+  - name: keidai
+    label: 境内案内
+    type: file
+    path: src/_data/keidai.json
+    fields:
+      - name: items
+        label: カード
+        type: object
+        list: true
+        fields:
+          - { name: title, label: 見出し, type: string }
+          - { name: body, label: 説明, type: text }
+          - { name: image, label: 写真, type: image, required: false }
+          - { name: order, label: 並び順（小さいほど先）, type: number, default: 100 }
+          - { name: published, label: 公開する, type: boolean, default: true }
+
+  - name: sakuhin
+    label: メディア・作品
+    type: file
+    path: src/_data/sakuhin.json
+    fields:
+      - name: items
+        label: 作品
+        type: object
+        list: true
+        fields:
+          - { name: title, label: 作品名, type: string }
+          - { name: status, label: 状態（例：連載中／完結）, type: string, required: false }
+          - { name: credit, label: クレジット（作者・出版社など）, type: text, required: false }
+          - { name: image, label: 書影・画像, type: image, required: false }
+          - { name: image_caption, label: 画像キャプション, type: string, required: false }
+          - { name: body, label: 本文, type: text }
+          - { name: link_url, label: リンクURL, type: string, required: false }
+          - { name: link_label, label: リンク文言, type: string, required: false }
+          - { name: credit_note, label: 注記（例：使用許可の記載）, type: string, required: false }
+          - { name: published, label: 公開する, type: boolean, default: true }
+
+  - name: faq
+    label: よくある質問
+    type: file
+    path: src/_data/faq.json
+    fields:
+      - name: items
+        label: 質問
+        type: object
+        list: true
+        fields:
+          - { name: question, label: 質問, type: string }
+          - { name: answer, label: 回答（HTMLリンク可）, type: text }
+          - { name: order, label: 並び順（小さいほど先）, type: number, default: 100 }
+          - { name: published, label: 公開する, type: boolean, default: true }
+
+  - name: settings
+    label: サイト基本情報
+    type: file
+    path: src/_data/settings.json
+    fields:
+      - name: hero
+        label: トップ画面
+        type: object
+        fields:
+          - { name: tagline_top, label: 上部の小見出し, type: string }
+          - { name: title, label: 大見出し, type: string }
+          - { name: tagline_bottom, label: 下部の小見出し, type: string }
+          - { name: image, label: 背景写真, type: image, required: false }
+      - name: access
+        label: 所在地・交通
+        type: object
+        fields:
+          - { name: postal_code, label: 郵便番号, type: string }
+          - { name: address, label: 住所, type: string }
+          - { name: tel, label: 電話番号, type: string }
+          - { name: train, label: 電車でのアクセス, type: string }
+          - { name: bus, label: バスでのアクセス, type: string }
+          - { name: car, label: 車でのアクセス, type: string }
+          - { name: map_embed_src, label: Googleマップ埋め込みURL, type: string }
+      - name: sns
+        label: SNS
+        type: object
+        fields:
+          - { name: instagram_url, label: Instagram URL, type: string, required: false }
+          - { name: instagram_handle, label: Instagram 表示名, type: string, required: false }

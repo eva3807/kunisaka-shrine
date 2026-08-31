@@ -1,0 +1,231 @@
+# ============================================================
+#  國坂神社 サイト管理（Sveltia CMS 設定）
+#  この画面から お知らせ・授与品・御朱印・行事 などを編集できます。
+#  保存すると自動でサイトが再作成され、数分で公開サイトに反映されます。
+# ============================================================
+
+backend:
+  name: github
+  repo: eva3807/kunisaka-shrine
+  branch: main
+  # ↓ GitHubログイン用の中継URL。初回セットアップ時に実際のURLへ書き換えてください。
+  #   （docs/運用ガイド.md の「初回セットアップ」を参照）
+  base_url: https://REPLACE-WITH-YOUR-WORKER.workers.dev
+
+# ローカルでの動作確認用（npm start 実行中のみ有効。公開には影響しません）
+local_backend: true
+
+# 画像のアップロード先
+media_folder: "src/images/uploads"
+public_folder: "images/uploads"
+
+# 変更内容をすぐ main に反映する（承認フローなし）
+publish_mode: simple
+
+locale: ja
+
+collections:
+  # ---------------------------------------------------------
+  - name: oshirase
+    label: "お知らせ"
+    icon: campaign
+    files:
+      - name: list
+        label: "お知らせ一覧"
+        file: "src/_data/oshirase.json"
+        description: "トップページ上部に新しい順で表示されます。"
+        fields:
+          - name: items
+            label: "お知らせ"
+            label_singular: "お知らせ"
+            widget: list
+            summary: "{{fields.date}} {{fields.title}}"
+            fields:
+              - { name: date, label: "日付", widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
+              - { name: title, label: "見出し", widget: string }
+              - { name: body, label: "本文", widget: text }
+              - { name: important, label: "重要（赤帯＋「重要」マーク）", widget: boolean, default: false }
+              - { name: published, label: "公開する", widget: boolean, default: true }
+
+  # ---------------------------------------------------------
+  - name: jyoyohin
+    label: "授与品"
+    icon: local_mall
+    files:
+      - name: list
+        label: "授与品一覧"
+        file: "src/_data/jyoyohin.json"
+        description: "お守り・お札・破魔矢・縁起物など。正月限定品もここに追加します。"
+        fields:
+          - { name: note, label: "内部メモ（サイトには表示されません）", widget: string, required: false }
+          - name: items
+            label: "授与品"
+            label_singular: "授与品"
+            widget: list
+            summary: "{{fields.name}}（{{fields.category}}）"
+            fields:
+              - { name: name, label: "名称", widget: string }
+              - name: category
+                label: "区分"
+                widget: select
+                options: ["常時", "正月限定", "期間限定"]
+                default: "常時"
+              - { name: price, label: "初穂料（例：1000円）", widget: string, required: false }
+              - { name: period_from, label: "授与開始日（限定品のみ）", widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: true, required: false }
+              - { name: period_to, label: "授与終了日（限定品のみ）", widget: datetime, date_format: "YYYY-MM-DD", time_format: false, picker_utc: true, required: false }
+              - { name: description, label: "説明", widget: text, required: false }
+              - { name: image, label: "写真", widget: image, required: false }
+              - { name: order, label: "並び順（小さいほど先）", widget: number, default: 100, value_type: int }
+              - { name: published, label: "公開する", widget: boolean, default: true }
+
+  # ---------------------------------------------------------
+  - name: goshuin
+    label: "御朱印"
+    icon: draw
+    files:
+      - name: info
+        label: "御朱印の案内"
+        file: "src/_data/goshuin.json"
+        description: "御朱印セクションの内容です。"
+        fields:
+          - { name: hatsuho, label: "初穂料", widget: string }
+          - { name: hours, label: "受付時間", widget: string }
+          - { name: place, label: "受付場所", widget: string }
+          - { name: notes, label: "ご注意（任意）", widget: text, required: false }
+          - name: limited
+            label: "限定御朱印"
+            label_singular: "限定御朱印"
+            widget: list
+            required: false
+            summary: "{{fields.name}}"
+            fields:
+              - { name: name, label: "名称", widget: string }
+              - { name: period, label: "頒布期間（例：10月中）", widget: string, required: false }
+              - { name: hatsuho, label: "初穂料", widget: string, required: false }
+              - { name: description, label: "説明", widget: text, required: false }
+              - { name: image, label: "見本画像", widget: image, required: false }
+              - { name: published, label: "公開する", widget: boolean, default: false }
+
+  # ---------------------------------------------------------
+  - name: gyoji
+    label: "年中行事"
+    icon: event
+    files:
+      - name: list
+        label: "年中行事一覧"
+        file: "src/_data/gyoji.json"
+        fields:
+          - name: items
+            label: "行事"
+            label_singular: "行事"
+            widget: list
+            summary: "{{fields.when}} {{fields.name}}"
+            fields:
+              - { name: when, label: "日付表記（例：10月15日／2月／伝承）", widget: string }
+              - { name: name, label: "行事名", widget: string }
+              - { name: reading, label: "よみがな", widget: string, required: false }
+              - { name: body, label: "説明", widget: text }
+              - { name: order, label: "並び順（小さいほど先）", widget: number, default: 100, value_type: int }
+              - { name: published, label: "公開する", widget: boolean, default: true }
+
+  # ---------------------------------------------------------
+  - name: keidai
+    label: "境内案内"
+    icon: photo_library
+    files:
+      - name: list
+        label: "境内案内一覧"
+        file: "src/_data/keidai.json"
+        fields:
+          - name: items
+            label: "カード"
+            label_singular: "カード"
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: "見出し", widget: string }
+              - { name: body, label: "説明", widget: text }
+              - { name: image, label: "写真", widget: image, required: false }
+              - { name: order, label: "並び順（小さいほど先）", widget: number, default: 100, value_type: int }
+              - { name: published, label: "公開する", widget: boolean, default: true }
+
+  # ---------------------------------------------------------
+  - name: sakuhin
+    label: "メディア・作品"
+    icon: menu_book
+    files:
+      - name: list
+        label: "作品一覧"
+        file: "src/_data/sakuhin.json"
+        fields:
+          - name: items
+            label: "作品"
+            label_singular: "作品"
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: "作品名", widget: string }
+              - { name: status, label: "状態（例：連載中／完結）", widget: string, required: false }
+              - { name: credit, label: "クレジット（作者・出版社など）", widget: text, required: false }
+              - { name: image, label: "書影・画像", widget: image, required: false }
+              - { name: image_caption, label: "画像キャプション", widget: string, required: false }
+              - { name: body, label: "本文", widget: text }
+              - { name: link_url, label: "リンクURL", widget: string, required: false }
+              - { name: link_label, label: "リンク文言", widget: string, required: false }
+              - { name: credit_note, label: "注記（例：使用許可の記載）", widget: string, required: false }
+              - { name: published, label: "公開する", widget: boolean, default: true }
+
+  # ---------------------------------------------------------
+  - name: settings
+    label: "サイト基本情報"
+    icon: settings
+    files:
+      - name: general
+        label: "基本情報（トップ画像・住所・電話・SNS・地図）"
+        file: "src/_data/settings.json"
+        fields:
+          - name: hero
+            label: "トップ画面"
+            widget: object
+            fields:
+              - { name: tagline_top, label: "上部の小見出し", widget: string }
+              - { name: title, label: "大見出し", widget: string }
+              - { name: tagline_bottom, label: "下部の小見出し", widget: string }
+              - { name: image, label: "背景写真", widget: image, required: false }
+          - name: access
+            label: "所在地・交通"
+            widget: object
+            fields:
+              - { name: postal_code, label: "郵便番号", widget: string }
+              - { name: address, label: "住所", widget: string }
+              - { name: tel, label: "電話番号", widget: string }
+              - { name: train, label: "電車でのアクセス", widget: string }
+              - { name: bus, label: "バスでのアクセス", widget: string }
+              - { name: car, label: "車でのアクセス", widget: string }
+              - { name: map_embed_src, label: "Googleマップ埋め込みURL（分かる方のみ）", widget: string }
+          - name: sns
+            label: "SNS"
+            widget: object
+            fields:
+              - { name: instagram_url, label: "Instagram URL", widget: string, required: false }
+              - { name: instagram_handle, label: "Instagram 表示名（例：@kuni_shrine）", widget: string, required: false }
+
+  # ---------------------------------------------------------
+  - name: faq
+    label: "よくある質問"
+    icon: help
+    files:
+      - name: list
+        label: "FAQ一覧"
+        file: "src/_data/faq.json"
+        fields:
+          - name: items
+            label: "質問"
+            label_singular: "質問"
+            widget: list
+            summary: "{{fields.question}}"
+            fields:
+              - { name: question, label: "質問", widget: string }
+              - { name: answer, label: "回答（HTMLリンク可）", widget: text }
+              - { name: order, label: "並び順（小さいほど先）", widget: number, default: 100, value_type: int }
+              - { name: published, label: "公開する", widget: boolean, default: true }
