@@ -1,0 +1,21 @@
+{
+  "hero": {
+    "tagline_top": "鳥取県北栄町・延喜式内社",
+    "title": "國坂神社",
+    "tagline_bottom": "少彦名神 降臨の地 ― 千二百年の祈り",
+    "image": "https://i.imgur.com/Pk1dgut.jpeg"
+  },
+  "access": {
+    "postal_code": "〒689-2102",
+    "address": "鳥取県東伯郡北栄町国坂1500",
+    "tel": "0858-36-2167",
+    "train": "JR山陰本線「下北条駅」徒歩約22分",
+    "bus": "日本交通バス「国坂」バス停より徒歩約10分",
+    "car": "山陰自動車道「大栄IC」より車で約10分",
+    "map_embed_src": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3248.831519782433!2d133.82408337577938!3d35.49007597264879!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35543666d6a5d15b%3A0xc6829285038c7f3b!2z5ZyL5Z2C56We56S-!5e0!3m2!1sja!2sjp!4v1715000000000!5m2!1sja!2sjp"
+  },
+  "sns": {
+    "instagram_url": "https://www.instagram.com/kuni_shrine/",
+    "instagram_handle": "@kuni_shrine"
+  }
+}

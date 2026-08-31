@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "question": "御朱印はいただけますか？",
+      "answer": "はい。社務所にて承っております。神職が不在の場合もございますので、事前にお電話での確認をお勧めいたします。",
+      "order": 1,
+      "published": true
+    },
+    {
+      "question": "駐車場はありますか？",
+      "answer": "境内に参拝者専用の駐車場がございますので、お車での参拝もご安心ください。",
+      "order": 2,
+      "published": true
+    },
+    {
+      "question": "公式SNSはありますか？",
+      "answer": "Instagram: @kuni_shrine にて境内の様子や行事情報を発信しています。ぜひフォローしてください。",
+      "order": 3,
+      "published": true
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "kunisaka-shrine",
+  "version": "1.0.0",
+  "description": "國坂神社 公式サイト（Eleventy + GUI管理）",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

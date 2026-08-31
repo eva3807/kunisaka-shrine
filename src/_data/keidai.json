@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "title": "拝殿・本殿",
+      "body": "伝統的な大社造りの様式を伝え、荘厳な装飾が随所に施されています。木材の経年変化が、積み重ねられた歴史の深さを無言で物語ります。",
+      "image": "https://i.imgur.com/QXZ9xph.jpeg",
+      "order": 1,
+      "published": true
+    },
+    {
+      "title": "社叢（神社の森）",
+      "body": "幾世紀もの時を重ねた巨木が立ち並ぶ鎮守の杜。一歩足を踏み入れれば、神域特有の静寂と瑞々しい生命力に包まれます。",
+      "image": "https://i.imgur.com/tYQqR7R.jpeg",
+      "order": 2,
+      "published": true
+    },
+    {
+      "title": "四季の彩り",
+      "body": "春の桜、夏の深緑、秋の紅葉、そして冬の雪景色。四季折々の豊かな表情は、参拝者の心を常に癒し続けています。",
+      "image": "https://i.imgur.com/Nibrebq.jpeg",
+      "order": 3,
+      "published": true
+    }
+  ]
+}
