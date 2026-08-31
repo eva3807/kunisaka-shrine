@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- お父様向け操作マニュアル。サイトには公開されません（docs/ は Eleventy の対象外） -->
+</head>
+<body>
+<title>國坂神社サイト更新の手引き</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+
+<style>
+  /* ============================================================
+     配色：和紙（地）・墨（文字）・朱（見出しと番号）・金茶（罫と小見出し）・藍（注意）
+     文字は高齢の方が読みやすいよう既定より大きめに設定
+     ============================================================ */
+  :root {
+    --washi:      #FBF8F1;
+    --washi-deep: #F3EDE0;
+    --card:       #FFFFFF;
+    --sumi:       #1A1714;
+    --sumi-soft:  #5F564C;
+    --shu:        #A32B24;
+    --shu-bg:     #FBEDEB;
+    --kincha:     #8C7434;
+    --kincha-line:#D9CBA6;
+    --ai:         #2A4A6B;
+    --ai-bg:      #EDF2F7;
+    --rule:       #E4DCC9;
+
+    --f-display: "Shippori Mincho", "Yu Mincho", "Hiragino Mincho ProN", serif;
+    --f-body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+
+    --measure: 40rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --washi:      #191614;
+      --washi-deep: #221E1A;
+      --card:       #232019;
+      --sumi:       #F2EDE4;
+      --sumi-soft:  #B3A897;
+      --shu:        #E58279;
+      --shu-bg:     #33211F;
+      --kincha:     #CBAA63;
+      --kincha-line:#5A4C2E;
+      --ai:         #8FB6D9;
+      --ai-bg:      #1D2630;
+      --rule:       #3A332A;
+    }
+  }
+  :root[data-theme="dark"] {
+    --washi:      #191614;
+    --washi-deep: #221E1A;
+    --card:       #232019;
+    --sumi:       #F2EDE4;
+    --sumi-soft:  #B3A897;
+    --shu:        #E58279;
+    --shu-bg:     #33211F;
+    --kincha:     #CBAA63;
+    --kincha-line:#5A4C2E;
+    --ai:         #8FB6D9;
+    --ai-bg:      #1D2630;
+    --rule:       #3A332A;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--washi);
+    color: var(--sumi);
+    font-family: var(--f-body);
+    font-size: 19px;
+    line-height: 1.9;
+    margin: 0;
+    padding: 0 5vw 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .wrap { max-width: var(--measure); margin: 0 auto; }
+
+  /* ---------- 表紙 ---------- */
+  .masthead {
+    padding: 3.5rem 0 2rem;
+    border-bottom: 3px double var(--kincha-line);
+    margin-bottom: 3rem;
+  }
+  .eyebrow {
+    font-size: 0.8rem; letter-spacing: 0.28em; color: var(--kincha);
+    font-weight: 700; margin: 0 0 1.1rem;
+  }
+  h1 {
+    font-family: var(--f-display); font-weight: 800;
+    font-size: clamp(2rem, 7vw, 2.9rem); line-height: 1.35;
+    margin: 0 0 1rem; color: var(--shu); text-wrap: balance;
+    letter-spacing: 0.02em;
+  }
+  .lede { font-size: 1.05rem; color: var(--sumi-soft); margin: 0; }
+
+  /* ---------- 見出し ---------- */
+  h2 {
+    font-family: var(--f-display); font-weight: 800;
+    font-size: clamp(1.4rem, 5vw, 1.75rem); line-height: 1.5;
+    margin: 3.5rem 0 1.25rem; color: var(--sumi);
+    padding-bottom: 0.6rem; border-bottom: 2px solid var(--kincha-line);
+    text-wrap: balance;
+  }
+  h3 {
+    font-family: var(--f-display); font-weight: 600;
+    font-size: 1.2rem; margin: 2.25rem 0 0.75rem; color: var(--shu);
+  }
+  p { margin: 0 0 1.1rem; }
+
+  /* ---------- 目次 ---------- */
+  .toc {
+    background: var(--washi-deep); border: 1px solid var(--rule);
+    padding: 1.5rem 1.75rem; margin-bottom: 1rem;
+  }
+  .toc-title {
+    font-family: var(--f-display); font-weight: 600; font-size: 1.05rem;
+    color: var(--kincha); margin: 0 0 0.75rem;
+  }
+  .toc ol { margin: 0; padding-left: 1.4rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .toc a { color: var(--sumi); text-decoration-color: var(--kincha-line); text-underline-offset: 4px; }
+  .toc a:hover { color: var(--shu); }
+
+  /* ---------- 手順（番号は本当に順序を持つので番号にする） ---------- */
+  .steps { counter-reset: step; list-style: none; margin: 0 0 1.5rem; padding: 0;
+           display: flex; flex-direction: column; gap: 1.1rem; }
+  .steps > li {
+    counter-increment: step; position: relative;
+    padding-left: 3.4rem; min-height: 2.4rem;
+  }
+  .steps > li::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 0.1rem;
+    width: 2.4rem; height: 2.4rem; border-radius: 50%;
+    background: var(--shu); color: #fff;
+    font-family: var(--f-display); font-weight: 800; font-size: 1.15rem;
+    display: flex; align-items: center; justify-content: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- 画面上の言葉 ---------- */
+  .ui {
+    display: inline-block;
+    background: var(--card); border: 1px solid var(--kincha-line);
+    border-radius: 3px; padding: 0.1em 0.5em; margin: 0 0.1em;
+    font-weight: 700; font-size: 0.95em; white-space: nowrap;
+  }
+  .en { color: var(--sumi-soft); font-size: 0.88em; font-weight: 400; }
+
+  /* ---------- 注意書き ---------- */
+  .note, .warn {
+    border-left: 5px solid var(--ai); background: var(--ai-bg);
+    padding: 1.1rem 1.4rem; margin: 1.5rem 0;
+  }
+  .warn { border-left-color: var(--shu); background: var(--shu-bg); }
+  .note p:last-child, .warn p:last-child { margin-bottom: 0; }
+  .note-label, .warn-label {
+    display: block; font-weight: 700; font-size: 0.85rem;
+    letter-spacing: 0.14em; margin-bottom: 0.4rem; color: var(--ai);
+  }
+  .warn-label { color: var(--shu); }
+
+  /* ---------- 流れ図 ---------- */
+  .flow {
+    display: flex; flex-direction: column; gap: 0;
+    margin: 1.75rem 0 2rem; text-align: center;
+  }
+  .flow-box {
+    background: var(--card); border: 2px solid var(--kincha-line);
+    padding: 0.9rem 1rem; font-weight: 700;
+  }
+  .flow-arrow { color: var(--kincha); font-size: 1.3rem; line-height: 1.6; }
+  .flow-note { font-size: 0.88rem; color: var(--sumi-soft); font-weight: 400; display: block; }
+
+  /* ---------- 表 ---------- */
+  .table-scroll { overflow-x: auto; margin: 1.5rem 0; }
+  table { border-collapse: collapse; width: 100%; min-width: 30rem; font-size: 0.97rem; }
+  th, td { text-align: left; padding: 0.85rem 0.9rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { color: var(--kincha); font-size: 0.85rem; letter-spacing: 0.1em; border-bottom: 2px solid var(--kincha-line); }
+  tbody tr:last-child td { border-bottom: none; }
+
+  /* ---------- 一覧 ---------- */
+  ul.plain { padding-left: 1.3rem; margin: 0 0 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+
+  /* ---------- QRコード ---------- */
+  .qr-row {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 1.25rem; margin: 1.75rem 0 0.75rem;
+  }
+  .qr-card {
+    margin: 0; background: var(--card); border: 1px solid var(--kincha-line);
+    padding: 1.25rem; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 0.85rem;
+  }
+  /* QRは読み取りのため常に白地・黒。暗い配色でも反転させない */
+  .qr-canvas {
+    background: #fff; padding: 8px; line-height: 0; border-radius: 2px;
+    min-width: 148px; min-height: 148px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .qr-canvas canvas { display: block; width: 132px; height: 132px; }
+  .qr-card figcaption { display: flex; flex-direction: column; gap: 0.25rem; }
+  .qr-card strong { font-size: 1.02rem; }
+  .qr-url {
+    font-size: 0.82rem; color: var(--sumi-soft); word-break: break-all;
+    line-height: 1.5;
+  }
+  .qr-help { font-size: 0.92rem; color: var(--sumi-soft); }
+
+  /* ---------- 締め ---------- */
+  .closing {
+    margin-top: 3.5rem; padding: 2rem 1.75rem;
+    background: var(--washi-deep); border-top: 3px double var(--kincha-line);
+  }
+  .closing h2 { margin-top: 0; border: none; padding: 0; }
+  .big-three { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1rem; }
+  .big-three li { font-family: var(--f-display); font-size: 1.1rem; font-weight: 600; }
+  .big-three span { color: var(--shu); font-weight: 800; margin-right: 0.5rem; }
+
+  a { color: var(--shu); }
+  a:focus-visible, .toc a:focus-visible { outline: 3px solid var(--kincha); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+  /* ---------- 印刷 ---------- */
+  @media print {
+    body { background: #fff; color: #000; font-size: 12pt; padding: 0; }
+    .toc { break-inside: avoid; }
+    h2 { break-after: avoid; }
+    .steps > li, .note, .warn { break-inside: avoid; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">國坂神社 公式サイト</p>
+    <h1>サイト更新の手引き</h1>
+    <p class="lede">お知らせ・授与品・御朱印・行事のご案内を、パソコンから書き換えるための手順書です。難しい操作はありません。文字を打ち込んで、最後に一度だけ保存するだけです。</p>
+  </header>
+
+  <nav class="toc" aria-label="目次">
+    <p class="toc-title">目次</p>
+    <ol>
+      <li><a href="#login">はじめに ― 管理画面を開く</a></li>
+      <li><a href="#flow">更新の流れ</a></li>
+      <li><a href="#oshirase">お知らせを出す</a></li>
+      <li><a href="#jyoyohin">授与品を載せる（正月など）</a></li>
+      <li><a href="#yotei">予定・連絡を載せる（境内清掃など）</a></li>
+      <li><a href="#goshuin">御朱印の案内を直す</a></li>
+      <li><a href="#photo">写真を入れる</a></li>
+      <li><a href="#hide">いったん隠す・並び替える</a></li>
+      <li><a href="#after">保存したあと</a></li>
+      <li><a href="#trouble">困ったとき</a></li>
+      <li><a href="#dont">しなくてよいこと</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="login">1. はじめに ― 管理画面を開く</h2>
+
+  <p>更新はすべて「管理画面」という一つの画面から行います。毎回この手順で開いてください。</p>
+
+  <div class="note">
+    <span class="note-label">アカウントについて</span>
+    <p>登録の手続きは<strong>すでに済ませてあります。</strong>ご自分で新しく作る必要はありません。お渡ししたログイン用の名前と合言葉を、そのままお使いください。</p>
+  </div>
+
+  <ol class="steps">
+    <li>パソコンでインターネットを開き、住所の欄に <strong>app.pagescms.org</strong> と入力します。<br>（下のQRコードを携帯電話で読み取っても開けます）</li>
+    <li><span class="ui">Sign in with GitHub</span> <span class="en">（ギットハブでログイン）</span>を押します。</li>
+    <li>お渡しした名前と合言葉を入れて進みます。<br>「許可しますか」といった確認が出たときは、緑色のボタンを押してください。</li>
+    <li>一覧から <strong>kunisaka-shrine</strong> を選びます。</li>
+  </ol>
+
+  <div class="qr-row">
+    <figure class="qr-card">
+      <div class="qr-canvas" data-qr="https://app.pagescms.org" aria-hidden="true"></div>
+      <figcaption>
+        <strong>管理画面をひらく</strong>
+        <span class="qr-url">app.pagescms.org</span>
+      </figcaption>
+    </figure>
+    <figure class="qr-card">
+      <div class="qr-canvas" data-qr="https://eva3807.github.io/kunisaka-shrine/" aria-hidden="true"></div>
+      <figcaption>
+        <strong>神社のサイトを見る</strong>
+        <span class="qr-url">eva3807.github.io/<wbr>kunisaka-shrine/</span>
+      </figcaption>
+    </figure>
+  </div>
+
+  <p class="qr-help">QRコードは、携帯電話のカメラを向けるだけで読み取れます。画面に出た文字を押すと、そのまま開きます。</p>
+
+  <p>画面の左側に、書き換えられる項目が並びます。これが目次にあたります。</p>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>左の項目</th><th>書き換わる場所</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>お知らせ</strong></td><td>トップページのいちばん上の欄</td></tr>
+        <tr><td><strong>授与品</strong></td><td>お守り・お札・破魔矢などのご案内</td></tr>
+        <tr><td><strong>御朱印</strong></td><td>初穂料・受付時間・限定御朱印</td></tr>
+        <tr><td><strong>予定・連絡</strong></td><td>境内清掃など日付のある連絡。カレンダーにも出ます</td></tr>
+        <tr><td><strong>年中行事</strong></td><td>毎年決まった祭典。カレンダーにも出ます</td></tr>
+        <tr><td><strong>境内案内</strong></td><td>拝殿・社叢などの写真と説明</td></tr>
+        <tr><td><strong>メディア・作品</strong></td><td>漫画などの作品紹介</td></tr>
+        <tr><td><strong>よくある質問</strong></td><td>ページ下の質問と答え</td></tr>
+        <tr><td><strong>サイト基本情報</strong></td><td>住所・電話番号・トップの写真</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="note-label">画面の言葉について</span>
+    <p>入力欄の名前（日付・見出し・本文など）は日本語ですが、ボタンの一部は英語です。よく使うのは <span class="ui">Save</span>（保存）だけです。項目の見出しに <strong>Item #1</strong> のような英語が出ますが、「1つめ」という意味なので気にしなくて構いません。</p>
+  </div>
+
+  <h2 id="flow">2. 更新の流れ</h2>
+
+  <p>どの項目を直す場合も、流れは同じです。</p>
+
+  <div class="flow">
+    <div class="flow-box">管理画面をひらく</div>
+    <div class="flow-arrow" aria-hidden="true">▼</div>
+    <div class="flow-box">左から項目をえらぶ</div>
+    <div class="flow-arrow" aria-hidden="true">▼</div>
+    <div class="flow-box">文字を打ちなおす</div>
+    <div class="flow-arrow" aria-hidden="true">▼</div>
+    <div class="flow-box">右上の <span class="ui">Save</span> を押す</div>
+    <div class="flow-arrow" aria-hidden="true">▼</div>
+    <div class="flow-box">５分ほど待つ<span class="flow-note">神社のサイトが自動で書きかわります</span></div>
+  </div>
+
+  <div class="warn">
+    <span class="warn-label">大切なこと</span>
+    <p><strong>Save を押さないと、何も変わりません。</strong>打ち込んだだけでは保存されていません。書き終えたら必ず押してください。</p>
+  </div>
+
+  <h2 id="oshirase">3. お知らせを出す</h2>
+
+  <p>「本日は社務所を閉めます」「七五三の受付を始めました」など、参拝の方へのお知らせです。トップページのいちばん目立つ場所に出ます。</p>
+
+  <ol class="steps">
+    <li>左から <strong>お知らせ</strong> を選びます。</li>
+    <li>いちばん下にある <span class="ui">＋</span> または <span class="ui">Add</span> を押して、新しい欄をつくります。</li>
+    <li><strong>日付</strong> … カレンダーから今日の日付を選びます。</li>
+    <li><strong>見出し</strong> … ひと目で分かる短い題を入れます。<br><span class="en">例：七五三のご祈祷を承っております</span></li>
+    <li><strong>本文</strong> … くわしい内容を書きます。何行でも構いません。</li>
+    <li><strong>重要</strong> … 特に目立たせたいときだけ、つまみを右にします。赤い帯と「重要」の印が付きます。</li>
+    <li><strong>公開する</strong> … 右（緑）になっていることを確かめます。</li>
+    <li>右上の <span class="ui">Save</span> を押します。</li>
+  </ol>
+
+  <p>新しいお知らせは、日付の新しい順に自動で上へ並びます。順番を気にする必要はありません。</p>
+
+  <h2 id="jyoyohin">4. 授与品を載せる（正月など）</h2>
+
+  <p>お守り・お札・破魔矢などのご案内です。正月だけの授与品も、この項目に登録して期間を入れておきます。</p>
+
+  <ol class="steps">
+    <li>左から <strong>授与品</strong> を選びます。</li>
+    <li><span class="ui">＋</span> を押して新しい欄をつくります。</li>
+    <li><strong>名称</strong> … 授与品の名前を入れます。<span class="en">例：破魔矢</span></li>
+    <li><strong>区分</strong> … 「常時」「正月限定」「期間限定」から選びます。選んだ言葉がそのまま札のように表示されます。</li>
+    <li><strong>初穂料</strong> … 「1000円」のように書きます。<br>金額を出したくないときは空欄のままで構いません。</li>
+    <li><strong>授与開始日・授与終了日</strong> … 期間が決まっているものだけ入れます。常時のものは空欄で結構です。</li>
+    <li><strong>説明</strong> … どのようなお守りかを書きます。</li>
+    <li><strong>写真</strong> … 入れ方は<a href="#photo">「7. 写真を入れる」</a>をご覧ください。無くても構いません。</li>
+    <li><strong>公開する</strong> を右（緑）にして、<span class="ui">Save</span> を押します。</li>
+  </ol>
+
+  <div class="note">
+    <span class="note-label">来年も使えます</span>
+    <p>正月が終わったら、消さずに <strong>公開する</strong> を左（灰色）にしてください。サイトからは消えますが記録は残るので、来年また右に戻すだけで再び載せられます。作り直す必要はありません。</p>
+  </div>
+
+  <h2 id="yotei">5. 予定・連絡を載せる（境内清掃など）</h2>
+
+  <p>「9月13日に境内清掃をします」といった、<strong>日付が決まっている</strong>連絡です。ここに入れると、行事カレンダーと「次の行事・お知らせ」の両方に自動で出ます。</p>
+
+  <ol class="steps">
+    <li>左から <strong>予定・連絡</strong> を選びます。</li>
+    <li><span class="ui">＋</span> を押して新しい欄をつくります。</li>
+    <li><strong>日付</strong> … 実施する日をカレンダーから選びます。</li>
+    <li><strong>時間</strong> … 「8:00〜10:00」のように書きます。決まっていなければ空欄で構いません。</li>
+    <li><strong>件名</strong> … 「境内清掃」「氏子総会」など。</li>
+    <li><strong>種別</strong> … 清掃奉仕・祭典・会合・お知らせ・その他 から選びます。</li>
+    <li><strong>場所</strong>・<strong>内容</strong> … 分かる範囲で入れます。</li>
+    <li><strong>公開する</strong> を右（緑）にして、<span class="ui">Save</span> を押します。</li>
+  </ol>
+
+  <h3>「年中行事」との使い分け</h3>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>登録したいもの</th><th>使う項目</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>毎年決まっている祭典（例大祭・歳旦祭など）</td><td><strong>年中行事</strong></td></tr>
+        <tr><td>今年だけの予定（境内清掃・総会・臨時の祭典）</td><td><strong>予定・連絡</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>同じ行事を両方に入れてしまっても、サイトの上では自動で一つにまとめて表示されます。間違いにはなりませんのでご安心ください。</p>
+
+  <div class="note">
+    <span class="note-label">日が過ぎた予定</span>
+    <p>日付が過ぎたものは「次の行事」から自動で消えます。放っておいても古い予定が残り続けることはありません。</p>
+  </div>
+
+  <h2 id="goshuin">6. 御朱印の案内を直す</h2>
+
+  <p>初穂料や受付時間は、いまは「社務所にてお尋ねください」となっています。実際の金額・時間を出す場合はここを書き換えます。</p>
+
+  <ol class="steps">
+    <li>左から <strong>御朱印</strong> を選びます。</li>
+    <li><strong>初穂料</strong>・<strong>受付時間</strong>・<strong>受付場所</strong> の欄を、実際の内容に書き換えます。</li>
+    <li>限定の御朱印を出すときは、下の <strong>限定御朱印</strong> の欄に名称・頒布期間・初穂料を入れ、<strong>公開する</strong> を右にします。</li>
+    <li><span class="ui">Save</span> を押します。</li>
+  </ol>
+
+  <h2 id="photo">7. 写真を入れる</h2>
+
+  <ol class="steps">
+    <li>あらかじめ、パソコンに写真を用意しておきます。</li>
+    <li>入力欄の中の <strong>写真</strong> の場所を押します。</li>
+    <li>ファイルを選ぶ画面が出たら、載せたい写真を選びます。<br>（写真をそのまま枠の上にドラッグしても入ります）</li>
+    <li>小さな見本が表示されれば入っています。</li>
+    <li><span class="ui">Save</span> を押します。</li>
+  </ol>
+
+  <div class="note">
+    <span class="note-label">写真のこつ</span>
+    <p>横向き（横長）の写真がきれいに収まります。スマートフォンで撮った写真もそのまま使えます。うまく入らないときは、無理をせず写真なしで保存しても構いません。文字だけでも問題なく表示されます。</p>
+  </div>
+
+  <h2 id="hide">8. いったん隠す・並び替える</h2>
+
+  <h3>隠す（消さずに見えなくする）</h3>
+  <p>どの項目にも <strong>公開する</strong> というつまみがあります。</p>
+  <ul class="plain">
+    <li><strong>右（緑）</strong> … サイトに表示されます</li>
+    <li><strong>左（灰色）</strong> … サイトから消えますが、記録は残ります</li>
+  </ul>
+  <p>季節のもの、終わった行事は<strong>消さずに左にしておく</strong>のがおすすめです。翌年また右に戻すだけで使えます。</p>
+
+  <h3>並び順を変える</h3>
+  <p><strong>並び順</strong> という数字の欄があります。<strong>数字の小さいものが先に</strong>表示されます。いちばん上に出したいものを 1、次を 2、というように入れてください。</p>
+  <p>「お知らせ」だけは日付の新しい順に自動で並ぶため、この欄はありません。</p>
+
+  <h2 id="after">9. 保存したあと</h2>
+
+  <ol class="steps">
+    <li><span class="ui">Save</span> を押します。</li>
+    <li><strong>5分ほど待ちます。</strong>この間に、機械が自動でサイトを作り直しています。</li>
+    <li>神社のサイトを開いて、変わったことを確かめます。<br><a href="https://eva3807.github.io/kunisaka-shrine/">eva3807.github.io/kunisaka-shrine/</a><br>（前ページのQRコードからも開けます）</li>
+  </ol>
+
+  <div class="note">
+    <span class="note-label">変わっていないように見えるとき</span>
+    <p>まだ作り直しの途中かもしれません。もう5分待ってから、キーボードの <span class="ui">Ctrl</span> を押しながら <span class="ui">F5</span> を押してください。画面が新しく読み込み直されます。</p>
+  </div>
+
+  <h2 id="trouble">10. 困ったとき</h2>
+
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>こんなとき</th><th>どうするか</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>保存しても<br>サイトが変わらない</td>
+          <td>まず10分待ちます。それでも変わらなければ、そのままにして連絡してください。<strong>何度も保存し直す必要はありません。</strong></td>
+        </tr>
+        <tr>
+          <td>間違えて保存した</td>
+          <td>あわてなくて大丈夫です。書き換えの記録はすべて残っており、いつでも元に戻せます。連絡してください。</td>
+        </tr>
+        <tr>
+          <td>間違えて消した</td>
+          <td>同じく元に戻せます。ご自分で直そうとせず、そのままにしておいてください。</td>
+        </tr>
+        <tr>
+          <td>ログインできない</td>
+          <td>画面を一度閉じて、もう一度 app.pagescms.org から開き直してください。それでも入れなければ連絡してください。</td>
+        </tr>
+        <tr>
+          <td>英語の画面が出て<br>分からない</td>
+          <td>むやみに押さず、画面をそのままにして写真を撮っておいてください。何が出ているかが分かれば対応できます。</td>
+        </tr>
+        <tr>
+          <td>画面の見た目を<br>変えたい</td>
+          <td>色や配置の変更は管理画面ではできません。ご相談ください。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warn">
+    <span class="warn-label">迷ったら</span>
+    <p><strong>何もせずそのままにしておくのが、いちばん安全です。</strong>この仕組みは、書き換えの記録がすべて残るようになっています。壊れて取り返しがつかなくなることはありません。</p>
+  </div>
+
+  <h2 id="dont">11. しなくてよいこと</h2>
+
+  <p>次のことは、いっさい気にしなくて構いません。</p>
+
+  <ul class="plain">
+    <li>バックアップを取る … 自動で記録が残ります</li>
+    <li>英語の画面や記号の意味を調べる … 使うのは日本語の欄だけです</li>
+    <li><strong>サイト基本情報</strong> の「Googleマップ埋め込みURL」を直す … 触らなくて結構です</li>
+    <li>「内部メモ」と書かれた欄 … サイトには出ません。空欄のままで構いません</li>
+    <li>作業をまとめてから保存する … 一つ直すごとに保存して構いません</li>
+  </ul>
+
+  <div class="closing">
+    <h2>覚えておくのは三つだけ</h2>
+    <ul class="big-three">
+      <li><span>一</span>app.pagescms.org から入る</li>
+      <li><span>二</span>書き終えたら、右上の Save を押す</li>
+      <li><span>三</span>困ったら、そのままにして連絡する</li>
+    </ul>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script>
+  // QRコードを描く。読み取れるよう常に白地・黒で描画する。
+  // 読み込みに失敗した場合は、下のURL表記だけで用が足りるようにしてある。
+  (function () {
+    var boxes = document.querySelectorAll('.qr-canvas');
+    if (typeof QRious === 'undefined') {
+      boxes.forEach(function (box) { box.style.display = 'none'; });
+      return;
+    }
+    boxes.forEach(function (box) {
+      var canvas = document.createElement('canvas');
+      box.appendChild(canvas);
+      new QRious({
+        element: canvas,
+        value: box.dataset.qr,
+        size: 264,          // 印刷しても粗くならないよう大きめに描く
+        level: 'M',
+        background: '#ffffff',
+        foreground: '#000000'
+        // padding は指定しない（読み取りに必要な余白を自動で確保させる）
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
