@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://eva3807.github.io/kunisaka-shrine/sitemap.xml
