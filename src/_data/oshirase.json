@@ -19,7 +19,7 @@
       "title": "テスト",
       "body": "お知らせテスト",
       "important": false,
-      "published": true
+      "published": false
     }
   ]
 }
