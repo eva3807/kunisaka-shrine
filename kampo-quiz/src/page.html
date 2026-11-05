@@ -1,0 +1,175 @@
+<title>漢方小テスト道場</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Shippori+Mincho+B1:wght@600;800&display=swap">
+<style>
+/* レイアウト：1カラムの問題カード＋上部タブ。薬箪笥の引き出しラベルのような札（タグ）で分類を示す */
+:root {
+  --bg: #eef1ee; --paper: #fbfcfa; --fg: #1d2622; --muted: #5d6b64; --line: #cdd6d0;
+  --accent: #2f4f7a; --accent-weak: #dfe6f1; --ochre: #a8761a; --ochre-weak: #f4e9d2;
+  --ok: #1f7a4a; --ok-weak: #dcefe3; --ng: #b3322f; --ng-weak: #f6dedd;
+  --f-disp: "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --f-body: "BIZ UDPGothic", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141a17; --paper: #1c2420; --fg: #e4ebe6; --muted: #9aa8a0; --line: #33403a;
+  --accent: #9db8e3; --accent-weak: #253247; --ochre: #e0b45c; --ochre-weak: #3a3020;
+  --ok: #6fd19b; --ok-weak: #1d3a2a; --ng: #f08a86; --ng-weak: #432423; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #141a17; --paper: #1c2420; --fg: #e4ebe6; --muted: #9aa8a0; --line: #33403a;
+  --accent: #9db8e3; --accent-weak: #253247; --ochre: #e0b45c; --ochre-weak: #3a3020;
+  --ok: #6fd19b; --ok-weak: #1d3a2a; --ng: #f08a86; --ng-weak: #432423; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 16px; line-height: 1.7; }
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 64px; }
+header.top { display: grid; gap: 4px; margin-bottom: 14px; }
+h1 { font-family: var(--f-disp); font-weight: 800; font-size: 1.9rem; letter-spacing: .04em; margin: 0; text-wrap: balance; }
+h1 span { color: var(--ochre); }
+.sub-h { color: var(--muted); font-size: .85rem; margin: 0; }
+nav.tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--line); margin-bottom: 16px; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 5; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+nav.tabs button { flex: 1; font: inherit; font-weight: 700; background: none; border: 0; padding: 10px 6px; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -2px; cursor: pointer; }
+nav.tabs button[aria-selected="true"] { color: var(--accent); border-color: var(--accent); }
+details#settings { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 4px 14px; margin-bottom: 14px; }
+details#settings summary { cursor: pointer; font-weight: 700; padding: 8px 0; }
+details#settings summary small { font-weight: 400; color: var(--muted); }
+.fg { display: grid; gap: 6px; margin: 10px 0 14px; }
+.fg > span { font-size: .78rem; color: var(--muted); letter-spacing: .08em; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: inherit; font-size: .88rem; border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 6px; padding: 5px 10px; cursor: pointer; display: inline-flex; gap: 6px; align-items: baseline; }
+.chip small { font-size: .72rem; opacity: .8; font-variant-numeric: tabular-nums; }
+.chip[aria-pressed="true"] { background: var(--accent-weak); border-color: var(--accent); color: var(--fg); }
+select, .radios label { font: inherit; font-size: .9rem; }
+select { padding: 5px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--paper); color: var(--fg); max-width: 100%; }
+.radios { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.startrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 6px 0 12px; }
+.btn { font: inherit; font-weight: 700; border-radius: 8px; padding: 10px 18px; border: 1px solid var(--line); background: var(--paper); color: var(--fg); cursor: pointer; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.btn:focus-visible, .choice:focus-visible, .chip:focus-visible, input:focus-visible { outline: 3px solid var(--ochre); outline-offset: 2px; }
+kbd { font-family: var(--f-body); font-size: .7rem; border: 1px solid currentColor; border-radius: 4px; padding: 0 4px; margin-left: 6px; opacity: .7; }
+#sess { font-size: .85rem; color: var(--muted); margin: 0 0 8px; font-variant-numeric: tabular-nums; }
+#sess b { color: var(--fg); }
+#qcard { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 18px 18px 20px; scroll-margin-top: 60px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 10px; }
+.tag { font-size: .75rem; padding: 2px 8px; border-radius: 4px; background: var(--ochre-weak); color: var(--ochre); font-weight: 700; letter-spacing: .04em; }
+.tag.sub { background: var(--accent-weak); color: var(--accent); }
+.tag.lv3 { background: var(--ng-weak); color: var(--ng); }
+.tag.lv1, .tag.lv2 { background: transparent; border: 1px solid var(--line); color: var(--muted); font-weight: 400; }
+.hist { font-size: .75rem; color: var(--muted); margin-left: auto; }
+.qtext { font-size: 1.08rem; font-weight: 700; margin: 4px 0 12px; }
+.hint { font-size: .8rem; color: var(--ochre); margin: -6px 0 10px; }
+.choices { list-style: none; padding: 0; margin: 0 0 14px; display: grid; gap: 8px; }
+.choices.multi { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.choice { width: 100%; text-align: left; font: inherit; display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line); background: var(--bg); color: var(--fg); border-radius: 8px; padding: 10px 12px; cursor: pointer; min-height: 46px; }
+.choice .no { font-variant-numeric: tabular-nums; color: var(--muted); font-size: .85rem; min-width: 1.2em; }
+.choice .tx { min-width: 0; }
+.choice[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-weak); }
+.choice.right { border-color: var(--ok); background: var(--ok-weak); }
+.choice.right.missed { border-style: dashed; }
+.choice.wrong { border-color: var(--ng); background: var(--ng-weak); }
+.choice.dim { opacity: .55; }
+.choice:disabled { cursor: default; color: var(--fg); }
+.inp { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.inp input { flex: 1 1 200px; min-width: 0; font: inherit; font-size: 1.05rem; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
+.verdict { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; padding: 10px 14px; border-radius: 8px; margin-bottom: 10px; }
+.verdict b { font-family: var(--f-disp); font-size: 1.3rem; }
+.verdict.ok { background: var(--ok-weak); color: var(--ok); }
+.verdict.ng { background: var(--ng-weak); color: var(--ng); }
+.verdict span { color: var(--fg); font-weight: 700; }
+.exp { font-size: .92rem; line-height: 1.8; border-left: 3px solid var(--ochre); padding: 4px 0 4px 12px; margin-bottom: 14px; overflow-wrap: anywhere; }
+.empty { color: var(--muted); }
+/* 構成表 */
+.tbar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; align-items: center; }
+#tgroup { display: flex; flex-wrap: wrap; gap: 6px; }
+#tbl { display: grid; gap: 10px; }
+.fcard { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.fcard header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.fcard h3 { font-family: var(--f-disp); font-size: 1.2rem; margin: 0; }
+.fcard .yomi { color: var(--muted); font-size: .8rem; }
+.fcard .cnt { margin-left: auto; font-weight: 700; color: var(--ochre); font-variant-numeric: tabular-nums; }
+.herbs { list-style: none; padding: 0; margin: 8px 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.herbs li { border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; display: inline-flex; gap: 6px; align-items: baseline; background: var(--bg); }
+.herbs .hn { font-weight: 700; }
+.herbs .hr, .herbs .g { font-size: .72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.herbs.hide li { cursor: pointer; }
+.herbs.hide li:not(.open) > * { visibility: hidden; }
+.herbs.hide li:not(.open) { background: var(--accent-weak); }
+.use { font-size: .85rem; color: var(--muted); margin: 0; }
+/* 成績 */
+.tw { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: .88rem; font-variant-numeric: tabular-nums; background: var(--paper); }
+th, td { border-bottom: 1px solid var(--line); padding: 8px; text-align: left; white-space: nowrap; }
+.bar { display: inline-block; width: 70px; height: 8px; background: var(--line); border-radius: 4px; margin-right: 6px; vertical-align: middle; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--ok); }
+.note, .lead { font-size: .85rem; color: var(--muted); }
+.confirm { border: 1px solid var(--ng); background: var(--ng-weak); border-radius: 8px; padding: 12px; margin-top: 10px; display: grid; gap: 8px; }
+.confirm div { display: flex; gap: 8px; flex-wrap: wrap; }
+.disclaimer { font-size: .78rem; color: var(--muted); margin-top: 28px; border-top: 1px solid var(--line); padding-top: 10px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1>漢方<span>小テスト</span>道場</h1>
+    <p class="sub-h" id="total"></p>
+  </header>
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-quiz" aria-selected="true">演習</button>
+    <button role="tab" id="tab-table" aria-selected="false">構成表で暗記</button>
+    <button role="tab" id="tab-stats" aria-selected="false">成績</button>
+  </nav>
+
+  <section id="view-quiz">
+    <details id="settings">
+      <summary>出題範囲を選ぶ <small>（対象 <span id="pool-n"></span> 型）</small></summary>
+      <div class="fg"><span>まとめて選ぶ</span>
+        <select id="f-onlycat" aria-label="分類をまとめて選ぶ">
+          <option value="">— 選んでください —</option>
+          <option value="all">全分類</option>
+          <option value="past">小テスト1〜3の範囲</option>
+          <option value="next">第4回の予想範囲（麻黄剤・柴胡剤ほか）</option>
+          <option value="過去の小テスト">過去の小テスト（実物28問）だけ</option><option value="総論">総論だけ</option><option value="基礎理論">基礎理論だけ</option>
+          <option value="桂枝湯類">桂枝湯類だけ</option><option value="生薬">生薬だけ</option>
+          <option value="麻黄剤(予想)">麻黄剤だけ</option><option value="柴胡剤(予想)">柴胡剤だけ</option><option value="その他処方(予想)">その他処方だけ</option>
+        </select>
+      </div>
+      <div class="fg"><span>分類</span><div class="chips" id="f-cats"></div></div>
+      <div class="fg"><span>問題の種類</span><div class="chips" id="f-src"></div></div>
+      <div class="fg"><span>形式</span><div class="chips" id="f-types"></div></div>
+      <div class="fg"><span>難易度</span><div class="chips" id="f-levels"></div></div>
+      <div class="fg"><span>出題の順番</span>
+        <div class="radios">
+          <label><input type="radio" name="order" value="weak" id="o-weak"> 苦手・未出題を優先</label>
+          <label><input type="radio" name="order" value="random" id="o-random"> 完全ランダム</label>
+          <label><input type="radio" name="order" value="wrong" id="o-wrong"> 間違えた問題だけ</label>
+        </div>
+      </div>
+      <div class="startrow"><button class="btn primary" id="start" type="button">この範囲で始める</button></div>
+    </details>
+    <p id="sess"></p>
+    <div id="qcard"></div>
+  </section>
+
+  <section id="view-table" hidden>
+    <div class="tbar">
+      <div id="tgroup">
+        <button class="chip" data-g="keishi">桂枝湯類</button><button class="chip" data-g="mao">麻黄剤</button>
+        <button class="chip" data-g="saiko">柴胡剤</button><button class="chip" data-g="other">その他</button><button class="chip" data-g="all">全部</button>
+      </div>
+      <button class="chip" id="hide" type="button">生薬をかくす（タップでめくる）</button>
+    </div>
+    <div id="tbl"></div>
+  </section>
+
+  <section id="view-stats" hidden>
+    <div id="stats"></div>
+    <button class="btn" id="reset" type="button">成績の記録を消す</button>
+    <div class="confirm" id="reset-confirm" hidden>
+      <span>これまでの正誤の記録をすべて消します。元に戻せません。消してよいですか？</span>
+      <div><button class="btn" id="reset-yes" type="button">消す</button><button class="btn primary" id="reset-no" type="button">やめる</button></div>
+    </div>
+  </section>
+
+  <p class="disclaimer">処方構成と1日量はツムラ医療用漢方製剤を基準にしています。メーカーにより蒼朮/白朮・桂皮/桂枝の表記や量が違うことがあるので、講義スライドの表記を優先してください。「(予想)」の分類は第4回の範囲を小テスト1〜3の流れから予想したものです。</p>
+</div>
+<!--SCRIPTS-->
