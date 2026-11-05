@@ -10,7 +10,7 @@ if (inputs.length) {
   console.log("questions:", all.length);
 }
 const read = (p) => fs.readFileSync(dir + p, "utf8");
-const scripts = ["formulas.js", "src/questions.js", "src/engine.js", "src/app.js"]
+const scripts = ["formulas.js", "src/ruby.js", "src/questions.js", "src/engine.js", "src/app.js"]
   .map((p) => `<script>\n${read(p).replace(/<\/script/gi, "<\\/script")}\n</script>`).join("\n");
 const page = read("src/page.html").replace("<!--SCRIPTS-->", () => scripts);
 fs.writeFileSync(dir + "artifact.html", page);

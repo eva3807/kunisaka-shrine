@@ -3,6 +3,8 @@
   const K = window.KAMPO;
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  // 生薬・処方名にふりがな（読みを答える問題では付けない）
+  const rb = (s) => { const h = esc(s); return cur && /読み/.test(cur.q) ? h : window.addRuby(h); };
   const hash = (s) => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); };
 
   // ---------- 保存（この端末のブラウザ内のみ） ----------
@@ -19,7 +21,7 @@
   const CAT_NOTE = { "総論": "小テスト1", "基礎理論": "小テスト2", "桂枝湯類": "小テスト3", "生薬": "小テスト3" };
   const TYPES = { single: "1つ選ぶ", multi: "すべて選ぶ", tf: "正誤", input: "記述" };
 
-  const defaults = { cats: CATS.slice(), src: ["static", "gen"], types: Object.keys(TYPES), levels: [1, 2, 3], order: "weak" };
+  const defaults = { cats: CATS.slice(), src: ["static", "gen"], types: Object.keys(TYPES), levels: [1, 2, 3], order: "weak", ruby: true };
   let cfg = Object.assign({}, defaults, store.get("cfg", {}));
   cfg.cats = cfg.cats.filter((c) => CATS.includes(c));
 
@@ -59,6 +61,10 @@
       && (q.gen || cfg.types.includes(q.type))
       && (cfg.order !== "wrong" || (stats[q.id] && stats[q.id].w > 0 && stats[q.id].streak < 2)));
   }
+
+  // ふりがなの表示切り替え（CSSで rt を隠すだけなので、解いている途中でも即反映）
+  function applyRuby() { document.body.classList.toggle("noruby", !cfg.ruby); $("#ruby-on").checked = cfg.ruby; }
+  $("#ruby-on").addEventListener("change", (e) => { cfg.ruby = e.target.checked; store.set("cfg", cfg); applyRuby(); });
 
   // ---------- 出題の選び方 ----------
   let recent = [];
@@ -103,11 +109,11 @@
     if (cur.type === "input") {
       body = `<form id="inp" class="inp" autocomplete="off"><input id="ans" type="text" inputmode="text" placeholder="漢字・ひらがな・カタカナ可" aria-label="解答"><button class="btn primary" type="submit">判定</button></form>`;
     } else {
-      body = `<ol class="choices ${cur.type}">` + cur.choices.map((c, i) => `<li><button type="button" class="choice" data-i="${i}" aria-pressed="false"><span class="no">${i + 1}</span><span class="tx">${esc(c)}</span></button></li>`).join("") + `</ol>`;
+      body = `<ol class="choices ${cur.type}">` + cur.choices.map((c, i) => `<li><button type="button" class="choice" data-i="${i}" aria-pressed="false"><span class="no">${i + 1}</span><span class="tx">${rb(c)}</span></button></li>`).join("") + `</ol>`;
       if (cur.type === "multi") body += `<button id="judge" class="btn primary" type="button">判定（すべて選んだら）</button>`;
     }
     box.innerHTML = `<div class="meta"><span class="tag">${esc(cur.cat)}</span><span class="tag sub">${esc(cur.sub || "")}</span><span class="tag lv${cur.level}">${["", "基本", "標準", "重箱の隅"][cur.level]}</span><span class="hist">${hist}</span></div>
-      <p class="qtext">${esc(cur.q).replace(/\n/g, "<br>")}</p>${cur.type === "multi" ? `<p class="hint">正解はいくつあるか分かりません。すべて選んでから判定。</p>` : ""}${body}<div id="result"></div>`;
+      <p class="qtext">${rb(cur.q).replace(/\n/g, "<br>")}</p>${cur.type === "multi" ? `<p class="hint">正解はいくつあるか分かりません。すべて選んでから判定。</p>` : ""}${body}<div id="result"></div>`;
     if (cur.type === "input") { const f = $("#inp"); f.addEventListener("submit", (e) => { e.preventDefault(); judge(); }); setTimeout(() => $("#ans").focus({ preventScroll: true }), 30); }
     renderSess();
   }
@@ -145,10 +151,10 @@
     if (ok) { s.c++; s.streak++; } else { s.w++; s.streak = 0; }
     s.last = Date.now(); s.cat = cur.cat; stats[cur.id] = s; store.set("stats", stats);
     sess.n++; if (ok) { sess.ok++; sess.streak++; } else sess.streak = 0;
-    const ansText = cur.type === "input" ? `正解：${esc(cur.answer[0])}` + (cur.answer.length > 1 ? `（${cur.answer.slice(1).map(esc).join("／")} も可）` : "")
+    const ansText = cur.type === "input" ? `正解：${rb(cur.answer[0])}` + (cur.answer.length > 1 ? `（${cur.answer.slice(1).map(esc).join("／")} も可）` : "")
       : `正解：${cur.answer.map((i) => i + 1).sort((a, b) => a - b).join("・")}`;
     $("#result").innerHTML = `<div class="verdict ${ok ? "ok" : "ng"}" role="status"><b>${ok ? "正解" : "不正解"}</b><span>${ansText}</span></div>
-      <div class="exp">${esc(cur.exp || "").replace(/\n/g, "<br>")}</div>
+      <div class="exp">${rb(cur.exp || "").replace(/\n/g, "<br>")}</div>
       <button id="next" class="btn primary" type="button">次の問題 <kbd>Enter</kbd></button>`;
     $("#next").addEventListener("click", show);
     $("#next").focus({ preventScroll: true });
@@ -210,5 +216,5 @@
   $("#start").addEventListener("click", () => { $("#settings").open = false; sess = { n: 0, ok: 0, streak: 0 }; recent = []; show(); $("#qcard").scrollIntoView({ behavior: "smooth", block: "start" }); });
 
   $("#total").textContent = `知識問題 ${STATIC.length}問 ＋ 自動生成 ${K.T.length}型（毎回選択肢が変わる）`;
-  renderSettings(); show();
+  applyRuby(); renderSettings(); show();
 })();

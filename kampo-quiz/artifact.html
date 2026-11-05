@@ -78,6 +78,13 @@ kbd { font-family: var(--f-body); font-size: .7rem; border: 1px solid currentCol
 .verdict span { color: var(--fg); font-weight: 700; }
 .exp { font-size: .92rem; line-height: 1.8; border-left: 3px solid var(--ochre); padding: 4px 0 4px 12px; margin-bottom: 14px; overflow-wrap: anywhere; }
 .empty { color: var(--muted); }
+ruby { ruby-position: over; }
+rt { font-size: .55em; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+.noruby rt { display: none; }
+.qtext, .choice .tx, .exp { line-height: 2.05; }
+.sessrow { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 12px; margin-bottom: 8px; }
+.sessrow #sess { margin: 0; }
+.rtoggle { font-size: .85rem; display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
 /* 構成表 */
 .tbar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; align-items: center; }
 #tgroup { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -146,7 +153,7 @@ th, td { border-bottom: 1px solid var(--line); padding: 8px; text-align: left; w
       </div>
       <div class="startrow"><button class="btn primary" id="start" type="button">この範囲で始める</button></div>
     </details>
-    <p id="sess"></p>
+    <div class="sessrow"><p id="sess"></p><label class="rtoggle" for="ruby-on"><input type="checkbox" id="ruby-on"> 生薬・処方名にふりがな</label></div>
     <div id="qcard"></div>
   </section>
 
@@ -261,6 +268,37 @@ window.FORMULAS = [
   {name:"十全大補湯",yomi:"じゅうぜんたいほとう",no:48,group:"other",herbs:{"黄耆":3,"桂皮":3,"地黄":3,"芍薬":3,"蒼朮":3,"川芎":3,"当帰":3,"人参":3,"茯苓":3,"甘草":1.5},
    use:"病後の体力低下、疲労倦怠、食欲不振、寝汗、手足の冷え、貧血（気血両虚）"}
 ];
+
+</script>
+<script>
+// ふりがな辞書：formulas.js の生薬・処方に加え、問題文に出てくる生薬・処方の読み
+(function () {
+  const extra = {
+    // 生薬（formulas.js にないもの・別表記）
+    "桂枝": "けいし", "白朮": "びゃくじゅつ", "紫蘇葉": "しそよう", "香附子": "こうぶし", "黄連": "おうれん",
+    "黄柏": "おうばく", "芒硝": "ぼうしょう", "滑石": "かっせき", "牛黄": "ごおう", "紫根": "しこん",
+    "山茱萸": "さんしゅゆ", "阿膠": "あきょう", "防風": "ぼうふう", "知母": "ちも", "粳米": "こうべい",
+    "蜜蝋": "みつろう", "豚脂": "とんし", "牡蠣": "ぼれい", "龍骨": "りゅうこつ", "釣藤鉤": "ちょうとうこう",
+    // 処方
+    "桃核承気湯": "とうかくじょうきとう", "白虎加人参湯": "びゃっこかにんじんとう", "白虎湯": "びゃっことう",
+    "紫雲膏": "しうんこう", "香蘇散": "こうそさん", "大承気湯": "だいじょうきとう", "小承気湯": "しょうじょうきとう",
+    "調胃承気湯": "ちょういじょうきとう", "承気湯": "じょうきとう", "八味地黄丸": "はちみじおうがん",
+    "半夏瀉心湯": "はんげしゃしんとう", "三黄瀉心湯": "さんおうしゃしんとう", "瀉心湯": "しゃしんとう",
+    "通仙散": "つうせんさん", "麻沸散": "まふつさん", "潤肌膏": "じゅんきこう", "甘草湯": "かんぞうとう",
+    "黄連解毒湯": "おうれんげどくとう", "医王湯": "いおうとう", "逍遙散": "しょうようさん",
+    "人参養栄湯": "にんじんようえいとう", "理中丸": "りちゅうがん", "理中湯": "りちゅうとう",
+    "大青竜湯": "だいせいりゅうとう", "牛車腎気丸": "ごしゃじんきがん", "大黄牡丹皮湯": "だいおうぼたんぴとう",
+    "防風通聖散": "ぼうふうつうしょうさん", "辛夷清肺湯": "しんいせいはいとう", "小半夏湯": "しょうはんげとう",
+    "八珍湯": "はっちんとう",
+  };
+  const dict = Object.assign({}, extra, window.HERB_READING);
+  for (const f of window.FORMULAS) dict[f.name] = f.yomi;
+  // 長い語から先に当てる（桂枝加芍薬湯 → 桂枝湯 → 芍薬 の順）
+  const words = Object.keys(dict).sort((a, b) => b.length - a.length);
+  const re = new RegExp(words.join("|"), "g");
+  // すでにHTMLエスケープ済みの文字列に <ruby> を差し込む
+  window.addRuby = (html) => html.replace(re, (w) => `<ruby>${w}<rt>${dict[w]}</rt></ruby>`);
+})();
 
 </script>
 <script>
@@ -1076,6 +1114,8 @@ window.QBANK = [
   const K = window.KAMPO;
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  // 生薬・処方名にふりがな（読みを答える問題では付けない）
+  const rb = (s) => { const h = esc(s); return cur && /読み/.test(cur.q) ? h : window.addRuby(h); };
   const hash = (s) => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); };
 
   // ---------- 保存（この端末のブラウザ内のみ） ----------
@@ -1092,7 +1132,7 @@ window.QBANK = [
   const CAT_NOTE = { "総論": "小テスト1", "基礎理論": "小テスト2", "桂枝湯類": "小テスト3", "生薬": "小テスト3" };
   const TYPES = { single: "1つ選ぶ", multi: "すべて選ぶ", tf: "正誤", input: "記述" };
 
-  const defaults = { cats: CATS.slice(), src: ["static", "gen"], types: Object.keys(TYPES), levels: [1, 2, 3], order: "weak" };
+  const defaults = { cats: CATS.slice(), src: ["static", "gen"], types: Object.keys(TYPES), levels: [1, 2, 3], order: "weak", ruby: true };
   let cfg = Object.assign({}, defaults, store.get("cfg", {}));
   cfg.cats = cfg.cats.filter((c) => CATS.includes(c));
 
@@ -1132,6 +1172,10 @@ window.QBANK = [
       && (q.gen || cfg.types.includes(q.type))
       && (cfg.order !== "wrong" || (stats[q.id] && stats[q.id].w > 0 && stats[q.id].streak < 2)));
   }
+
+  // ふりがなの表示切り替え（CSSで rt を隠すだけなので、解いている途中でも即反映）
+  function applyRuby() { document.body.classList.toggle("noruby", !cfg.ruby); $("#ruby-on").checked = cfg.ruby; }
+  $("#ruby-on").addEventListener("change", (e) => { cfg.ruby = e.target.checked; store.set("cfg", cfg); applyRuby(); });
 
   // ---------- 出題の選び方 ----------
   let recent = [];
@@ -1176,11 +1220,11 @@ window.QBANK = [
     if (cur.type === "input") {
       body = `<form id="inp" class="inp" autocomplete="off"><input id="ans" type="text" inputmode="text" placeholder="漢字・ひらがな・カタカナ可" aria-label="解答"><button class="btn primary" type="submit">判定</button></form>`;
     } else {
-      body = `<ol class="choices ${cur.type}">` + cur.choices.map((c, i) => `<li><button type="button" class="choice" data-i="${i}" aria-pressed="false"><span class="no">${i + 1}</span><span class="tx">${esc(c)}</span></button></li>`).join("") + `</ol>`;
+      body = `<ol class="choices ${cur.type}">` + cur.choices.map((c, i) => `<li><button type="button" class="choice" data-i="${i}" aria-pressed="false"><span class="no">${i + 1}</span><span class="tx">${rb(c)}</span></button></li>`).join("") + `</ol>`;
       if (cur.type === "multi") body += `<button id="judge" class="btn primary" type="button">判定（すべて選んだら）</button>`;
     }
     box.innerHTML = `<div class="meta"><span class="tag">${esc(cur.cat)}</span><span class="tag sub">${esc(cur.sub || "")}</span><span class="tag lv${cur.level}">${["", "基本", "標準", "重箱の隅"][cur.level]}</span><span class="hist">${hist}</span></div>
-      <p class="qtext">${esc(cur.q).replace(/\n/g, "<br>")}</p>${cur.type === "multi" ? `<p class="hint">正解はいくつあるか分かりません。すべて選んでから判定。</p>` : ""}${body}<div id="result"></div>`;
+      <p class="qtext">${rb(cur.q).replace(/\n/g, "<br>")}</p>${cur.type === "multi" ? `<p class="hint">正解はいくつあるか分かりません。すべて選んでから判定。</p>` : ""}${body}<div id="result"></div>`;
     if (cur.type === "input") { const f = $("#inp"); f.addEventListener("submit", (e) => { e.preventDefault(); judge(); }); setTimeout(() => $("#ans").focus({ preventScroll: true }), 30); }
     renderSess();
   }
@@ -1218,10 +1262,10 @@ window.QBANK = [
     if (ok) { s.c++; s.streak++; } else { s.w++; s.streak = 0; }
     s.last = Date.now(); s.cat = cur.cat; stats[cur.id] = s; store.set("stats", stats);
     sess.n++; if (ok) { sess.ok++; sess.streak++; } else sess.streak = 0;
-    const ansText = cur.type === "input" ? `正解：${esc(cur.answer[0])}` + (cur.answer.length > 1 ? `（${cur.answer.slice(1).map(esc).join("／")} も可）` : "")
+    const ansText = cur.type === "input" ? `正解：${rb(cur.answer[0])}` + (cur.answer.length > 1 ? `（${cur.answer.slice(1).map(esc).join("／")} も可）` : "")
       : `正解：${cur.answer.map((i) => i + 1).sort((a, b) => a - b).join("・")}`;
     $("#result").innerHTML = `<div class="verdict ${ok ? "ok" : "ng"}" role="status"><b>${ok ? "正解" : "不正解"}</b><span>${ansText}</span></div>
-      <div class="exp">${esc(cur.exp || "").replace(/\n/g, "<br>")}</div>
+      <div class="exp">${rb(cur.exp || "").replace(/\n/g, "<br>")}</div>
       <button id="next" class="btn primary" type="button">次の問題 <kbd>Enter</kbd></button>`;
     $("#next").addEventListener("click", show);
     $("#next").focus({ preventScroll: true });
@@ -1283,7 +1327,7 @@ window.QBANK = [
   $("#start").addEventListener("click", () => { $("#settings").open = false; sess = { n: 0, ok: 0, streak: 0 }; recent = []; show(); $("#qcard").scrollIntoView({ behavior: "smooth", block: "start" }); });
 
   $("#total").textContent = `知識問題 ${STATIC.length}問 ＋ 自動生成 ${K.T.length}型（毎回選択肢が変わる）`;
-  renderSettings(); show();
+  applyRuby(); renderSettings(); show();
 })();
 
 </script>

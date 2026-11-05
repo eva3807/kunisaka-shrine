@@ -78,6 +78,13 @@ kbd { font-family: var(--f-body); font-size: .7rem; border: 1px solid currentCol
 .verdict span { color: var(--fg); font-weight: 700; }
 .exp { font-size: .92rem; line-height: 1.8; border-left: 3px solid var(--ochre); padding: 4px 0 4px 12px; margin-bottom: 14px; overflow-wrap: anywhere; }
 .empty { color: var(--muted); }
+ruby { ruby-position: over; }
+rt { font-size: .55em; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+.noruby rt { display: none; }
+.qtext, .choice .tx, .exp { line-height: 2.05; }
+.sessrow { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 12px; margin-bottom: 8px; }
+.sessrow #sess { margin: 0; }
+.rtoggle { font-size: .85rem; display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
 /* 構成表 */
 .tbar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; align-items: center; }
 #tgroup { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -146,7 +153,7 @@ th, td { border-bottom: 1px solid var(--line); padding: 8px; text-align: left; w
       </div>
       <div class="startrow"><button class="btn primary" id="start" type="button">この範囲で始める</button></div>
     </details>
-    <p id="sess"></p>
+    <div class="sessrow"><p id="sess"></p><label class="rtoggle" for="ruby-on"><input type="checkbox" id="ruby-on"> 生薬・処方名にふりがな</label></div>
     <div id="qcard"></div>
   </section>
 
