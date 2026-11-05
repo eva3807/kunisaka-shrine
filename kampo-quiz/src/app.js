@@ -7,17 +7,18 @@
   const rb = (s) => { const h = esc(s); return cur && /読み/.test(cur.q) ? h : window.addRuby(h); };
   const hash = (s) => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); };
 
+  const KEY = (window.APP_KEY || "kampo") + ":";
   // ---------- 保存（この端末のブラウザ内のみ） ----------
   const store = {
-    get(k, d) { try { const v = localStorage.getItem("kampo:" + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
-    set(k, v) { try { localStorage.setItem("kampo:" + k, JSON.stringify(v)); } catch (e) {} },
+    get(k, d) { try { const v = localStorage.getItem(KEY + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(KEY + k, JSON.stringify(v)); } catch (e) {} },
   };
   let stats = store.get("stats", {}); // id -> {c, w, streak, last}
 
   // ---------- 問題プール ----------
   const STATIC = (window.QBANK || []).map((q) => ({ ...q, id: "s:" + hash(q.cat + q.q), gen: false }));
   const POOL = STATIC.concat(K.T);
-  const CATS = ["過去の小テスト", "総論", "基礎理論", "桂枝湯類", "生薬", "麻黄剤(予想)", "柴胡剤(予想)", "その他処方(予想)"];
+  const CATS = window.APP_CATS || ["過去の小テスト", "総論", "基礎理論", "桂枝湯類", "生薬", "麻黄剤(予想)", "柴胡剤(予想)", "その他処方(予想)"];
   const CAT_NOTE = { "総論": "小テスト1", "基礎理論": "小テスト2", "桂枝湯類": "小テスト3", "生薬": "小テスト3" };
   const TYPES = { single: "1つ選ぶ", multi: "すべて選ぶ", tf: "正誤", input: "記述" };
 
@@ -170,7 +171,7 @@
   }
 
   // ---------- 構成表（暗記） ----------
-  let hideHerbs = false, tableGroup = "keishi";
+  let hideHerbs = false, tableGroup = window.TABLE_DEFAULT || "keishi";
   function renderTable() {
     const fs = window.FORMULAS.filter((f) => tableGroup === "all" || f.group === tableGroup);
     $("#tbl").innerHTML = fs.map((f) => {

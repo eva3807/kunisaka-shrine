@@ -5,7 +5,7 @@
   const F = window.FORMULAS;
   const R = window.HERB_READING;
   const BYNAME = Object.fromEntries(F.map((f) => [f.name, f]));
-  const GROUP_CAT = { keishi: "桂枝湯類", mao: "麻黄剤(予想)", saiko: "柴胡剤(予想)", other: "その他処方(予想)" };
+  const GROUP_CAT = window.GROUP_CAT || { keishi: "桂枝湯類", mao: "麻黄剤(予想)", saiko: "柴胡剤(予想)", other: "その他処方(予想)" };
   // 別表記として受け付ける名前（記述問題用）
   const ALIAS = { "桂皮": ["桂枝", "けいし", "ケイシ"], "蒼朮": ["朮", "白朮"], "生姜": ["しょうが", "ショウガ"], "牡蛎": ["牡蠣"], "竜骨": ["龍骨"], "釣藤鈎": ["釣藤鉤", "釣藤"], "栝楼根": ["瓜呂根"] };
 
@@ -16,6 +16,7 @@
   const sample = (a, n) => shuffle(a).slice(0, n);
   const herbsOf = (f) => Object.keys(f.herbs);
   const uniq = (a) => [...new Set(a)];
+  const catOf = (f) => f.cat || GROUP_CAT[f.group];
   const groupOf = (g) => F.filter((f) => f.group === g);
   const ALL_HERBS = Object.keys(R);
 
@@ -59,7 +60,7 @@
   function add(id, cat, sub, level, make) { T.push({ id, cat, sub, level, gen: true, make }); }
 
   for (const f of F) {
-    const cat = GROUP_CAT[f.group];
+    const cat = catOf(f);
     const hs = herbsOf(f);
 
     add(`g:all:${f.name}`, cat, "構成生薬（すべて選べ）", 1, () => {
@@ -161,7 +162,7 @@
     if (hb.length < 3 || !hb.every((h) => ha.includes(h)) || ha.length === hb.length) continue;
     const added = ha.filter((h) => !hb.includes(h));
     if (added.length > 3) continue;
-    add(`g:add:${a.name}:${b.name}`, GROUP_CAT[a.group], "加味（何を加えたか）", 2, () => {
+    add(`g:add:${a.name}:${b.name}`, catOf(a), "加味（何を加えたか）", 2, () => {
       if (added.length === 1) return { type: "input", q: `${a.name}の構成生薬を${b.name}と比べたとき、${b.name}にない生薬（加えられている生薬）を答えなさい。`, answer: herbAnswers(added[0]), exp: compNote(a) + "\n" + compNote(b), formula: a.name };
       const ch = shuffle(added.concat(distractHerbs(ha, a.group, 6 - added.length)));
       return { type: "multi", q: `${a.name}の構成生薬を${b.name}と比べたとき、${b.name}にない生薬（加えられている生薬）をすべて選べ。`, choices: ch, answer: added.map((h) => ch.indexOf(h)), exp: compNote(a) + "\n" + compNote(b), formula: a.name };
@@ -170,6 +171,7 @@
 
   // 増量（講義で扱う定番の組だけに限定）
   for (const [a, b, h] of [["桂枝加芍薬湯", "桂枝湯", "芍薬"], ["小建中湯", "桂枝湯", "芍薬"]]) {
+    if (!BYNAME[a] || !BYNAME[b]) continue;
     add(`g:inc:${a}`, "桂枝湯類", "増量されている生薬", 1, () => ({
       type: "input", q: `${a}で、${b}と比べて増量されている生薬を答えなさい。`, answer: herbAnswers(h),
       exp: `${h}：${b} ${BYNAME[b].herbs[h]}g → ${a} ${BYNAME[a].herbs[h]}g（ツムラ1日量）\n` + compNote(BYNAME[a]) + "\n" + compNote(BYNAME[b]), formula: a,
@@ -177,7 +179,7 @@
   }
 
   // 生薬の読み
-  for (const h of ALL_HERBS) add(`g:hyomi:${h}`, "生薬", "読み方", 1, () => ({ type: "input", q: `生薬「${h}」の読みをひらがなで答えなさい。`, answer: [R[h], ...(ALIAS[h] || []).filter((x) => /^[ぁ-ん]+$/.test(x))], exp: `${h}＝${R[h]}` }));
+  for (const h of uniq(F.flatMap(herbsOf))) add(`g:hyomi:${h}`, "生薬", "読み方", 1, () => ({ type: "input", q: `生薬「${h}」の読みをひらがなで答えなさい。`, answer: [R[h], ...(ALIAS[h] || []).filter((x) => /^[ぁ-ん]+$/.test(x))], exp: `${h}＝${R[h]}` }));
 
   window.KAMPO = { T, norm, shuffle, compNote, BYNAME, GROUP_CAT, sortedHerbs, herbAnswers };
 })();
