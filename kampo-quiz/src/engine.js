@@ -39,10 +39,10 @@
   function herbAnswers(h) { return [h, R[h], ...(ALIAS[h] || [])]; }
 
   function compText(f) {
-    return sortedHerbs(f).map((h) => `${h}(${R[h]}) ${f.herbs[h]}g`).join("、");
+    return sortedHerbs(f).map((h) => `${h}(${R[h]})` + (f.herbs[h] != null ? ` ${f.herbs[h]}g` : "")).join("、");
   }
   function compNote(f) {
-    return `【${f.name}（${f.yomi}）】${herbsOf(f).length}種：${compText(f)}（五十音順・ツムラ1日量）`;
+    return `【${f.name}（${f.yomi}）】${herbsOf(f).length}種：${compText(f)}${window.AMOUNT_NOTE || "（五十音順・ツムラ1日量）"}` + (f.optNote ? `\n※${f.optNote}` : "");
   }
 
   // ひっかけ用の生薬：同グループの処方に出てくる生薬を優先
@@ -69,11 +69,12 @@
       return { type: "multi", q: `${f.name}の構成生薬をすべて選べ。`, choices: ch, answer: ch.map((h, i) => (hs.includes(h) ? i : -1)).filter((i) => i >= 0), exp: compNote(f), formula: f.name };
     });
 
+    // opt：製剤によって入らない生薬（例：柴胡加竜骨牡蛎湯の大黄）。その分を除いた数も正解にする
     add(`g:count:${f.name}`, cat, "構成生薬数", 1, () => ({
-      type: "input", q: `${f.name}の構成生薬は何種類か。数字で答えなさい。`, answer: [String(hs.length)], exp: compNote(f), formula: f.name,
+      type: "input", q: `${f.name}の構成生薬は何種類か。数字で答えなさい。`, answer: [String(hs.length), ...(f.opt ? [String(hs.length - f.opt.length)] : [])], exp: compNote(f), formula: f.name,
     }));
 
-    if (hs.length >= 3) add(`g:goju:${f.name}`, cat, "五十音順", 2, () => {
+    if (hs.length >= 3 && !f.opt) add(`g:goju:${f.name}`, cat, "五十音順", 2, () => {
       const s = sortedHerbs(f), n = 1 + rnd(s.length), h = s[n - 1];
       return { type: "input", q: `${f.name}の構成生薬のうち、五十音順で${n}番目にくる生薬を答えなさい。`, answer: herbAnswers(h),
         exp: `五十音順：${s.map((x, i) => `${i + 1}.${x}(${R[x]})`).join(" → ")}`, formula: f.name };
@@ -111,7 +112,7 @@
 
     // 1日量が最も多い生薬（同量1位が複数あるときは出さない）
     const amounts = hs.map((h) => f.herbs[h]), mx = Math.max(...amounts);
-    if (amounts.filter((a) => a === mx).length === 1) {
+    if (amounts.every((a) => a != null) && amounts.filter((a) => a === mx).length === 1) {
       const top = hs.find((h) => f.herbs[h] === mx);
       add(`g:max:${f.name}`, cat, "配合量（重箱の隅）", 3, () => {
         const ch = shuffle([top, ...sample(hs.filter((h) => h !== top), Math.min(4, hs.length - 1))]);
@@ -145,7 +146,7 @@
       for (let t = 0; t < 30; t++) {
         const set = sample(fs, Math.min(6, fs.length));
         const h = pick(uniq(set.flatMap(herbsOf)));
-        const yes = set.filter((x) => x.herbs[h] != null);
+        const yes = set.filter((x) => h in x.herbs);
         if (!yes.length || yes.length === set.length) continue;
         const ch = set.map((x) => x.name);
         return { type: "multi", q: `次の処方のうち、${h}（${R[h]}）を含むものをすべて選べ。`, choices: ch, answer: yes.map((x) => ch.indexOf(x.name)),

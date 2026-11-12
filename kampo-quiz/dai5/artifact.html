@@ -1,0 +1,747 @@
+<title>柴胡剤・瀉心湯類マスター</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Shippori+Mincho+B1:wght@600;800&display=swap">
+<style>
+/* レイアウト：1カラムの問題カード＋上部タブ。薬箪笥の引き出しラベルのような札（タグ）で分類を示す */
+:root {
+  --bg: #eef1ee; --paper: #fbfcfa; --fg: #1d2622; --muted: #5d6b64; --line: #cdd6d0;
+  --accent: #2f4f7a; --accent-weak: #dfe6f1; --ochre: #a8761a; --ochre-weak: #f4e9d2;
+  --ok: #1f7a4a; --ok-weak: #dcefe3; --ng: #b3322f; --ng-weak: #f6dedd;
+  --f-disp: "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --f-body: "BIZ UDPGothic", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141a17; --paper: #1c2420; --fg: #e4ebe6; --muted: #9aa8a0; --line: #33403a;
+  --accent: #9db8e3; --accent-weak: #253247; --ochre: #e0b45c; --ochre-weak: #3a3020;
+  --ok: #6fd19b; --ok-weak: #1d3a2a; --ng: #f08a86; --ng-weak: #432423; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #141a17; --paper: #1c2420; --fg: #e4ebe6; --muted: #9aa8a0; --line: #33403a;
+  --accent: #9db8e3; --accent-weak: #253247; --ochre: #e0b45c; --ochre-weak: #3a3020;
+  --ok: #6fd19b; --ok-weak: #1d3a2a; --ng: #f08a86; --ng-weak: #432423; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 16px; line-height: 1.7; }
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 64px; }
+header.top { display: grid; gap: 4px; margin-bottom: 14px; }
+h1 { font-family: var(--f-disp); font-weight: 800; font-size: 1.9rem; letter-spacing: .04em; margin: 0; text-wrap: balance; }
+h1 span { color: var(--ochre); }
+.sub-h { color: var(--muted); font-size: .85rem; margin: 0; }
+nav.tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--line); margin-bottom: 16px; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 5; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+nav.tabs button { flex: 1; font: inherit; font-weight: 700; background: none; border: 0; padding: 10px 6px; color: var(--muted); border-bottom: 3px solid transparent; margin-bottom: -2px; cursor: pointer; }
+nav.tabs button[aria-selected="true"] { color: var(--accent); border-color: var(--accent); }
+details#settings { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 4px 14px; margin-bottom: 14px; }
+details#settings summary { cursor: pointer; font-weight: 700; padding: 8px 0; }
+details#settings summary small { font-weight: 400; color: var(--muted); }
+.fg { display: grid; gap: 6px; margin: 10px 0 14px; }
+.fg > span { font-size: .78rem; color: var(--muted); letter-spacing: .08em; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: inherit; font-size: .88rem; border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 6px; padding: 5px 10px; cursor: pointer; display: inline-flex; gap: 6px; align-items: baseline; }
+.chip small { font-size: .72rem; opacity: .8; font-variant-numeric: tabular-nums; }
+.chip[aria-pressed="true"] { background: var(--accent-weak); border-color: var(--accent); color: var(--fg); }
+select, .radios label { font: inherit; font-size: .9rem; }
+select { padding: 5px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--paper); color: var(--fg); max-width: 100%; }
+.radios { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.startrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 6px 0 12px; }
+.btn { font: inherit; font-weight: 700; border-radius: 8px; padding: 10px 18px; border: 1px solid var(--line); background: var(--paper); color: var(--fg); cursor: pointer; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.btn:focus-visible, .choice:focus-visible, .chip:focus-visible, input:focus-visible { outline: 3px solid var(--ochre); outline-offset: 2px; }
+kbd { font-family: var(--f-body); font-size: .7rem; border: 1px solid currentColor; border-radius: 4px; padding: 0 4px; margin-left: 6px; opacity: .7; }
+#sess { font-size: .85rem; color: var(--muted); margin: 0 0 8px; font-variant-numeric: tabular-nums; }
+#sess b { color: var(--fg); }
+#qcard { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 18px 18px 20px; scroll-margin-top: 60px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 10px; }
+.tag { font-size: .75rem; padding: 2px 8px; border-radius: 4px; background: var(--ochre-weak); color: var(--ochre); font-weight: 700; letter-spacing: .04em; }
+.tag.sub { background: var(--accent-weak); color: var(--accent); }
+.tag.lv3 { background: var(--ng-weak); color: var(--ng); }
+.tag.lv1, .tag.lv2 { background: transparent; border: 1px solid var(--line); color: var(--muted); font-weight: 400; }
+.hist { font-size: .75rem; color: var(--muted); margin-left: auto; }
+.qtext { font-size: 1.08rem; font-weight: 700; margin: 4px 0 12px; }
+.hint { font-size: .8rem; color: var(--ochre); margin: -6px 0 10px; }
+.choices { list-style: none; padding: 0; margin: 0 0 14px; display: grid; gap: 8px; }
+.choices.multi { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.choice { width: 100%; text-align: left; font: inherit; display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line); background: var(--bg); color: var(--fg); border-radius: 8px; padding: 10px 12px; cursor: pointer; min-height: 46px; }
+.choice .no { font-variant-numeric: tabular-nums; color: var(--muted); font-size: .85rem; min-width: 1.2em; }
+.choice .tx { min-width: 0; }
+.choice[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-weak); }
+.choice.right { border-color: var(--ok); background: var(--ok-weak); }
+.choice.right.missed { border-style: dashed; }
+.choice.wrong { border-color: var(--ng); background: var(--ng-weak); }
+.choice.dim { opacity: .55; }
+.choice:disabled { cursor: default; color: var(--fg); }
+.inp { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.inp input { flex: 1 1 200px; min-width: 0; font: inherit; font-size: 1.05rem; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
+.verdict { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; padding: 10px 14px; border-radius: 8px; margin-bottom: 10px; }
+.verdict b { font-family: var(--f-disp); font-size: 1.3rem; }
+.verdict.ok { background: var(--ok-weak); color: var(--ok); }
+.verdict.ng { background: var(--ng-weak); color: var(--ng); }
+.verdict span { color: var(--fg); font-weight: 700; }
+.exp { font-size: .92rem; line-height: 1.8; border-left: 3px solid var(--ochre); padding: 4px 0 4px 12px; margin-bottom: 14px; overflow-wrap: anywhere; }
+.empty { color: var(--muted); }
+ruby { ruby-position: over; }
+rt { font-size: .55em; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+.noruby rt { display: none; }
+.qtext, .choice .tx, .exp { line-height: 2.05; }
+.sessrow { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 12px; margin-bottom: 8px; }
+.sessrow #sess { margin: 0; }
+.rtoggle { font-size: .85rem; display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+/* 構成表 */
+.tbar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; align-items: center; }
+#tgroup { display: flex; flex-wrap: wrap; gap: 6px; }
+#tbl { display: grid; gap: 10px; }
+.fcard { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.fcard header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.fcard h3 { font-family: var(--f-disp); font-size: 1.2rem; margin: 0; }
+.fcard .yomi { color: var(--muted); font-size: .8rem; }
+.fcard .cnt { margin-left: auto; font-weight: 700; color: var(--ochre); font-variant-numeric: tabular-nums; }
+.herbs { list-style: none; padding: 0; margin: 8px 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.herbs li { border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; display: inline-flex; gap: 6px; align-items: baseline; background: var(--bg); }
+.herbs .hn { font-weight: 700; }
+.herbs .hr, .herbs .g { font-size: .72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.herbs.hide li { cursor: pointer; }
+.herbs.hide li:not(.open) > * { visibility: hidden; }
+.herbs.hide li:not(.open) { background: var(--accent-weak); }
+.use { font-size: .85rem; color: var(--muted); margin: 0; }
+/* 成績 */
+.tw { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: .88rem; font-variant-numeric: tabular-nums; background: var(--paper); }
+th, td { border-bottom: 1px solid var(--line); padding: 8px; text-align: left; white-space: nowrap; }
+.bar { display: inline-block; width: 70px; height: 8px; background: var(--line); border-radius: 4px; margin-right: 6px; vertical-align: middle; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--ok); }
+.note, .lead { font-size: .85rem; color: var(--muted); }
+.confirm { border: 1px solid var(--ng); background: var(--ng-weak); border-radius: 8px; padding: 12px; margin-top: 10px; display: grid; gap: 8px; }
+.confirm div { display: flex; gap: 8px; flex-wrap: wrap; }
+.disclaimer { font-size: .78rem; color: var(--muted); margin-top: 28px; border-top: 1px solid var(--line); padding-top: 10px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1><span>第5回</span> 柴胡剤・瀉心湯類マスター</h1>
+    <p class="sub-h" id="total"></p>
+  </header>
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-quiz" aria-selected="true">演習</button>
+    <button role="tab" id="tab-table" aria-selected="false">構成表で暗記</button>
+    <button role="tab" id="tab-stats" aria-selected="false">成績</button>
+  </nav>
+
+  <section id="view-quiz">
+    <details id="settings">
+      <summary>出題範囲を選ぶ <small>（対象 <span id="pool-n"></span> 型）</small></summary>
+      <div class="fg"><span>まとめて選ぶ</span>
+        <select id="f-onlycat" aria-label="分類をまとめて選ぶ">
+          <option value="">— 選んでください —</option>
+          <option value="all">全分類</option>
+          <option value="小柴胡湯">小柴胡湯だけ</option><option value="大柴胡湯">大柴胡湯だけ</option><option value="柴胡桂枝湯">柴胡桂枝湯だけ</option><option value="柴胡加竜骨牡蛎湯">柴胡加竜骨牡蛎湯だけ</option><option value="半夏瀉心湯">半夏瀉心湯だけ</option><option value="黄連解毒湯">黄連解毒湯だけ</option><option value="スライドの症例">スライドの症例だけ</option><option value="図（病態と生薬の働き）">図（病態と生薬の働き）だけ</option><option value="総論・定義">総論・定義だけ</option><option value="構成表">構成表だけ</option><option value="構成の横断問題">構成の横断問題だけ</option><option value="症例">症例だけ</option><option value="比較・使い分け">比較・使い分けだけ</option><option value="生薬">生薬だけ</option>
+        </select>
+      </div>
+      <div class="fg"><span>分類</span><div class="chips" id="f-cats"></div></div>
+      <div class="fg"><span>問題の種類</span><div class="chips" id="f-src"></div></div>
+      <div class="fg"><span>形式</span><div class="chips" id="f-types"></div></div>
+      <div class="fg"><span>難易度</span><div class="chips" id="f-levels"></div></div>
+      <div class="fg"><span>出題の順番</span>
+        <div class="radios">
+          <label><input type="radio" name="order" value="weak" id="o-weak"> 苦手・未出題を優先</label>
+          <label><input type="radio" name="order" value="random" id="o-random"> 完全ランダム</label>
+          <label><input type="radio" name="order" value="wrong" id="o-wrong"> 間違えた問題だけ</label>
+        </div>
+      </div>
+      <div class="startrow"><button class="btn primary" id="start" type="button">この範囲で始める</button></div>
+    </details>
+    <div class="sessrow"><p id="sess"></p><label class="rtoggle" for="ruby-on"><input type="checkbox" id="ruby-on"> 生薬・処方名にふりがな</label></div>
+    <div id="qcard"></div>
+  </section>
+
+  <section id="view-table" hidden>
+    <div class="tbar">
+      <div id="tgroup"><button class="chip" data-g="d5">柴胡剤・瀉心湯類 6処方</button></div>
+      <button class="chip" id="hide" type="button">生薬をかくす（タップでめくる）</button>
+    </div>
+    <div id="tbl"></div>
+  </section>
+
+  <section id="view-stats" hidden>
+    <div id="stats"></div>
+    <button class="btn" id="reset" type="button">成績の記録を消す</button>
+    <div class="confirm" id="reset-confirm" hidden>
+      <span>これまでの正誤の記録をすべて消します。元に戻せません。消してよいですか？</span>
+      <div><button class="btn" id="reset-yes" type="button">消す</button><button class="btn primary" id="reset-no" type="button">やめる</button></div>
+    </div>
+  </section>
+
+  <p class="disclaimer">第5回（柴胡剤・瀉心湯類）専用。問題と構成生薬は講義スライド（全19枚）の記載に基づいています。柴胡加竜骨牡蛎湯の大黄はスライドで（大黄）と書かれており、製剤によって入らないものがあります。成績の記録はほかのアプリとは別に保存されます。</p>
+</div>
+<script>
+// 処方構成データ（ツムラ医療用エキス製剤の構成・1日量g を基準）
+// ※メーカーにより蒼朮/白朮、桂皮/桂枝の表記や配合量が異なる場合がある
+window.HERB_READING = {
+  "甘草":"かんぞう","桂皮":"けいひ","芍薬":"しゃくやく","生姜":"しょうきょう","大棗":"たいそう",
+  "蒼朮":"そうじゅつ","附子":"ぶし","竜骨":"りゅうこつ","牡蛎":"ぼれい","膠飴":"こうい",
+  "葛根":"かっこん","麻黄":"まおう","杏仁":"きょうにん","半夏":"はんげ","乾姜":"かんきょう",
+  "五味子":"ごみし","細辛":"さいしん","石膏":"せっこう","辛夷":"しんい","川芎":"せんきゅう",
+  "薏苡仁":"よくいにん","茯苓":"ぶくりょう","沢瀉":"たくしゃ","猪苓":"ちょれい","柴胡":"さいこ",
+  "黄芩":"おうごん","人参":"にんじん","枳実":"きじつ","大黄":"だいおう","栝楼根":"かろこん",
+  "釣藤鈎":"ちょうとうこう","当帰":"とうき","山梔子":"さんしし","牡丹皮":"ぼたんぴ","薄荷":"はっか",
+  "黄耆":"おうぎ","陳皮":"ちんぴ","升麻":"しょうま","厚朴":"こうぼく","蘇葉":"そよう",
+  "地黄":"じおう","桃仁":"とうにん","防已":"ぼうい","山椒":"さんしょう"
+};
+// group: "keishi"=桂枝湯類（小テスト3範囲） / "mao"=麻黄剤（予想） / "saiko"=柴胡剤（予想） / "other"=その他頻出（予想）
+window.FORMULAS = [
+  {name:"桂枝湯",yomi:"けいしとう",no:45,group:"keishi",herbs:{"桂皮":4,"芍薬":4,"大棗":4,"甘草":2,"生姜":1.5},
+   use:"体力虚弱で、汗が出る（自汗）者の かぜの初期"},
+  {name:"桂枝加芍薬湯",yomi:"けいしかしゃくやくとう",no:60,group:"keishi",herbs:{"芍薬":6,"桂皮":4,"大棗":4,"甘草":2,"生姜":1},
+   use:"腹部膨満感のある者の しぶり腹、腹痛（過敏性腸症候群など）"},
+  {name:"桂枝加朮附湯",yomi:"けいしかじゅつぶとう",no:18,group:"keishi",herbs:{"桂皮":4,"芍薬":4,"蒼朮":4,"大棗":4,"甘草":2,"生姜":1,"附子":0.5},
+   use:"冷えで悪化する関節痛・神経痛"},
+  {name:"桂枝加竜骨牡蛎湯",yomi:"けいしかりゅうこつぼれいとう",no:26,group:"keishi",herbs:{"桂皮":4,"芍薬":4,"大棗":4,"牡蛎":3,"竜骨":3,"甘草":2,"生姜":1.5},
+   use:"虚弱で疲れやすく興奮しやすい者の 神経質、不眠症、小児夜泣き、小児夜尿症"},
+  {name:"小建中湯",yomi:"しょうけんちゅうとう",no:99,group:"keishi",herbs:{"芍薬":6,"桂皮":4,"大棗":4,"甘草":2,"生姜":1,"膠飴":10},
+   use:"体質虚弱で疲労しやすい者の 小児虚弱体質、疲労倦怠、小児夜尿症、夜泣き"},
+  {name:"葛根湯",yomi:"かっこんとう",no:1,group:"mao",herbs:{"葛根":4,"大棗":3,"麻黄":3,"甘草":2,"桂皮":2,"芍薬":2,"生姜":2},
+   use:"自然発汗がなく（無汗）、頭痛・発熱・悪寒・肩こりを伴うかぜの初期"},
+  {name:"葛根湯加川芎辛夷",yomi:"かっこんとうかせんきゅうしんい",no:2,group:"mao",herbs:{"葛根":4,"大棗":3,"麻黄":3,"甘草":2,"桂皮":2,"芍薬":2,"辛夷":2,"川芎":2,"生姜":1},
+   use:"鼻づまり、蓄膿症（副鼻腔炎）、慢性鼻炎"},
+  {name:"麻黄湯",yomi:"まおうとう",no:27,group:"mao",herbs:{"杏仁":5,"麻黄":5,"桂皮":4,"甘草":1.5},
+   use:"悪寒・発熱・頭痛・腰痛・関節痛があり、自然発汗のない かぜ・インフルエンザの初期"},
+  {name:"小青竜湯",yomi:"しょうせいりゅうとう",no:19,group:"mao",herbs:{"半夏":6,"乾姜":3,"甘草":3,"桂皮":3,"五味子":3,"細辛":3,"芍薬":3,"麻黄":3},
+   use:"水様性の痰・鼻水を伴う 気管支炎、アレルギー性鼻炎、花粉症"},
+  {name:"麻黄附子細辛湯",yomi:"まおうぶしさいしんとう",no:127,group:"mao",herbs:{"麻黄":4,"細辛":3,"附子":1},
+   use:"悪寒・微熱・全身倦怠、手足の冷えを伴う かぜ（高齢者など）"},
+  {name:"麻杏甘石湯",yomi:"まきょうかんせきとう",no:55,group:"mao",herbs:{"石膏":10,"杏仁":4,"麻黄":4,"甘草":2},
+   use:"咳が強く口渇・発汗のある 小児ぜんそく、気管支ぜんそく"},
+  {name:"越婢加朮湯",yomi:"えっぴかじゅつとう",no:28,group:"mao",herbs:{"石膏":8,"麻黄":6,"蒼朮":4,"大棗":3,"甘草":2,"生姜":1},
+   use:"浮腫と汗が出て小便不利のある者の 腎炎、関節リウマチ、湿疹"},
+  {name:"麻杏薏甘湯",yomi:"まきょうよくかんとう",no:78,group:"mao",herbs:{"薏苡仁":10,"麻黄":4,"杏仁":3,"甘草":2},
+   use:"関節痛、神経痛、筋肉痛（一般用ではいぼ・手足のあれも効能）"},
+  {name:"小柴胡湯",yomi:"しょうさいことう",no:9,group:"saiko",herbs:{"柴胡":7,"半夏":5,"黄芩":3,"大棗":3,"人参":3,"甘草":2,"生姜":1},
+   use:"胸脇苦満・口の苦み・食欲不振のある者の 諸種の急性熱性病、肺炎、慢性胃腸障害、慢性肝炎"},
+  {name:"大柴胡湯",yomi:"だいさいことう",no:8,group:"saiko",herbs:{"柴胡":6,"半夏":4,"黄芩":3,"芍薬":3,"大棗":3,"枳実":2,"生姜":1,"大黄":1},
+   use:"比較的体力があり便秘がちで胸脇苦満の強い者の 胆石症、高血圧、肥満症"},
+  {name:"柴胡桂枝湯",yomi:"さいこけいしとう",no:10,group:"saiko",herbs:{"柴胡":5,"半夏":4,"黄芩":2,"甘草":2,"桂皮":2,"芍薬":2,"大棗":2,"人参":2,"生姜":1},
+   use:"発熱汗出・悪寒・関節痛・腹痛のある かぜの中期以降、胃潰瘍"},
+  {name:"柴胡加竜骨牡蛎湯",yomi:"さいこかりゅうこつぼれいとう",no:12,group:"saiko",herbs:{"柴胡":5,"半夏":4,"桂皮":3,"茯苓":3,"黄芩":2.5,"大棗":2.5,"人参":2.5,"牡蛎":2.5,"竜骨":2.5,"生姜":1},
+   use:"比較的体力があり、心悸亢進・不眠・いらだちなど精神症状のある者の 高血圧の随伴症状、神経症、不眠症"},
+  {name:"柴胡桂枝乾姜湯",yomi:"さいこけいしかんきょうとう",no:11,group:"saiko",herbs:{"柴胡":6,"黄芩":3,"栝楼根":3,"桂皮":3,"牡蛎":3,"乾姜":2,"甘草":2},
+   use:"体力が弱く冷え症・貧血気味で動悸・息切れがあり神経過敏な者の 更年期障害、神経症、不眠症"},
+  {name:"四逆散",yomi:"しぎゃくさん",no:35,group:"saiko",herbs:{"柴胡":5,"芍薬":4,"枳実":2,"甘草":1.5},
+   use:"胸腹部が重苦しく、時に不安・不眠のある者の 胆嚢炎、胃炎、神経質"},
+  {name:"抑肝散",yomi:"よくかんさん",no:54,group:"saiko",herbs:{"蒼朮":4,"茯苓":4,"川芎":3,"釣藤鈎":3,"当帰":3,"柴胡":2,"甘草":1.5},
+   use:"虚弱で神経が高ぶる者の 神経症、不眠症、小児夜泣き、小児疳症"},
+  {name:"加味逍遙散",yomi:"かみしょうようさん",no:24,group:"saiko",herbs:{"柴胡":3,"芍薬":3,"蒼朮":3,"当帰":3,"茯苓":3,"山梔子":2,"牡丹皮":2,"甘草":1.5,"生姜":1,"薄荷":1},
+   use:"虚弱で疲れやすく精神不安・いらだちのある女性の 冷え症、月経不順、更年期障害"},
+  {name:"補中益気湯",yomi:"ほちゅうえっきとう",no:41,group:"saiko",herbs:{"黄耆":4,"蒼朮":4,"人参":4,"当帰":3,"柴胡":2,"大棗":2,"陳皮":2,"甘草":1.5,"升麻":1,"生姜":0.5},
+   use:"消化機能が衰え四肢倦怠感が著しい虚弱体質者の 夏やせ、病後の体力増強、食欲不振（気虚）"},
+  {name:"半夏厚朴湯",yomi:"はんげこうぼくとう",no:16,group:"other",herbs:{"半夏":6,"茯苓":5,"厚朴":3,"蘇葉":2,"生姜":1},
+   use:"咽喉・食道部に異物感（咽中炙臠・梅核気）のある者の 不安神経症、神経性胃炎（気鬱）"},
+  {name:"四君子湯",yomi:"しくんしとう",no:75,group:"other",herbs:{"蒼朮":4,"人参":4,"茯苓":4,"甘草":1,"生姜":1,"大棗":1},
+   use:"やせて顔色が悪く食欲がなく疲れやすい者の 胃腸虚弱、慢性胃炎（気虚の基本処方）"},
+  {name:"六君子湯",yomi:"りっくんしとう",no:43,group:"other",herbs:{"蒼朮":4,"人参":4,"半夏":4,"茯苓":4,"大棗":2,"陳皮":2,"甘草":1,"生姜":0.5},
+   use:"胃腸が弱く食欲がなくみぞおちがつかえる者の 胃炎、胃腸虚弱、食欲不振"},
+  {name:"四物湯",yomi:"しもつとう",no:71,group:"other",herbs:{"地黄":3,"芍薬":3,"川芎":3,"当帰":3},
+   use:"皮膚が枯燥し色つやの悪い者の 産後・流産後の疲労回復、月経不順、冷え症（血虚の基本処方）"},
+  {name:"当帰芍薬散",yomi:"とうきしゃくやくさん",no:23,group:"other",herbs:{"芍薬":4,"蒼朮":4,"沢瀉":4,"茯苓":4,"川芎":3,"当帰":3},
+   use:"筋肉が軟弱で疲労しやすく腰脚の冷えやすい者の 貧血、月経不順、更年期障害、妊娠中の諸病"},
+  {name:"桂枝茯苓丸",yomi:"けいしぶくりょうがん",no:25,group:"other",herbs:{"桂皮":3,"芍薬":3,"桃仁":3,"茯苓":3,"牡丹皮":3},
+   use:"比較的体力があり下腹部痛・のぼせ等のある者の 月経不順、月経困難、子宮内膜炎（瘀血）"},
+  {name:"五苓散",yomi:"ごれいさん",no:17,group:"other",herbs:{"沢瀉":4,"蒼朮":3,"猪苓":3,"茯苓":3,"桂皮":1.5},
+   use:"口渇・尿量減少する者の 浮腫、頭痛、めまい、二日酔い、急性胃腸炎（水毒）"},
+  {name:"苓桂朮甘湯",yomi:"りょうけいじゅつかんとう",no:39,group:"other",herbs:{"茯苓":6,"桂皮":4,"蒼朮":3,"甘草":2},
+   use:"めまい・ふらつき・動悸があり尿量が減少する者の 神経症、めまい、立ちくらみ"},
+  {name:"真武湯",yomi:"しんぶとう",no:30,group:"other",herbs:{"茯苓":4,"芍薬":3,"蒼朮":3,"生姜":1.5,"附子":0.5},
+   use:"新陳代謝が沈衰し冷えのある者の 下痢、胃腸虚弱、めまい"},
+  {name:"人参湯",yomi:"にんじんとう",no:32,group:"other",herbs:{"乾姜":3,"甘草":3,"蒼朮":3,"人参":3},
+   use:"手足が冷えやすく尿量が多い者の 胃腸虚弱、下痢、嘔吐、胃痛"},
+  {name:"芍薬甘草湯",yomi:"しゃくやくかんぞうとう",no:68,group:"other",herbs:{"甘草":6,"芍薬":6},
+   use:"急激に起こる筋肉のけいれんを伴う疼痛（こむらがえり）"},
+  {name:"大建中湯",yomi:"だいけんちゅうとう",no:100,group:"other",herbs:{"乾姜":5,"人参":3,"山椒":2,"膠飴":10},
+   use:"腹が冷えて痛み腹部膨満感のある者（術後イレウス予防など）"},
+  {name:"防已黄耆湯",yomi:"ぼういおうぎとう",no:20,group:"other",herbs:{"黄耆":5,"防已":5,"蒼朮":3,"大棗":3,"甘草":1.5,"生姜":1},
+   use:"色白で筋肉が柔らかく水ぶとり、疲れやすく汗をかきやすい者の 肥満症、関節痛、むくみ"},
+  {name:"十全大補湯",yomi:"じゅうぜんたいほとう",no:48,group:"other",herbs:{"黄耆":3,"桂皮":3,"地黄":3,"芍薬":3,"蒼朮":3,"川芎":3,"当帰":3,"人参":3,"茯苓":3,"甘草":1.5},
+   use:"病後の体力低下、疲労倦怠、食欲不振、寝汗、手足の冷え、貧血（気血両虚）"}
+];
+
+</script>
+<script>
+// 第5回（柴胡剤・瀉心湯類）専用：処方データ
+// 構成生薬は講義スライド p4「代表的な柴胡剤と瀉心湯類の構成生薬」の表どおり（配合量はスライドに無いので持たない）
+(function () {
+  Object.assign(window.HERB_READING, { "黄連": "おうれん", "黄柏": "おうばく" });
+  const H = (list) => Object.fromEntries(list.map((h) => [h, null]));
+  window.FORMULAS = [
+    { name: "小柴胡湯", yomi: "しょうさいことう", group: "d5", herbs: H(["柴胡", "黄芩", "半夏", "人参", "生姜", "大棗", "甘草"]),
+      use: "長引いているかぜ、肝炎、腎炎、肺炎（食欲不振・悪心・口中のねばりや苦い感じ、胸脇苦満）" },
+    { name: "大柴胡湯", yomi: "だいさいことう", group: "d5", herbs: H(["柴胡", "黄芩", "半夏", "生姜", "大棗", "芍薬", "枳実", "大黄"]),
+      use: "高血圧や肥満にともなう肩こり・頭痛・便秘、胃炎、肥満症（実証で便秘傾向）" },
+    { name: "柴胡桂枝湯", yomi: "さいこけいしとう", group: "d5", herbs: H(["柴胡", "黄芩", "半夏", "人参", "生姜", "大棗", "甘草", "桂皮", "芍薬"]),
+      use: "かぜの中期から後期、胃腸炎（小柴胡湯と桂枝湯の両方の症状）" },
+    { name: "柴胡加竜骨牡蛎湯", yomi: "さいこかりゅうこつぼれいとう", group: "d5", herbs: H(["柴胡", "黄芩", "半夏", "人参", "生姜", "大棗", "桂皮", "茯苓", "竜骨", "牡蛎", "大黄"]),
+      opt: ["大黄"], optNote: "スライドでは（大黄）。下痢がみられる場合や妊娠中の女性は大黄が配合されていない製剤を選択する",
+      use: "精神不安がある動悸、不眠、高血圧など（ストレスと精神不安）" },
+    { name: "半夏瀉心湯", yomi: "はんげしゃしんとう", group: "d5", herbs: H(["黄連", "黄芩", "半夏", "甘草", "大棗", "人参", "乾姜"]),
+      use: "急・慢性胃腸炎、胃下垂、神経性胃炎、口内炎、イリノテカンの遅延性下痢（腹鳴が目安）" },
+    { name: "黄連解毒湯", yomi: "おうれんげどくとう", group: "d5", herbs: H(["黄連", "黄芩", "黄柏", "山梔子"]),
+      use: "炎症や痒みの強い皮膚炎、出血性疾患、高血圧（体力がしっかりある、イライラ）" },
+  ].map((f) => Object.assign(f, { cat: f.name }));
+  window.GROUP_CAT = { d5: "構成の横断問題" };
+  window.AMOUNT_NOTE = "（五十音順・スライドp4の表）";
+})();
+
+// アプリ設定（記録はほかのアプリと別に保存）
+window.APP_KEY = "kampo-dai5";
+window.TABLE_DEFAULT = "d5";
+window.APP_CATS = ["スライドの症例", "小柴胡湯", "大柴胡湯", "柴胡桂枝湯", "柴胡加竜骨牡蛎湯", "半夏瀉心湯", "黄連解毒湯",
+  "図（病態と生薬の働き）", "総論・定義", "構成表", "構成の横断問題", "症例", "比較・使い分け", "生薬"];
+
+</script>
+<script>
+// ふりがな辞書：formulas.js の生薬・処方に加え、問題文に出てくる生薬・処方の読み
+(function () {
+  const extra = {
+    // 生薬（formulas.js にないもの・別表記）
+    "桂枝": "けいし", "白朮": "びゃくじゅつ", "紫蘇葉": "しそよう", "香附子": "こうぶし", "黄連": "おうれん",
+    "黄柏": "おうばく", "芒硝": "ぼうしょう", "滑石": "かっせき", "牛黄": "ごおう", "紫根": "しこん",
+    "山茱萸": "さんしゅゆ", "阿膠": "あきょう", "防風": "ぼうふう", "知母": "ちも", "粳米": "こうべい",
+    "蜜蝋": "みつろう", "豚脂": "とんし", "牡蠣": "ぼれい", "龍骨": "りゅうこつ", "釣藤鉤": "ちょうとうこう",
+    // 処方
+    "桃核承気湯": "とうかくじょうきとう", "白虎加人参湯": "びゃっこかにんじんとう", "白虎湯": "びゃっことう",
+    "紫雲膏": "しうんこう", "香蘇散": "こうそさん", "大承気湯": "だいじょうきとう", "小承気湯": "しょうじょうきとう",
+    "調胃承気湯": "ちょういじょうきとう", "承気湯": "じょうきとう", "八味地黄丸": "はちみじおうがん",
+    "半夏瀉心湯": "はんげしゃしんとう", "三黄瀉心湯": "さんおうしゃしんとう", "瀉心湯": "しゃしんとう",
+    "通仙散": "つうせんさん", "麻沸散": "まふつさん", "潤肌膏": "じゅんきこう", "甘草湯": "かんぞうとう",
+    "黄連解毒湯": "おうれんげどくとう", "医王湯": "いおうとう", "逍遙散": "しょうようさん",
+    "人参養栄湯": "にんじんようえいとう", "理中丸": "りちゅうがん", "理中湯": "りちゅうとう",
+    "大青竜湯": "だいせいりゅうとう", "牛車腎気丸": "ごしゃじんきがん", "大黄牡丹皮湯": "だいおうぼたんぴとう",
+    "防風通聖散": "ぼうふうつうしょうさん", "辛夷清肺湯": "しんいせいはいとう", "小半夏湯": "しょうはんげとう",
+    "八珍湯": "はっちんとう",
+  };
+  const dict = Object.assign({}, extra, window.HERB_READING);
+  for (const f of window.FORMULAS) dict[f.name] = f.yomi;
+  // 長い語から先に当てる（桂枝加芍薬湯 → 桂枝湯 → 芍薬 の順）
+  const words = Object.keys(dict).sort((a, b) => b.length - a.length);
+  const re = new RegExp(words.join("|"), "g");
+  // すでにHTMLエスケープ済みの文字列に <ruby> を差し込む
+  window.addRuby = (html) => html.replace(re, (w) => `<ruby>${w}<rt>${dict[w]}</rt></ruby>`);
+})();
+
+</script>
+<script>
+window.QBANK = [
+
+];
+
+</script>
+<script>
+// 漢方小テスト対策：出題エンジン
+// - 静的問題（QBANK）と、処方構成データ（FORMULAS）から自動生成する問題を合わせて出題する
+// - 自動生成問題は毎回 選択肢・ひっかけ生薬が変わるので、終わりなく解ける
+(function () {
+  const F = window.FORMULAS;
+  const R = window.HERB_READING;
+  const BYNAME = Object.fromEntries(F.map((f) => [f.name, f]));
+  const GROUP_CAT = window.GROUP_CAT || { keishi: "桂枝湯類", mao: "麻黄剤(予想)", saiko: "柴胡剤(予想)", other: "その他処方(予想)" };
+  // 別表記として受け付ける名前（記述問題用）
+  const ALIAS = { "桂皮": ["桂枝", "けいし", "ケイシ"], "蒼朮": ["朮", "白朮"], "生姜": ["しょうが", "ショウガ"], "牡蛎": ["牡蠣"], "竜骨": ["龍骨"], "釣藤鈎": ["釣藤鉤", "釣藤"], "栝楼根": ["瓜呂根"] };
+
+  // ---------- 小道具 ----------
+  const rnd = (n) => Math.floor(Math.random() * n);
+  const pick = (a) => a[rnd(a.length)];
+  const shuffle = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const sample = (a, n) => shuffle(a).slice(0, n);
+  const herbsOf = (f) => Object.keys(f.herbs);
+  const uniq = (a) => [...new Set(a)];
+  const catOf = (f) => f.cat || GROUP_CAT[f.group];
+  const groupOf = (g) => F.filter((f) => f.group === g);
+  const ALL_HERBS = Object.keys(R);
+
+  // 五十音順の比較（濁点・半濁点を外して比べ、同じなら清音を先に）
+  const seion = (s) => s.normalize("NFD").replace(/[゙゚]/g, "").normalize("NFC");
+  const gojuon = (a, b) => {
+    const x = seion(R[a]), y = seion(R[b]);
+    if (x !== y) return x < y ? -1 : 1;
+    return R[a] < R[b] ? -1 : 1;
+  };
+  const sortedHerbs = (f) => herbsOf(f).sort(gojuon);
+
+  // 回答の正規化：空白除去・全角数字→半角・カタカナ→ひらがな
+  function norm(s) {
+    return String(s).trim().replace(/[\s　、,。．.]/g, "")
+      .replace(/[０-９]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0xfee0))
+      .replace(/[ァ-ヶ]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60))
+      .replace(/種類?$|種$|つ$|個$/, "");
+  }
+  function herbAnswers(h) { return [h, R[h], ...(ALIAS[h] || [])]; }
+
+  function compText(f) {
+    return sortedHerbs(f).map((h) => `${h}(${R[h]})` + (f.herbs[h] != null ? ` ${f.herbs[h]}g` : "")).join("、");
+  }
+  function compNote(f) {
+    return `【${f.name}（${f.yomi}）】${herbsOf(f).length}種：${compText(f)}${window.AMOUNT_NOTE || "（五十音順・ツムラ1日量）"}` + (f.optNote ? `\n※${f.optNote}` : "");
+  }
+
+  // ひっかけ用の生薬：同グループの処方に出てくる生薬を優先
+  function distractHerbs(exclude, group, n) {
+    const ex = new Set(exclude);
+    const near = uniq(groupOf(group).flatMap(herbsOf)).filter((h) => !ex.has(h));
+    const far = ALL_HERBS.filter((h) => !ex.has(h) && !near.includes(h));
+    const a = sample(near, Math.min(n, Math.ceil(n * 0.7), near.length));
+    return a.concat(sample(far, n - a.length));
+  }
+
+  // ---------- 自動生成問題の型 ----------
+  // 各テンプレートは make() を呼ぶたびに新しい選択肢で問題を作る
+  const T = [];
+  function add(id, cat, sub, level, make) { T.push({ id, cat, sub, level, gen: true, make }); }
+
+  for (const f of F) {
+    const cat = catOf(f);
+    const hs = herbsOf(f);
+
+    add(`g:all:${f.name}`, cat, "構成生薬（すべて選べ）", 1, () => {
+      const total = Math.min(12, Math.max(8, hs.length + 4));
+      const ch = shuffle(hs.concat(distractHerbs(hs, f.group, total - hs.length)));
+      return { type: "multi", q: `${f.name}の構成生薬をすべて選べ。`, choices: ch, answer: ch.map((h, i) => (hs.includes(h) ? i : -1)).filter((i) => i >= 0), exp: compNote(f), formula: f.name };
+    });
+
+    // opt：製剤によって入らない生薬（例：柴胡加竜骨牡蛎湯の大黄）。その分を除いた数も正解にする
+    add(`g:count:${f.name}`, cat, "構成生薬数", 1, () => ({
+      type: "input", q: `${f.name}の構成生薬は何種類か。数字で答えなさい。`, answer: [String(hs.length), ...(f.opt ? [String(hs.length - f.opt.length)] : [])], exp: compNote(f), formula: f.name,
+    }));
+
+    if (hs.length >= 3 && !f.opt) add(`g:goju:${f.name}`, cat, "五十音順", 2, () => {
+      const s = sortedHerbs(f), n = 1 + rnd(s.length), h = s[n - 1];
+      return { type: "input", q: `${f.name}の構成生薬のうち、五十音順で${n}番目にくる生薬を答えなさい。`, answer: herbAnswers(h),
+        exp: `五十音順：${s.map((x, i) => `${i + 1}.${x}(${R[x]})`).join(" → ")}`, formula: f.name };
+    });
+
+    if (hs.length >= 4) add(`g:not:${f.name}`, cat, "構成生薬でないもの", 1, () => {
+      const right = sample(hs, 4), wrong = distractHerbs(hs, f.group, 1)[0];
+      const ch = shuffle(right.concat(wrong));
+      return { type: "single", q: `${f.name}の構成生薬に含まれないのはどれか。1つ選べ。`, choices: ch, answer: [ch.indexOf(wrong)], exp: `${wrong}は含まれない。` + compNote(f), formula: f.name };
+    });
+
+    add(`g:which:${f.name}`, cat, "構成から処方名", 2, () => {
+      const others = sample(groupOf(f.group).filter((x) => x !== f), 4);
+      const ch = shuffle([f, ...others].map((x) => x.name));
+      return { type: "single", q: `次の生薬で構成される処方はどれか。1つ選べ。\n${sortedHerbs(f).join("・")}`, choices: ch, answer: [ch.indexOf(f.name)], exp: compNote(f), formula: f.name };
+    });
+
+    add(`g:use2f:${f.name}`, cat, "適応→処方", 1, () => {
+      const others = sample(groupOf(f.group).filter((x) => x !== f), 4);
+      const ch = shuffle([f, ...others].map((x) => x.name));
+      return { type: "single", q: `「${f.use}」に最も適した漢方薬はどれか。1つ選べ。`, choices: ch, answer: [ch.indexOf(f.name)],
+        exp: `${f.name}：${f.use}\n` + others.map((o) => `・${o.name}：${o.use}`).join("\n"), formula: f.name };
+    });
+
+    add(`g:f2use:${f.name}`, cat, "処方→適応", 1, () => {
+      const others = sample(groupOf(f.group).filter((x) => x !== f), 4);
+      const ch = shuffle([f, ...others].map((x) => x.use));
+      return { type: "single", q: `${f.name}の適応として最も適切なのはどれか。1つ選べ。`, choices: ch, answer: [ch.indexOf(f.use)],
+        exp: others.map((o) => `・${o.name}：${o.use}`).join("\n"), formula: f.name };
+    });
+
+    add(`g:yomi:${f.name}`, cat, "読み方", 1, () => ({
+      type: "input", q: `「${f.name}」の読みをひらがなで答えなさい。`, answer: [f.yomi], exp: `${f.name}＝${f.yomi}`, formula: f.name,
+    }));
+
+    // 1日量が最も多い生薬（同量1位が複数あるときは出さない）
+    const amounts = hs.map((h) => f.herbs[h]), mx = Math.max(...amounts);
+    if (amounts.every((a) => a != null) && amounts.filter((a) => a === mx).length === 1) {
+      const top = hs.find((h) => f.herbs[h] === mx);
+      add(`g:max:${f.name}`, cat, "配合量（重箱の隅）", 3, () => {
+        const ch = shuffle([top, ...sample(hs.filter((h) => h !== top), Math.min(4, hs.length - 1))]);
+        return { type: "single", q: `${f.name}（ツムラ医療用）で1日量が最も多い生薬はどれか。1つ選べ。`, choices: ch, answer: [ch.indexOf(top)],
+          exp: compNote(f) + "\n※配合量はメーカーで異なることがある。", formula: f.name };
+      });
+    }
+  }
+
+  // グループ内で「この処方だけに配合される生薬」（小テスト3 問6型）
+  for (const g of Object.keys(GROUP_CAT)) {
+    const fs = groupOf(g);
+    add(`g:only:${g}`, GROUP_CAT[g], "この処方のみに配合", 2, () => {
+      for (let t = 0; t < 30; t++) {
+        const set = g === "keishi" ? fs : sample(fs, Math.min(5, fs.length));
+        const target = pick(set);
+        const others = new Set(set.filter((x) => x !== target).flatMap(herbsOf));
+        const only = herbsOf(target).filter((h) => !others.has(h));
+        if (!only.length) continue;
+        const names = set.map((x) => x.name).join("、");
+        const exp = `${target.name}のみ：${only.join("・")}\n` + set.map(compNote).join("\n");
+        if (only.length === 1) return { type: "input", q: `${names}の構成生薬のうち、${target.name}のみに配合されている生薬を答えなさい。`, answer: herbAnswers(only[0]), exp, formula: target.name };
+        const ch = shuffle(uniq(set.flatMap(herbsOf)));
+        return { type: "multi", q: `${names}の構成生薬のうち、${target.name}のみに配合されている生薬をすべて選べ。`, choices: ch, answer: only.map((h) => ch.indexOf(h)), exp, formula: target.name };
+      }
+      return null;
+    });
+
+    // 生薬Xを含む処方をすべて選べ
+    add(`g:contain:${g}`, GROUP_CAT[g], "生薬を含む処方（すべて選べ）", 2, () => {
+      for (let t = 0; t < 30; t++) {
+        const set = sample(fs, Math.min(6, fs.length));
+        const h = pick(uniq(set.flatMap(herbsOf)));
+        const yes = set.filter((x) => h in x.herbs);
+        if (!yes.length || yes.length === set.length) continue;
+        const ch = set.map((x) => x.name);
+        return { type: "multi", q: `次の処方のうち、${h}（${R[h]}）を含むものをすべて選べ。`, choices: ch, answer: yes.map((x) => ch.indexOf(x.name)),
+          exp: `${h}を含む：${yes.map((x) => x.name).join("、")}\n含まない：${set.filter((x) => !yes.includes(x)).map((x) => x.name).join("、") || "なし"}` };
+      }
+      return null;
+    });
+  }
+
+  // 「B に何を加えた処方か」：構成生薬の集合として B ⊂ A の組
+  for (const a of F) for (const b of F) {
+    if (a === b) continue;
+    const ha = herbsOf(a), hb = herbsOf(b);
+    if (hb.length < 3 || !hb.every((h) => ha.includes(h)) || ha.length === hb.length) continue;
+    const added = ha.filter((h) => !hb.includes(h));
+    if (added.length > 3) continue;
+    add(`g:add:${a.name}:${b.name}`, catOf(a), "加味（何を加えたか）", 2, () => {
+      if (added.length === 1) return { type: "input", q: `${a.name}の構成生薬を${b.name}と比べたとき、${b.name}にない生薬（加えられている生薬）を答えなさい。`, answer: herbAnswers(added[0]), exp: compNote(a) + "\n" + compNote(b), formula: a.name };
+      const ch = shuffle(added.concat(distractHerbs(ha, a.group, 6 - added.length)));
+      return { type: "multi", q: `${a.name}の構成生薬を${b.name}と比べたとき、${b.name}にない生薬（加えられている生薬）をすべて選べ。`, choices: ch, answer: added.map((h) => ch.indexOf(h)), exp: compNote(a) + "\n" + compNote(b), formula: a.name };
+    });
+  }
+
+  // 増量（講義で扱う定番の組だけに限定）
+  for (const [a, b, h] of [["桂枝加芍薬湯", "桂枝湯", "芍薬"], ["小建中湯", "桂枝湯", "芍薬"]]) {
+    if (!BYNAME[a] || !BYNAME[b]) continue;
+    add(`g:inc:${a}`, "桂枝湯類", "増量されている生薬", 1, () => ({
+      type: "input", q: `${a}で、${b}と比べて増量されている生薬を答えなさい。`, answer: herbAnswers(h),
+      exp: `${h}：${b} ${BYNAME[b].herbs[h]}g → ${a} ${BYNAME[a].herbs[h]}g（ツムラ1日量）\n` + compNote(BYNAME[a]) + "\n" + compNote(BYNAME[b]), formula: a,
+    }));
+  }
+
+  // 生薬の読み
+  for (const h of uniq(F.flatMap(herbsOf))) add(`g:hyomi:${h}`, "生薬", "読み方", 1, () => ({ type: "input", q: `生薬「${h}」の読みをひらがなで答えなさい。`, answer: [R[h], ...(ALIAS[h] || []).filter((x) => /^[ぁ-ん]+$/.test(x))], exp: `${h}＝${R[h]}` }));
+
+  window.KAMPO = { T, norm, shuffle, compNote, BYNAME, GROUP_CAT, sortedHerbs, herbAnswers };
+})();
+
+</script>
+<script>
+// 漢方小テスト対策：画面の動き
+(function () {
+  const K = window.KAMPO;
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  // 生薬・処方名にふりがな（読みを答える問題では付けない）
+  const rb = (s) => { const h = esc(s); return cur && /読み/.test(cur.q) ? h : window.addRuby(h); };
+  const hash = (s) => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36); };
+
+  const KEY = (window.APP_KEY || "kampo") + ":";
+  // ---------- 保存（この端末のブラウザ内のみ） ----------
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(KEY + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(KEY + k, JSON.stringify(v)); } catch (e) {} },
+  };
+  let stats = store.get("stats", {}); // id -> {c, w, streak, last}
+
+  // ---------- 問題プール ----------
+  const STATIC = (window.QBANK || []).map((q) => ({ ...q, id: "s:" + hash(q.cat + q.q), gen: false }));
+  const POOL = STATIC.concat(K.T);
+  const CATS = window.APP_CATS || ["過去の小テスト", "総論", "基礎理論", "桂枝湯類", "生薬", "麻黄剤(予想)", "柴胡剤(予想)", "その他処方(予想)"];
+  const CAT_NOTE = { "総論": "小テスト1", "基礎理論": "小テスト2", "桂枝湯類": "小テスト3", "生薬": "小テスト3" };
+  const TYPES = { single: "1つ選ぶ", multi: "すべて選ぶ", tf: "正誤", input: "記述" };
+
+  const defaults = { cats: CATS.slice(), src: ["static", "gen"], types: Object.keys(TYPES), levels: [1, 2, 3], order: "weak", ruby: true };
+  let cfg = Object.assign({}, defaults, store.get("cfg", {}));
+  cfg.cats = cfg.cats.filter((c) => CATS.includes(c));
+
+  // ---------- 設定パネル ----------
+  function chips(el, items, key, labelOf) {
+    el.innerHTML = items.map((v) => {
+      const on = cfg[key].includes(v);
+      return `<button type="button" class="chip" aria-pressed="${on}" data-key="${key}" data-v="${esc(v)}">${labelOf(v)}</button>`;
+    }).join("");
+  }
+  function countFor(cat) { return POOL.filter((q) => q.cat === cat).length; }
+  function renderSettings() {
+    chips($("#f-cats"), CATS, "cats", (c) => `${esc(c)}<small>${CAT_NOTE[c] ? CAT_NOTE[c] + "・" : ""}${countFor(c)}</small>`);
+    chips($("#f-src"), ["static", "gen"], "src", (v) => (v === "static" ? `知識問題<small>${STATIC.length}</small>` : `処方構成・適応の自動生成<small>${K.T.length}型</small>`));
+    chips($("#f-types"), Object.keys(TYPES), "types", (v) => TYPES[v]);
+    chips($("#f-levels"), [1, 2, 3], "levels", (v) => ["", "基本", "標準", "重箱の隅"][v]);
+    document.querySelectorAll("input[name=order]").forEach((r) => (r.checked = r.value === cfg.order));
+    $("#pool-n").textContent = filtered().length;
+  }
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest(".chip[data-key]");
+    if (!b) return;
+    const key = b.dataset.key; let v = b.dataset.v; if (key === "levels") v = Number(v);
+    const a = cfg[key]; const i = a.indexOf(v);
+    if (i >= 0) { if (a.length > 1) a.splice(i, 1); } else a.push(v);
+    store.set("cfg", cfg); renderSettings();
+  });
+  $("#f-onlycat").addEventListener("change", (e) => {
+    const v = e.target.value; if (!v) return;
+    cfg.cats = v === "all" ? CATS.slice() : v === "past" ? ["過去の小テスト", "総論", "基礎理論", "桂枝湯類", "生薬"] : v === "next" ? ["麻黄剤(予想)", "柴胡剤(予想)", "その他処方(予想)"] : [v];
+    e.target.value = ""; store.set("cfg", cfg); renderSettings();
+  });
+  document.querySelectorAll("input[name=order]").forEach((r) => r.addEventListener("change", () => { cfg.order = r.value; store.set("cfg", cfg); renderSettings(); }));
+
+  function filtered() {
+    return POOL.filter((q) => cfg.cats.includes(q.cat) && cfg.src.includes(q.gen ? "gen" : "static") && cfg.levels.includes(q.level || 2)
+      && (q.gen || cfg.types.includes(q.type))
+      && (cfg.order !== "wrong" || (stats[q.id] && stats[q.id].w > 0 && stats[q.id].streak < 2)));
+  }
+
+  // ふりがなの表示切り替え（CSSで rt を隠すだけなので、解いている途中でも即反映）
+  function applyRuby() { document.body.classList.toggle("noruby", !cfg.ruby); $("#ruby-on").checked = cfg.ruby; }
+  $("#ruby-on").addEventListener("change", (e) => { cfg.ruby = e.target.checked; store.set("cfg", cfg); applyRuby(); });
+
+  // ---------- 出題の選び方 ----------
+  let recent = [];
+  function weight(q) {
+    const s = stats[q.id];
+    if (cfg.order === "random") return 1;
+    if (!s) return 3;
+    if (s.streak === 0) return 6;
+    return Math.max(0.2, 2.2 - s.streak * 0.7);
+  }
+  function nextQuestion() {
+    const pool = filtered();
+    if (!pool.length) return null;
+    for (let t = 0; t < 60; t++) {
+      const cand = pool.filter((q) => !recent.includes(q.id) || pool.length <= recent.length);
+      const list = cand.length ? cand : pool;
+      let tot = list.reduce((a, q) => a + weight(q), 0), r = Math.random() * tot, q = list[0];
+      for (const x of list) { r -= weight(x); if (r <= 0) { q = x; break; } }
+      const made = q.gen ? q.make() : prepStatic(q);
+      if (!made) continue;
+      if (q.gen && !cfg.types.includes(made.type)) continue;
+      recent.push(q.id); if (recent.length > Math.min(25, Math.floor(pool.length / 2))) recent.shift();
+      return Object.assign({ id: q.id, cat: q.cat, sub: q.sub, level: q.level || 2 }, made);
+    }
+    return null;
+  }
+  function prepStatic(q) {
+    if (q.type === "input" || q.type === "tf") return { type: q.type, q: q.q, choices: q.choices || [], answer: q.answer, exp: q.exp };
+    const order = K.shuffle(q.choices.map((_, i) => i));
+    return { type: q.type, q: q.q, choices: order.map((i) => q.choices[i]), answer: q.answer.map((a) => order.indexOf(a)), exp: q.exp };
+  }
+
+  // ---------- 出題画面 ----------
+  let cur = null, answered = false, sess = { n: 0, ok: 0, streak: 0 };
+  function show() {
+    cur = nextQuestion(); answered = false;
+    const box = $("#qcard");
+    if (!cur) { box.innerHTML = `<p class="empty">条件に合う問題がありません。分類・形式の選択を増やすか、「間違えた問題だけ」を外してください。</p>`; return; }
+    const s = stats[cur.id];
+    const hist = s ? `これまで ${s.c}正 / ${s.w}誤` : "初出題";
+    let body = "";
+    if (cur.type === "input") {
+      body = `<form id="inp" class="inp" autocomplete="off"><input id="ans" type="text" inputmode="text" placeholder="漢字・ひらがな・カタカナ可" aria-label="解答"><button class="btn primary" type="submit">判定</button></form>`;
+    } else {
+      body = `<ol class="choices ${cur.type}">` + cur.choices.map((c, i) => `<li><button type="button" class="choice" data-i="${i}" aria-pressed="false"><span class="no">${i + 1}</span><span class="tx">${rb(c)}</span></button></li>`).join("") + `</ol>`;
+      if (cur.type === "multi") body += `<button id="judge" class="btn primary" type="button">判定（すべて選んだら）</button>`;
+    }
+    box.innerHTML = `<div class="meta"><span class="tag">${esc(cur.cat)}</span><span class="tag sub">${esc(cur.sub || "")}</span><span class="tag lv${cur.level}">${["", "基本", "標準", "重箱の隅"][cur.level]}</span><span class="hist">${hist}</span></div>
+      <p class="qtext">${rb(cur.q).replace(/\n/g, "<br>")}</p>${cur.type === "multi" ? `<p class="hint">正解はいくつあるか分かりません。すべて選んでから判定。</p>` : ""}${body}<div id="result"></div>`;
+    if (cur.type === "input") { const f = $("#inp"); f.addEventListener("submit", (e) => { e.preventDefault(); judge(); }); setTimeout(() => $("#ans").focus({ preventScroll: true }), 30); }
+    renderSess();
+  }
+  $("#qcard").addEventListener("click", (e) => {
+    if (answered) return;
+    const c = e.target.closest(".choice");
+    if (c) {
+      if (cur.type === "multi") c.setAttribute("aria-pressed", c.getAttribute("aria-pressed") === "true" ? "false" : "true");
+      else { c.setAttribute("aria-pressed", "true"); judge(); }
+    }
+    if (e.target.closest("#judge")) judge();
+  });
+
+  function judge() {
+    if (answered) return;
+    let ok, picked = [];
+    if (cur.type === "input") {
+      const v = K.norm($("#ans").value); if (!v) return;
+      ok = cur.answer.some((a) => K.norm(a) === v);
+      $("#ans").disabled = true;
+    } else {
+      picked = [...document.querySelectorAll(".choice[aria-pressed=true]")].map((b) => +b.dataset.i);
+      if (!picked.length) return;
+      ok = picked.length === cur.answer.length && picked.every((i) => cur.answer.includes(i));
+      document.querySelectorAll(".choice").forEach((b) => {
+        const i = +b.dataset.i, right = cur.answer.includes(i), p = picked.includes(i);
+        b.classList.add(right ? "right" : p ? "wrong" : "dim");
+        if (right && !p && cur.type === "multi") b.classList.add("missed");
+        b.disabled = true;
+      });
+      const j = $("#judge"); if (j) j.remove();
+    }
+    answered = true;
+    const s = stats[cur.id] || { c: 0, w: 0, streak: 0 };
+    if (ok) { s.c++; s.streak++; } else { s.w++; s.streak = 0; }
+    s.last = Date.now(); s.cat = cur.cat; stats[cur.id] = s; store.set("stats", stats);
+    sess.n++; if (ok) { sess.ok++; sess.streak++; } else sess.streak = 0;
+    const ansText = cur.type === "input" ? `正解：${rb(cur.answer[0])}` + (cur.answer.length > 1 ? `（${cur.answer.slice(1).map(esc).join("／")} も可）` : "")
+      : `正解：${cur.answer.map((i) => i + 1).sort((a, b) => a - b).join("・")}`;
+    $("#result").innerHTML = `<div class="verdict ${ok ? "ok" : "ng"}" role="status"><b>${ok ? "正解" : "不正解"}</b><span>${ansText}</span></div>
+      <div class="exp">${rb(cur.exp || "").replace(/\n/g, "<br>")}</div>
+      <button id="next" class="btn primary" type="button">次の問題 <kbd>Enter</kbd></button>`;
+    $("#next").addEventListener("click", show);
+    $("#next").focus({ preventScroll: true });
+    renderSess();
+  }
+  document.addEventListener("keydown", (e) => {
+    if ($("#view-quiz").hidden || !cur) return;
+    if (e.key === "Enter" && answered && document.activeElement?.id !== "ans") { e.preventDefault(); show(); }
+    if (!answered && cur.type !== "input" && /^[1-9]$/.test(e.key)) { const b = document.querySelector(`.choice[data-i="${+e.key - 1}"]`); if (b) b.click(); }
+  });
+  function renderSess() {
+    $("#sess").innerHTML = `今回 <b>${sess.n}</b>問　正解率 <b>${sess.n ? Math.round((sess.ok / sess.n) * 100) : 0}%</b>　連続正解 <b>${sess.streak}</b>`;
+  }
+
+  // ---------- 構成表（暗記） ----------
+  let hideHerbs = false, tableGroup = window.TABLE_DEFAULT || "keishi";
+  function renderTable() {
+    const fs = window.FORMULAS.filter((f) => tableGroup === "all" || f.group === tableGroup);
+    $("#tbl").innerHTML = fs.map((f) => {
+      const hs = K.sortedHerbs(f);
+      return `<article class="fcard"><header><h3>${esc(f.name)}</h3><span class="yomi">${esc(f.yomi)}</span><span class="cnt">${hs.length}種</span></header>
+        <ul class="herbs ${hideHerbs ? "hide" : ""}">${hs.map((h) => `<li tabindex="0"><span class="hn">${esc(h)}</span><span class="hr">${esc(window.HERB_READING[h])}</span>${f.herbs[h] != null ? `<span class="g">${f.herbs[h]}g</span>` : ""}</li>`).join("")}</ul>
+        <p class="use">${esc(f.use)}</p></article>`;
+    }).join("");
+    document.querySelectorAll("#tgroup button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.g === tableGroup));
+    $("#hide").setAttribute("aria-pressed", hideHerbs);
+  }
+  $("#tgroup").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) { tableGroup = b.dataset.g; renderTable(); } });
+  $("#hide").addEventListener("click", () => { hideHerbs = !hideHerbs; renderTable(); });
+  $("#tbl").addEventListener("click", (e) => { const li = e.target.closest(".herbs.hide li"); if (li) li.classList.toggle("open"); });
+
+  // ---------- 成績 ----------
+  function renderStats() {
+    const rows = CATS.map((c) => {
+      const ids = POOL.filter((q) => q.cat === c).map((q) => q.id);
+      let n = 0, ok = 0, ng = 0, mastered = 0, seen = 0;
+      for (const id of ids) { const s = stats[id]; if (!s) continue; seen++; ok += s.c; ng += s.w; if (s.streak >= 2) mastered++; }
+      n = ok + ng;
+      const pct = n ? Math.round((ok / n) * 100) : 0;
+      return `<tr><th scope="row">${esc(c)}</th><td>${seen}/${ids.length}</td><td>${n}</td><td><div class="bar"><i style="width:${pct}%"></i></div>${n ? pct + "%" : "–"}</td><td>${mastered}</td></tr>`;
+    }).join("");
+    const weak = Object.values(stats).filter((s) => s.w > 0 && s.streak < 2).length;
+    $("#stats").innerHTML = `<p class="lead">苦手（直近で間違えて、まだ2連続正解していない問題）：<b>${weak}</b>問</p>
+      <div class="tw"><table><thead><tr><th>分類</th><th>出題済/総数</th><th>解答回数</th><th>正解率</th><th>2連続正解</th></tr></thead><tbody>${rows}</tbody></table></div>
+      <p class="note">自動生成の問題は「型」単位で数えています（選択肢は毎回変わります）。記録はこの端末のブラウザにだけ保存されます。</p>`;
+  }
+  $("#reset").addEventListener("click", () => { $("#reset-confirm").hidden = false; });
+  $("#reset-no").addEventListener("click", () => { $("#reset-confirm").hidden = true; });
+  $("#reset-yes").addEventListener("click", () => { stats = {}; store.set("stats", stats); $("#reset-confirm").hidden = true; renderStats(); renderSettings(); });
+
+  // ---------- タブ ----------
+  function tab(name) {
+    ["quiz", "table", "stats"].forEach((n) => { $("#view-" + n).hidden = n !== name; $("#tab-" + n).setAttribute("aria-selected", n === name); });
+    if (name === "table") renderTable();
+    if (name === "stats") renderStats();
+    if (name === "quiz") renderSettings();
+  }
+  document.querySelectorAll("[role=tab]").forEach((b) => b.addEventListener("click", () => tab(b.id.slice(4))));
+  $("#start").addEventListener("click", () => { $("#settings").open = false; sess = { n: 0, ok: 0, streak: 0 }; recent = []; show(); $("#qcard").scrollIntoView({ behavior: "smooth", block: "start" }); });
+
+  $("#total").textContent = `知識問題 ${STATIC.length}問 ＋ 自動生成 ${K.T.length}型（毎回選択肢が変わる）`;
+  applyRuby(); renderSettings(); show();
+})();
+
+</script>

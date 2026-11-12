@@ -177,7 +177,7 @@
     $("#tbl").innerHTML = fs.map((f) => {
       const hs = K.sortedHerbs(f);
       return `<article class="fcard"><header><h3>${esc(f.name)}</h3><span class="yomi">${esc(f.yomi)}</span><span class="cnt">${hs.length}種</span></header>
-        <ul class="herbs ${hideHerbs ? "hide" : ""}">${hs.map((h) => `<li tabindex="0"><span class="hn">${esc(h)}</span><span class="hr">${esc(window.HERB_READING[h])}</span><span class="g">${f.herbs[h]}g</span></li>`).join("")}</ul>
+        <ul class="herbs ${hideHerbs ? "hide" : ""}">${hs.map((h) => `<li tabindex="0"><span class="hn">${esc(h)}</span><span class="hr">${esc(window.HERB_READING[h])}</span>${f.herbs[h] != null ? `<span class="g">${f.herbs[h]}g</span>` : ""}</li>`).join("")}</ul>
         <p class="use">${esc(f.use)}</p></article>`;
     }).join("");
     document.querySelectorAll("#tgroup button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.g === tableGroup));
