@@ -12,3 +12,11 @@
 
 - 処方データ：`dai4/formulas4.js`、問題：`dai4/data/*.json`（＋本体 `src/data/yosou.json` の麻黄剤分）
 - 作り直し：`node dai4/build4.mjs`
+
+## 第5回専用：柴胡剤・瀉心湯類マスター（`dai5/`）
+
+講義スライド（全19枚）の内容だけで作った別アプリ。`dai5/index.html` を開けば使える。
+
+- 処方データ：`dai5/formulas5.js`（構成生薬はスライドp4の表どおり、配合量なし）
+- 問題：`dai5/data/*.json`
+- 作り直し：`node dai5/build5.mjs`
