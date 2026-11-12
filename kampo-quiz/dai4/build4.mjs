@@ -3,6 +3,7 @@
 //  - 問題データ: dai4/data/*.json と、本体の予想範囲問題（src/data/yosou.json）のうち麻黄剤の分
 //  - 出力: dai4/index.html（単体で開ける版）、dai4/artifact.html（公開用）
 import fs from "node:fs";
+import { convertAll, loadCtx } from "../src/tochoice.mjs";
 const root = new URL("..", import.meta.url).pathname;
 const here = new URL(".", import.meta.url).pathname;
 const read = (p) => fs.readFileSync(root + p, "utf8");
@@ -19,8 +20,12 @@ const cats = {};
 for (const q of all) cats[q.cat] = (cats[q.cat] || 0) + 1;
 console.log("questions:", all.length, cats);
 
-const qjs = "window.QBANK = [\n" + all.map((q) => JSON.stringify(q)).join(",\n") + "\n];\n";
-const scripts = [read("formulas.js"), read("dai4/formulas4.js"), read("src/ruby.js"), qjs, read("src/engine.js"), read("src/app.js")]
+// 記述式は選択式に作り変える
+const conv = convertAll(all, loadCtx(read, ["formulas.js", "dai4/formulas4.js"]));
+if (process.env.CHOICE_LOG) fs.writeFileSync(process.env.CHOICE_LOG, conv.log.map((r) => r.join(" | ")).join("\n"));
+console.log("記述式から変換", conv.log.filter((r) => r[0] !== "DROP").length, "/ 変換できず除外", conv.log.filter((r) => r[0] === "DROP").length);
+const qjs = "window.QBANK = [\n" + conv.out.map((q) => JSON.stringify(q)).join(",\n") + "\n];\n";
+const scripts = [read("formulas.js"), read("dai4/formulas4.js"), read("src/ruby.js"), qjs, read("src/engine.js"), read("src/oboe.js"), read("src/app.js")]
   .map((s) => `<script>\n${s.replace(/<\/script/gi, "<\\/script")}\n</script>`).join("\n");
 
 const formulaOptions = ["麻黄湯", "葛根湯", "葛根湯加川芎辛夷", "小青竜湯", "麻黄附子細辛湯", "麻杏甘石湯", "五虎湯", "神秘湯", "越婢加朮湯", "麻杏薏甘湯", "薏苡仁湯"]

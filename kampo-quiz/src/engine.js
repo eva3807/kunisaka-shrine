@@ -57,7 +57,25 @@
   // ---------- 自動生成問題の型 ----------
   // 各テンプレートは make() を呼ぶたびに新しい選択肢で問題を作る
   const T = [];
-  function add(id, cat, sub, level, make) { T.push({ id, cat, sub, level, gen: true, make }); }
+  // 記述式は出さない：自動生成の問題で答えが1語のものは、5択の選択問題に変えて出す
+  // pool：ひっかけ選択肢の候補（同じ処方の生薬など）。数字は近い数を並べる
+  function toChoice(q) {
+    const right = q.answer[0], ok = new Set(q.answer.map(norm));
+    let cands;
+    if (/^\d+$/.test(right)) {
+      const n = +right;
+      cands = [n - 2, n - 1, n + 1, n + 2, n + 3, n - 3].filter((x) => x > 0).map(String);
+    } else cands = q.pool || []; // pool は「同じ処方の生薬（シャッフル済み）→ 補う生薬」の順
+    const wrong = uniq(cands).filter((c) => !ok.has(norm(c)) && !q.q.includes(c)).slice(0, 4);
+    if (wrong.length < 3) return null;
+    const ch = shuffle([right, ...wrong]);
+    if (/^\d+$/.test(right)) ch.sort((a, b) => a - b);
+    const { pool, ...rest } = q;
+    return Object.assign(rest, { type: "single", q: q.q.replace(/数字で答えなさい。|答えなさい。$/, "1つ選べ。"), choices: ch, answer: [ch.indexOf(right)] });
+  }
+  function add(id, cat, sub, level, make) {
+    T.push({ id, cat, sub, level, gen: true, make: () => { const q = make(); return q && q.type === "input" ? toChoice(q) : q; } });
+  }
 
   for (const f of F) {
     const cat = catOf(f);
@@ -71,12 +89,12 @@
 
     // opt：製剤によって入らない生薬（例：柴胡加竜骨牡蛎湯の大黄）。その分を除いた数も正解にする
     add(`g:count:${f.name}`, cat, "構成生薬数", 1, () => ({
-      type: "input", q: `${f.name}の構成生薬は何種類か。数字で答えなさい。`, answer: [String(hs.length), ...(f.opt ? [String(hs.length - f.opt.length)] : [])], exp: compNote(f), formula: f.name,
+      type: "input", q: `${f.name}の構成生薬は何種類か。数字で答えなさい。`, answer: [String(hs.length), ...(f.opt ? [String(hs.length - f.opt.length)] : [])], exp: compNote(f) + (f.opt ? `\n（${f.opt.join("・")}を除いた${hs.length - f.opt.length}種の製剤もある）` : ""), formula: f.name,
     }));
 
     if (hs.length >= 3 && !f.opt) add(`g:goju:${f.name}`, cat, "五十音順", 2, () => {
       const s = sortedHerbs(f), n = 1 + rnd(s.length), h = s[n - 1];
-      return { type: "input", q: `${f.name}の構成生薬のうち、五十音順で${n}番目にくる生薬を答えなさい。`, answer: herbAnswers(h),
+      return { type: "input", q: `${f.name}の構成生薬のうち、五十音順で${n}番目にくる生薬を答えなさい。`, answer: herbAnswers(h), pool: shuffle(s.filter((x) => x !== h)).concat(distractHerbs(hs, f.group, 4)),
         exp: `五十音順：${s.map((x, i) => `${i + 1}.${x}(${R[x]})`).join(" → ")}`, formula: f.name };
     });
 
@@ -107,7 +125,7 @@
     });
 
     add(`g:yomi:${f.name}`, cat, "読み方", 1, () => ({
-      type: "input", q: `「${f.name}」の読みをひらがなで答えなさい。`, answer: [f.yomi], exp: `${f.name}＝${f.yomi}`, formula: f.name,
+      type: "input", q: `「${f.name}」の読みをひらがなで答えなさい。`, answer: [f.yomi], pool: shuffle(F.filter((x) => x !== f).map((x) => x.yomi)), exp: `${f.name}＝${f.yomi}`, formula: f.name,
     }));
 
     // 1日量が最も多い生薬（同量1位が複数あるときは出さない）
@@ -134,7 +152,7 @@
         if (!only.length) continue;
         const names = set.map((x) => x.name).join("、");
         const exp = `${target.name}のみ：${only.join("・")}\n` + set.map(compNote).join("\n");
-        if (only.length === 1) return { type: "input", q: `${names}の構成生薬のうち、${target.name}のみに配合されている生薬を答えなさい。`, answer: herbAnswers(only[0]), exp, formula: target.name };
+        if (only.length === 1) return { type: "input", q: `${names}の構成生薬のうち、${target.name}のみに配合されている生薬を答えなさい。`, answer: herbAnswers(only[0]), pool: shuffle(uniq(set.flatMap(herbsOf))), exp, formula: target.name };
         const ch = shuffle(uniq(set.flatMap(herbsOf)));
         return { type: "multi", q: `${names}の構成生薬のうち、${target.name}のみに配合されている生薬をすべて選べ。`, choices: ch, answer: only.map((h) => ch.indexOf(h)), exp, formula: target.name };
       }
@@ -164,7 +182,7 @@
     const added = ha.filter((h) => !hb.includes(h));
     if (added.length > 3) continue;
     add(`g:add:${a.name}:${b.name}`, catOf(a), "加味（何を加えたか）", 2, () => {
-      if (added.length === 1) return { type: "input", q: `${a.name}の構成生薬を${b.name}と比べたとき、${b.name}にない生薬（加えられている生薬）を答えなさい。`, answer: herbAnswers(added[0]), exp: compNote(a) + "\n" + compNote(b), formula: a.name };
+      if (added.length === 1) return { type: "input", q: `${a.name}の構成生薬を${b.name}と比べたとき、${b.name}にない生薬（加えられている生薬）を答えなさい。`, answer: herbAnswers(added[0]), pool: shuffle(ha).concat(distractHerbs(ha, a.group, 4)), exp: compNote(a) + "\n" + compNote(b), formula: a.name };
       const ch = shuffle(added.concat(distractHerbs(ha, a.group, 6 - added.length)));
       return { type: "multi", q: `${a.name}の構成生薬を${b.name}と比べたとき、${b.name}にない生薬（加えられている生薬）をすべて選べ。`, choices: ch, answer: added.map((h) => ch.indexOf(h)), exp: compNote(a) + "\n" + compNote(b), formula: a.name };
     });
@@ -174,13 +192,13 @@
   for (const [a, b, h] of [["桂枝加芍薬湯", "桂枝湯", "芍薬"], ["小建中湯", "桂枝湯", "芍薬"]]) {
     if (!BYNAME[a] || !BYNAME[b]) continue;
     add(`g:inc:${a}`, "桂枝湯類", "増量されている生薬", 1, () => ({
-      type: "input", q: `${a}で、${b}と比べて増量されている生薬を答えなさい。`, answer: herbAnswers(h),
+      type: "input", q: `${a}で、${b}と比べて増量されている生薬を答えなさい。`, answer: herbAnswers(h), pool: shuffle(herbsOf(BYNAME[a])),
       exp: `${h}：${b} ${BYNAME[b].herbs[h]}g → ${a} ${BYNAME[a].herbs[h]}g（ツムラ1日量）\n` + compNote(BYNAME[a]) + "\n" + compNote(BYNAME[b]), formula: a,
     }));
   }
 
   // 生薬の読み
-  for (const h of uniq(F.flatMap(herbsOf))) add(`g:hyomi:${h}`, "生薬", "読み方", 1, () => ({ type: "input", q: `生薬「${h}」の読みをひらがなで答えなさい。`, answer: [R[h], ...(ALIAS[h] || []).filter((x) => /^[ぁ-ん]+$/.test(x))], exp: `${h}＝${R[h]}` }));
+  for (const h of uniq(F.flatMap(herbsOf))) add(`g:hyomi:${h}`, "生薬", "読み方", 1, () => ({ type: "input", q: `生薬「${h}」の読みをひらがなで答えなさい。`, answer: [R[h], ...(ALIAS[h] || []).filter((x) => /^[ぁ-ん]+$/.test(x))], pool: shuffle(uniq(F.flatMap(herbsOf)).filter((x) => x !== h).map((x) => R[x])), exp: `${h}＝${R[h]}` }));
 
   window.KAMPO = { T, norm, shuffle, compNote, BYNAME, GROUP_CAT, sortedHerbs, herbAnswers };
 })();

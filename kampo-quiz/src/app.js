@@ -20,11 +20,12 @@
   const POOL = STATIC.concat(K.T);
   const CATS = window.APP_CATS || ["過去の小テスト", "総論", "基礎理論", "桂枝湯類", "生薬", "麻黄剤(予想)", "柴胡剤(予想)", "その他処方(予想)"];
   const CAT_NOTE = { "総論": "小テスト1", "基礎理論": "小テスト2", "桂枝湯類": "小テスト3", "生薬": "小テスト3" };
-  const TYPES = { single: "1つ選ぶ", multi: "すべて選ぶ", tf: "正誤", input: "記述" };
+  const TYPES = { single: "1つ選ぶ", multi: "すべて選ぶ", tf: "正誤" }; // 記述式は出さない（ビルド時に選択式へ変換済み）
 
   const defaults = { cats: CATS.slice(), src: ["static", "gen"], types: Object.keys(TYPES), levels: [1, 2, 3], order: "weak", ruby: true };
   let cfg = Object.assign({}, defaults, store.get("cfg", {}));
   cfg.cats = cfg.cats.filter((c) => CATS.includes(c));
+  cfg.types = cfg.types.filter((t) => TYPES[t]); if (!cfg.types.length) cfg.types = Object.keys(TYPES);
 
   // ---------- 設定パネル ----------
   function chips(el, items, key, labelOf) {
@@ -98,6 +99,23 @@
     return { type: q.type, q: q.q, choices: order.map((i) => q.choices[i]), answer: q.answer.map((a) => order.indexOf(a)), exp: q.exp };
   }
 
+  // ---------- 覚え方 ----------
+  // OBOE: [{keys:[語...], text}]。正解 → 問題文 → 解説の順に、出てくる語（長い語を優先）で探し、最大2件
+  const OBOE = window.OBOE || [];
+  const OKEYS = [...new Set(OBOE.flatMap((o) => o.keys))].sort((a, b) => b.length - a.length);
+  const OKRE = OKEYS.length ? new RegExp(OKEYS.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"), "g") : null;
+  function findOboe(texts) {
+    if (!OKRE) return [];
+    const hit = [];
+    // 正解 → 問題文 → 解説の順に見る。同じ文の中では、その語に専用の覚え方（keys が少ないもの）を先に
+    for (const t of texts) {
+      const words = [...new Set([...String(t || "").matchAll(OKRE)].map((m) => m[0]))];
+      const found = OBOE.filter((o) => !hit.includes(o) && o.keys.some((k) => words.includes(k))).sort((a, b) => a.keys.length - b.keys.length);
+      for (const o of found) { hit.push(o); if (hit.length >= 2) return hit; }
+    }
+    return hit;
+  }
+
   // ---------- 出題画面 ----------
   let cur = null, answered = false, sess = { n: 0, ok: 0, streak: 0 };
   function show() {
@@ -156,7 +174,8 @@
       : `正解：${cur.answer.map((i) => i + 1).sort((a, b) => a - b).join("・")}`;
     $("#result").innerHTML = `<div class="verdict ${ok ? "ok" : "ng"}" role="status"><b>${ok ? "正解" : "不正解"}</b><span>${ansText}</span></div>
       <button id="next" class="btn primary next" type="button">次の問題 <kbd>Enter</kbd></button>
-      <div class="exp">${rb(cur.exp || "").replace(/\n/g, "<br>")}</div>`;
+      <div class="exp">${rb(cur.exp || "").replace(/\n/g, "<br>")}</div>
+      ${findOboe([cur.type === "input" ? cur.answer[0] : cur.answer.map((i) => cur.choices[i]).join(" "), cur.q, cur.exp, cur.formula]).map((o) => `<div class="oboe"><b>覚え方</b><p>${rb(o.text).replace(/\n/g, "<br>")}</p></div>`).join("")}`;
     $("#next").addEventListener("click", () => { show(); $("#qcard").scrollIntoView({ block: "start" }); });
     $("#next").focus({ preventScroll: true });
     // スマホでは判定と「次の問題」が画面に入るようにスクロール

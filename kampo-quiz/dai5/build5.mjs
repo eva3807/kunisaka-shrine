@@ -3,6 +3,7 @@
 //  - 問題データ: dai5/data/*.json（講義スライドの内容から作成）
 //  - 出力: dai5/index.html（単体で開ける版）、dai5/artifact.html（公開用）
 import fs from "node:fs";
+import { convertAll, loadCtx } from "../src/tochoice.mjs";
 const root = new URL("..", import.meta.url).pathname;
 const here = new URL(".", import.meta.url).pathname;
 const read = (p) => fs.readFileSync(root + p, "utf8");
@@ -13,8 +14,12 @@ const cats = {};
 for (const q of all) cats[q.cat] = (cats[q.cat] || 0) + 1;
 console.log("questions:", all.length, cats);
 
-const qjs = "window.QBANK = [\n" + all.map((q) => JSON.stringify(q)).join(",\n") + "\n];\n";
-const scripts = [read("formulas.js"), read("dai5/formulas5.js"), read("src/ruby.js"), qjs, read("src/engine.js"), read("src/app.js")]
+// 記述式は選択式に作り変える
+const conv = convertAll(all, loadCtx(read, ["formulas.js", "dai5/formulas5.js"]));
+if (process.env.CHOICE_LOG) fs.writeFileSync(process.env.CHOICE_LOG, conv.log.map((r) => r.join(" | ")).join("\n"));
+console.log("記述式から変換", conv.log.filter((r) => r[0] !== "DROP").length, "/ 変換できず除外", conv.log.filter((r) => r[0] === "DROP").length);
+const qjs = "window.QBANK = [\n" + conv.out.map((q) => JSON.stringify(q)).join(",\n") + "\n];\n";
+const scripts = [read("formulas.js"), read("dai5/formulas5.js"), read("src/ruby.js"), qjs, read("src/engine.js"), read("src/oboe.js"), read("src/app.js")]
   .map((s) => `<script>\n${s.replace(/<\/script/gi, "<\\/script")}\n</script>`).join("\n");
 
 const names = ["小柴胡湯", "大柴胡湯", "柴胡桂枝湯", "柴胡加竜骨牡蛎湯", "半夏瀉心湯", "黄連解毒湯"];
