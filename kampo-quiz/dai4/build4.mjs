@@ -41,5 +41,5 @@ let page = read("src/page.html")
   .replace("<!--SCRIPTS-->", () => scripts);
 if (page.includes("小テスト1〜3")) throw new Error("本体向けの文言が残っています");
 fs.writeFileSync(here + "artifact.html", page);
-fs.writeFileSync(here + "index.html", `<!doctype html>\n<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>\n${page}\n</body></html>\n`);
+fs.writeFileSync(here + "index.html", `<!doctype html>\n<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"></head><body>\n${page}\n</body></html>\n`);
 console.log("built dai4");

@@ -20,6 +20,9 @@
   --accent: #9db8e3; --accent-weak: #253247; --ochre: #e0b45c; --ochre-weak: #3a3020;
   --ok: #6fd19b; --ok-weak: #1d3a2a; --ng: #f08a86; --ng-weak: #432423; color-scheme: dark; }
 * { box-sizing: border-box; }
+/* iPhone：タップ時の灰色の枠と、ダブルタップ拡大の待ち時間をなくす */
+button, .choice, .chip, label, summary { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 16px; line-height: 1.7; }
 .wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 64px; }
 header.top { display: grid; gap: 4px; margin-bottom: 14px; }
@@ -39,7 +42,7 @@ details#settings summary small { font-weight: 400; color: var(--muted); }
 .chip { font: inherit; font-size: .88rem; border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 6px; padding: 5px 10px; cursor: pointer; display: inline-flex; gap: 6px; align-items: baseline; }
 .chip small { font-size: .72rem; opacity: .8; font-variant-numeric: tabular-nums; }
 .chip[aria-pressed="true"] { background: var(--accent-weak); border-color: var(--accent); color: var(--fg); }
-select, .radios label { font: inherit; font-size: .9rem; }
+select, .radios label { font: inherit; font-size: 16px; }
 select { padding: 5px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--paper); color: var(--fg); max-width: 100%; }
 .radios { display: flex; flex-wrap: wrap; gap: 4px 16px; }
 .startrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 6px 0 12px; }
@@ -49,6 +52,9 @@ select { padding: 5px 8px; border-radius: 6px; border: 1px solid var(--line); ba
 kbd { font-family: var(--f-body); font-size: .7rem; border: 1px solid currentColor; border-radius: 4px; padding: 0 4px; margin-left: 6px; opacity: .7; }
 #sess { font-size: .85rem; color: var(--muted); margin: 0 0 8px; font-variant-numeric: tabular-nums; }
 #sess b { color: var(--fg); }
+.btn.next { margin-bottom: 12px; }
+@media (hover: none) { kbd { display: none; } }
+#result { scroll-margin-top: 64px; }
 #qcard { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 18px 18px 20px; scroll-margin-top: 60px; }
 .meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 10px; }
 .tag { font-size: .75rem; padding: 2px 8px; border-radius: 4px; background: var(--ochre-weak); color: var(--ochre); font-weight: 700; letter-spacing: .04em; }
@@ -70,7 +76,7 @@ kbd { font-family: var(--f-body); font-size: .7rem; border: 1px solid currentCol
 .choice.dim { opacity: .55; }
 .choice:disabled { cursor: default; color: var(--fg); }
 .inp { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-.inp input { flex: 1 1 200px; min-width: 0; font: inherit; font-size: 1.05rem; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
+.inp input { flex: 1 1 200px; min-width: 0; font: inherit; font-size: max(16px, 1.05rem); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
 .verdict { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; padding: 10px 14px; border-radius: 8px; margin-bottom: 10px; }
 .verdict b { font-family: var(--f-disp); font-size: 1.3rem; }
 .verdict.ok { background: var(--ok-weak); color: var(--ok); }
@@ -84,7 +90,7 @@ rt { font-size: .55em; font-weight: 400; color: var(--muted); letter-spacing: 0;
 .qtext, .choice .tx, .exp { line-height: 2.05; }
 .sessrow { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 12px; margin-bottom: 8px; }
 .sessrow #sess { margin: 0; }
-.rtoggle { font-size: .85rem; display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.rtoggle { font-size: .9rem; padding: 6px 0; display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
 /* 構成表 */
 .tbar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; align-items: center; }
 #tgroup { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -1407,7 +1413,7 @@ window.QBANK = [
     const hist = s ? `これまで ${s.c}正 / ${s.w}誤` : "初出題";
     let body = "";
     if (cur.type === "input") {
-      body = `<form id="inp" class="inp" autocomplete="off"><input id="ans" type="text" inputmode="text" placeholder="漢字・ひらがな・カタカナ可" aria-label="解答"><button class="btn primary" type="submit">判定</button></form>`;
+      body = `<form id="inp" class="inp" autocomplete="off"><input id="ans" type="text" inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="漢字・ひらがな・カタカナ可" aria-label="解答"><button class="btn primary" type="submit">判定</button></form>`;
     } else {
       body = `<ol class="choices ${cur.type}">` + cur.choices.map((c, i) => `<li><button type="button" class="choice" data-i="${i}" aria-pressed="false"><span class="no">${i + 1}</span><span class="tx">${rb(c)}</span></button></li>`).join("") + `</ol>`;
       if (cur.type === "multi") body += `<button id="judge" class="btn primary" type="button">判定（すべて選んだら）</button>`;
@@ -1454,10 +1460,13 @@ window.QBANK = [
     const ansText = cur.type === "input" ? `正解：${rb(cur.answer[0])}` + (cur.answer.length > 1 ? `（${cur.answer.slice(1).map(esc).join("／")} も可）` : "")
       : `正解：${cur.answer.map((i) => i + 1).sort((a, b) => a - b).join("・")}`;
     $("#result").innerHTML = `<div class="verdict ${ok ? "ok" : "ng"}" role="status"><b>${ok ? "正解" : "不正解"}</b><span>${ansText}</span></div>
-      <div class="exp">${rb(cur.exp || "").replace(/\n/g, "<br>")}</div>
-      <button id="next" class="btn primary" type="button">次の問題 <kbd>Enter</kbd></button>`;
-    $("#next").addEventListener("click", show);
+      <button id="next" class="btn primary next" type="button">次の問題 <kbd>Enter</kbd></button>
+      <div class="exp">${rb(cur.exp || "").replace(/\n/g, "<br>")}</div>`;
+    $("#next").addEventListener("click", () => { show(); $("#qcard").scrollIntoView({ block: "start" }); });
     $("#next").focus({ preventScroll: true });
+    // スマホでは判定と「次の問題」が画面に入るようにスクロール
+    const r = $("#result").getBoundingClientRect();
+    if (r.top < 60 || r.top > window.innerHeight * 0.6) $("#result").scrollIntoView({ block: "start", behavior: "smooth" });
     renderSess();
   }
   document.addEventListener("keydown", (e) => {

@@ -14,5 +14,5 @@ const scripts = ["formulas.js", "src/ruby.js", "src/questions.js", "src/engine.j
   .map((p) => `<script>\n${read(p).replace(/<\/script/gi, "<\\/script")}\n</script>`).join("\n");
 const page = read("src/page.html").replace("<!--SCRIPTS-->", () => scripts);
 fs.writeFileSync(dir + "artifact.html", page);
-fs.writeFileSync(dir + "index.html", `<!doctype html>\n<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>\n${page}\n</body></html>\n`);
+fs.writeFileSync(dir + "index.html", `<!doctype html>\n<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"></head><body>\n${page}\n</body></html>\n`);
 console.log("built");

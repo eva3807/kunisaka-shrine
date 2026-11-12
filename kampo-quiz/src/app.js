@@ -108,7 +108,7 @@
     const hist = s ? `これまで ${s.c}正 / ${s.w}誤` : "初出題";
     let body = "";
     if (cur.type === "input") {
-      body = `<form id="inp" class="inp" autocomplete="off"><input id="ans" type="text" inputmode="text" placeholder="漢字・ひらがな・カタカナ可" aria-label="解答"><button class="btn primary" type="submit">判定</button></form>`;
+      body = `<form id="inp" class="inp" autocomplete="off"><input id="ans" type="text" inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="漢字・ひらがな・カタカナ可" aria-label="解答"><button class="btn primary" type="submit">判定</button></form>`;
     } else {
       body = `<ol class="choices ${cur.type}">` + cur.choices.map((c, i) => `<li><button type="button" class="choice" data-i="${i}" aria-pressed="false"><span class="no">${i + 1}</span><span class="tx">${rb(c)}</span></button></li>`).join("") + `</ol>`;
       if (cur.type === "multi") body += `<button id="judge" class="btn primary" type="button">判定（すべて選んだら）</button>`;
@@ -155,10 +155,13 @@
     const ansText = cur.type === "input" ? `正解：${rb(cur.answer[0])}` + (cur.answer.length > 1 ? `（${cur.answer.slice(1).map(esc).join("／")} も可）` : "")
       : `正解：${cur.answer.map((i) => i + 1).sort((a, b) => a - b).join("・")}`;
     $("#result").innerHTML = `<div class="verdict ${ok ? "ok" : "ng"}" role="status"><b>${ok ? "正解" : "不正解"}</b><span>${ansText}</span></div>
-      <div class="exp">${rb(cur.exp || "").replace(/\n/g, "<br>")}</div>
-      <button id="next" class="btn primary" type="button">次の問題 <kbd>Enter</kbd></button>`;
-    $("#next").addEventListener("click", show);
+      <button id="next" class="btn primary next" type="button">次の問題 <kbd>Enter</kbd></button>
+      <div class="exp">${rb(cur.exp || "").replace(/\n/g, "<br>")}</div>`;
+    $("#next").addEventListener("click", () => { show(); $("#qcard").scrollIntoView({ block: "start" }); });
     $("#next").focus({ preventScroll: true });
+    // スマホでは判定と「次の問題」が画面に入るようにスクロール
+    const r = $("#result").getBoundingClientRect();
+    if (r.top < 60 || r.top > window.innerHeight * 0.6) $("#result").scrollIntoView({ block: "start", behavior: "smooth" });
     renderSess();
   }
   document.addEventListener("keydown", (e) => {
